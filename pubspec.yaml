@@ -54,6 +54,8 @@ dependencies:
   translit: ^2.0.1
   arabic_roman_conv: ^0.1.0-dev.2
   arabic_tools: ^0.0.4
+  webview_flutter: ^3.0.2
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
