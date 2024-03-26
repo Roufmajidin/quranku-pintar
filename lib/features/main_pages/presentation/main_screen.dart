@@ -6,6 +6,7 @@ import 'package:quranku_pintar/common/extensions/font_weight.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
+import 'package:quranku_pintar/features/main_pages/data/tajwid/rule.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -26,7 +27,7 @@ class _MainViewState extends State<MainView> {
 
   panggilSuratByNomor() {
     setState(() {
-      context.read<MainBloc>().add(const GetDetailSurat(104));
+      context.read<MainBloc>().add(const GetDetailSurat(2));
     });
   }
 
@@ -141,9 +142,9 @@ class _MainViewState extends State<MainView> {
               .setSemiBold(),
         ),
       ),
-      backgroundColor: Color.fromRGBO(234, 234, 234, 1),
+      backgroundColor: const Color.fromRGBO(234, 234, 234, 1),
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             const SizedBox(height: 12),
@@ -167,8 +168,17 @@ class _MainViewState extends State<MainView> {
                         itemCount: ayat.length,
                         itemBuilder: (context, index) {
                           // var isRead = readStatus[index];
-                      
+
                           var ayatItem = ayat[index];
+                          // log('ada ${ayatItem.teksArab}');
+                          bool containsInnaKeyword =
+                              containsInna(ayatItem.teksArab);
+                          bool hasAlifNunTasydidKeyword =
+                              hasAlifNunTasydid(ayatItem.teksArab);
+                          if (containsInnaKeyword || hasAlifNunTasydidKeyword) {
+                          }
+                          log('ada gunnah pada ayat ${ayatItem.teksArab} $containsInnaKeyword');
+
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -194,13 +204,14 @@ class _MainViewState extends State<MainView> {
                                         ),
                                         decoration: ayatItem.terbaca == true
                                             ? BoxDecoration(
-                                                color: Color(0xff189474),
+                                                color: const Color(0xff189474),
                                                 borderRadius:
                                                     BorderRadius.circular(50),
                                               )
                                             : BoxDecoration(
                                                 border: Border.all(
-                                                  color: Color(0xff189474),
+                                                  color:
+                                                      const Color(0xff189474),
                                                   width: 2,
                                                 ),
                                                 borderRadius:
@@ -220,13 +231,15 @@ class _MainViewState extends State<MainView> {
                                       const Spacer(),
                                       SizedBox(
                                         width: 300,
-                                        child: Text(
-                                          ayatItem.teksArab,
-                                          style: AppTextStyle.heading4
-                                              .setSemiBold()
-                                              .copyWith(
-                                                color: const Color(0xff189474),
-                                              ),
+                                        child: RichText(
+                                          text: TextSpan(
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                            ),
+                                            children: highlightInna(
+                                                ayatItem.teksArab),
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -258,5 +271,121 @@ class _MainViewState extends State<MainView> {
           onPressed: _startListening,
           child: Icon(_speechEnabled == false ? Icons.mic_none : Icons.mic)),
     );
+  }
+
+  bool containsInna(String textArabic) {
+    String lowercaseText = textArabic.toLowerCase();
+    return lowercaseText.contains('إِنَّ');
+  }
+
+  bool hasAlifNunTasydid(String textArabic) {
+    String lowercaseText = textArabic.toLowerCase();
+    RegExp regex = RegExp(r'\bاَنَ\b');
+    return regex.hasMatch(lowercaseText);
+  }
+
+  List<TajweedRule> getMatchingTajweedRules(List<String> matchingRules) {
+    return matchingRules
+        .map((rule) => alFatihahTajweedRules.firstWhere(
+            (tajweedRule) => tajweedRule.tajweedRules.contains(rule)))
+        .toList();
+  }
+
+  List<TextSpan> highlightInna(String text) {
+    List<TextSpan> spans = [];
+    final words = text.split(' ');
+
+    for (String word in words) {
+      if (word.contains('اِنَّ')) {
+        spans.add(
+          TextSpan(
+            text: word,
+            style: const TextStyle(
+              color: Colors.red, 
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      } else if (word.contains('نْكَ') ||
+          word.contains('نْـَكْ') ||
+          word.contains('نْـِكْ') ||
+          word.contains('نْـُكْ') ||
+          //
+          word.contains('نْف') ||
+          word.contains('نّْفِ') ||
+          word.contains('نّْفُ') ||
+          word.contains('نّْفٍ') ||
+          //
+          //
+          word.contains('نْزِ') ||
+          word.contains('نْزْ') ||
+          //
+          word.contains('نْقِ') ||
+          word.contains('نْـَقْ') ||
+          word.contains('نْـِقْ') ||
+          word.contains('نْـُقْ') ||
+          //
+          word.contains('نْدِ') ||
+          word.contains('نْ ذ') ||
+          word.contains('نْذِ') ||
+          word.contains(' ذْ') ||
+          word.contains('نْـِذْ') ||
+          word.contains('نْـُذْ') ||
+          word.contains('ظف') ||
+          word.contains('ضٌۙ') ||
+          word.contains('نْز') ||
+          word.contains('نْك') ||
+          word.contains('نْت')) {
+        spans.add(
+          TextSpan(
+            text: word,
+            style: const TextStyle(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      } else if (word.contains('اَمَّ')) {
+        spans.add(
+          TextSpan(
+            text: word,
+            style: const TextStyle(
+              color: Colors.orange,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      }
+   
+      else if (word.contains('رَّ') || word.contains('يَّ')) {
+        spans.add(
+          TextSpan(
+            text: word,
+            style: const TextStyle(
+              color: Colors.lime,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      } else if (word.toLowerCase() == 'مِّ') {
+        spans.add(
+          TextSpan(
+            text: word,
+            style: const TextStyle(
+              color: Colors.blue, 
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      } else {
+        spans.add(
+          TextSpan(
+            text: '$word ',
+          ),
+        );
+      }
+    }
+
+    return spans;
   }
 }

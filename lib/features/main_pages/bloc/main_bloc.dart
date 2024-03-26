@@ -23,24 +23,22 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Future<void> _checkPassed(MainEvent event, Emitter<MainState> emit) async {
     emit(state.copyWith(fetchDataProses: FetchStatus.loading));
 
-    String _lastWords = (event as CheckPassed).ayat;
-    String _q = (event).ayat;
+    String lastWords = (event as CheckPassed).ayat;
     // get userid
-    log('hallo  ${_lastWords}');
+    // log('hallo  ${_lastWords}');
     QuranModels quranData = state.quranData;
-    print(quranData.runtimeType);
+    // print(quranData.runtimeType);
 
     if (state.quranData is QuranModels) {
-      // Lakukan filter menggunakan metode where
       var hasilPencarian = quranData.data!.ayat.where((ayatItem) {
         String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
-        double similarity = _lastWords.similarityTo(normalizedLatinText);
+        double similarity = lastWords.similarityTo(normalizedLatinText);
 
         return similarity > 0.8;
       }).toList();
 
       if (hasilPencarian.isNotEmpty) {
-        if (_lastWords == 'بسم الله الرحمن الرحيم') {
+        if (lastWords == 'بسم الله الرحمن الرحيم') {
           log('Ayat: 1');
         } else {
           List<QuranAyat> mutableAyatList = List.from(quranData.data!.ayat);
@@ -60,7 +58,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
       }
       } else {
-        log('Kata \"$_lastWords\" tidak ditemukan dalam QuranData');
+        log('Kata \"$lastWords\" tidak ditemukan dalam QuranData');
       }
     } else {
       log('Error: QuranData bukan merupakan instance dari QuranModels');
