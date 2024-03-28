@@ -50,6 +50,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           int index = mutableAyatList.indexOf(ayatItem);
           if (index != -1) {
             mutableAyatList[index] = mutableAyatList[index].copyWith(terbaca: true);
+            log(' terbaca :${index.toString()}');
+            emit(state.copyWith(index: index));
           }
         }
 

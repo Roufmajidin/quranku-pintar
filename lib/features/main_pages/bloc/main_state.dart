@@ -6,6 +6,7 @@ class MainState with _$MainState {
     @Default(QuranModels) quranData,
     @Default(<QuranData>[] ) List<QuranData> quran,
     @Default(FetchStatus.initial) FetchStatus fetchDataProses,
+     @Default(0) int index,
 
   }) = _Initial;
 }
