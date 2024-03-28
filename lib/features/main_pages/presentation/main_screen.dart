@@ -9,6 +9,7 @@ import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/tajwid/rule.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -84,7 +85,14 @@ class _MainViewState extends State<MainView> {
       cekpas();
 
       log('diucapkan ${result.recognizedWords}');
+      // scrollTo();
     });
+  }
+
+  void scrollTo(
+    int index,
+  ) {
+    sc.scrollTo(index: index, duration: Duration(seconds: 2));
   }
 
   final SpeechToText _speechToText = SpeechToText();
@@ -105,6 +113,8 @@ class _MainViewState extends State<MainView> {
     context.read<MainBloc>().add(CheckPassed(_lastWords));
   }
 
+  ItemScrollController sc = ItemScrollController();
+  int _mainArea = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +125,11 @@ class _MainViewState extends State<MainView> {
         actions: [
           GestureDetector(
             onTap: () {
-              _stopListening();
+              // _stopListening();
+              _mainArea += 1;
+              // _controller.jumpTo(_mainArea+20, );
+              // _controller.animateTo(7*100, duration: Duration(seconds: 3), curve: Curves.fastEaseInToSlowEaseOut);
+              // sc.scrollTo(index: _mainArea, duration: Duration(seconds: 2));
             },
             child: Icon(
               Icons.stop,
@@ -152,6 +166,11 @@ class _MainViewState extends State<MainView> {
               height: MediaQuery.of(context).size.height,
               child: BlocBuilder<MainBloc, MainState>(
                 builder: (context, state) {
+                  if(state.index != 0){
+                    log('index adalah ${state.index}');
+                    scrollTo(state.index);
+
+                  }
                   if (state.quranData is QuranModels) {
                     if (_ditemukan == true) {
                       Future.delayed(const Duration(seconds: 4));
@@ -163,7 +182,9 @@ class _MainViewState extends State<MainView> {
 
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 130),
-                      child: ListView.builder(
+                      child: ScrollablePositionedList.builder(
+                        itemScrollController: sc,
+                        // controller: _controller,
                         shrinkWrap: true,
                         itemCount: ayat.length,
                         itemBuilder: (context, index) {
@@ -175,8 +196,8 @@ class _MainViewState extends State<MainView> {
                               containsInna(ayatItem.teksArab);
                           bool hasAlifNunTasydidKeyword =
                               hasAlifNunTasydid(ayatItem.teksArab);
-                          if (containsInnaKeyword || hasAlifNunTasydidKeyword) {
-                          }
+                          if (containsInnaKeyword ||
+                              hasAlifNunTasydidKeyword) {}
                           log('ada gunnah pada ayat ${ayatItem.teksArab} $containsInnaKeyword');
 
                           return Padding(
@@ -234,11 +255,12 @@ class _MainViewState extends State<MainView> {
                                         child: RichText(
                                           text: TextSpan(
                                             style: const TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Colors.black,
+
                                             ),
                                             children: highlightInna(
-                                                ayatItem.teksArab),
+                                                ayatItem.teksArab,),
                                           ),
                                         ),
                                       ),
@@ -301,7 +323,7 @@ class _MainViewState extends State<MainView> {
           TextSpan(
             text: word,
             style: const TextStyle(
-              color: Colors.red, 
+              color: Colors.red,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -355,9 +377,7 @@ class _MainViewState extends State<MainView> {
             ),
           ),
         );
-      }
-   
-      else if (word.contains('رَّ') || word.contains('يَّ')) {
+      } else if (word.contains('رَّ') || word.contains('يَّ')) {
         spans.add(
           TextSpan(
             text: word,
@@ -372,7 +392,7 @@ class _MainViewState extends State<MainView> {
           TextSpan(
             text: word,
             style: const TextStyle(
-              color: Colors.blue, 
+              color: Colors.blue,
               fontWeight: FontWeight.bold,
             ),
           ),
