@@ -36,6 +36,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
         return similarity > 0.8;
       }).toList();
+          var a = StringSimilarity.compareTwoStrings(lastWords, 'الحمد لله رب العالمين');
+        String b =   'الحمد لله رب العالمين';
+          log('passed is $a\n $lastWords \n $b ');
 
       if (hasilPencarian.isNotEmpty) {
         if (lastWords == 'بسم الله الرحمن الرحيم') {
@@ -52,7 +55,14 @@ class MainBloc extends Bloc<MainEvent, MainState> {
             mutableAyatList[index] = mutableAyatList[index].copyWith(terbaca: true);
             log(' terbaca :${index.toString()}');
             emit(state.copyWith(index: index));
+            emit(state.copyWith(isPassed: true));
+
+          }else{
+
+            emit(state.copyWith(isPassed: false));
           }
+          log('status : ${state.isPassed}');
+
         }
 
         quranData = quranData.copyWith(data: quranData.data!.copyWith(ayat: mutableAyatList));
@@ -66,7 +76,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       log('Error: QuranData bukan merupakan instance dari QuranModels');
     }
     for (var element in quranData.data!.ayat) {
-      log('ayat : ${element.nomorAyat} ${element.terbaca}');
+      // log('ayat : ${element.nomorAyat} ${element.terbaca}');
       
     }
   }

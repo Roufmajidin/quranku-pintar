@@ -472,24 +472,25 @@ mixin _$MainState {
   List<QuranData> get quran => throw _privateConstructorUsedError;
   FetchStatus get fetchDataProses => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
+  bool get isPassed => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index)
+            FetchStatus fetchDataProses, int index, bool isPassed)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index)?
+            FetchStatus fetchDataProses, int index, bool isPassed)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index)?
+            FetchStatus fetchDataProses, int index, bool isPassed)?
         initial,
     required TResult orElse(),
   }) =>
@@ -525,7 +526,8 @@ abstract class $MainStateCopyWith<$Res> {
       {dynamic quranData,
       List<QuranData> quran,
       FetchStatus fetchDataProses,
-      int index});
+      int index,
+      bool isPassed});
 }
 
 /// @nodoc
@@ -545,6 +547,7 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
     Object? quran = null,
     Object? fetchDataProses = null,
     Object? index = null,
+    Object? isPassed = null,
   }) {
     return _then(_value.copyWith(
       quranData: freezed == quranData
@@ -563,6 +566,10 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
               as int,
+      isPassed: null == isPassed
+          ? _value.isPassed
+          : isPassed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -579,7 +586,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       {dynamic quranData,
       List<QuranData> quran,
       FetchStatus fetchDataProses,
-      int index});
+      int index,
+      bool isPassed});
 }
 
 /// @nodoc
@@ -597,6 +605,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? quran = null,
     Object? fetchDataProses = null,
     Object? index = null,
+    Object? isPassed = null,
   }) {
     return _then(_$InitialImpl(
       quranData: freezed == quranData ? _value.quranData! : quranData,
@@ -612,6 +621,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
               as int,
+      isPassed: null == isPassed
+          ? _value.isPassed
+          : isPassed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -623,7 +636,8 @@ class _$InitialImpl implements _Initial {
       {this.quranData = QuranModels,
       final List<QuranData> quran = const <QuranData>[],
       this.fetchDataProses = FetchStatus.initial,
-      this.index = 0})
+      this.index = 0,
+      this.isPassed = false})
       : _quran = quran;
 
   @override
@@ -644,10 +658,13 @@ class _$InitialImpl implements _Initial {
   @override
   @JsonKey()
   final int index;
+  @override
+  @JsonKey()
+  final bool isPassed;
 
   @override
   String toString() {
-    return 'MainState.initial(quranData: $quranData, quran: $quran, fetchDataProses: $fetchDataProses, index: $index)';
+    return 'MainState.initial(quranData: $quranData, quran: $quran, fetchDataProses: $fetchDataProses, index: $index, isPassed: $isPassed)';
   }
 
   @override
@@ -659,7 +676,9 @@ class _$InitialImpl implements _Initial {
             const DeepCollectionEquality().equals(other._quran, _quran) &&
             (identical(other.fetchDataProses, fetchDataProses) ||
                 other.fetchDataProses == fetchDataProses) &&
-            (identical(other.index, index) || other.index == index));
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.isPassed, isPassed) ||
+                other.isPassed == isPassed));
   }
 
   @override
@@ -668,7 +687,8 @@ class _$InitialImpl implements _Initial {
       const DeepCollectionEquality().hash(quranData),
       const DeepCollectionEquality().hash(_quran),
       fetchDataProses,
-      index);
+      index,
+      isPassed);
 
   @JsonKey(ignore: true)
   @override
@@ -680,32 +700,32 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index)
+            FetchStatus fetchDataProses, int index, bool isPassed)
         initial,
   }) {
-    return initial(quranData, quran, fetchDataProses, index);
+    return initial(quranData, quran, fetchDataProses, index, isPassed);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index)?
+            FetchStatus fetchDataProses, int index, bool isPassed)?
         initial,
   }) {
-    return initial?.call(quranData, quran, fetchDataProses, index);
+    return initial?.call(quranData, quran, fetchDataProses, index, isPassed);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index)?
+            FetchStatus fetchDataProses, int index, bool isPassed)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(quranData, quran, fetchDataProses, index);
+      return initial(quranData, quran, fetchDataProses, index, isPassed);
     }
     return orElse();
   }
@@ -744,7 +764,8 @@ abstract class _Initial implements MainState {
       {final dynamic quranData,
       final List<QuranData> quran,
       final FetchStatus fetchDataProses,
-      final int index}) = _$InitialImpl;
+      final int index,
+      final bool isPassed}) = _$InitialImpl;
 
   @override
   dynamic get quranData;
@@ -754,6 +775,8 @@ abstract class _Initial implements MainState {
   FetchStatus get fetchDataProses;
   @override
   int get index;
+  @override
+  bool get isPassed;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

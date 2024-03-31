@@ -1,15 +1,24 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:quranku_pintar/common/extensions/font_weight.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
+import 'package:quranku_pintar/features/main_pages/data/tajwid/helper.dart';
 import 'package:quranku_pintar/features/main_pages/data/tajwid/rule.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:fancy_snackbar/fancy_snackbar.dart';
+import 'package:translator/translator.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -52,7 +61,7 @@ class _MainViewState extends State<MainView> {
       _lastWords = '';
       _speechEnabled = true;
     });
-    await _speechToText.listen(localeId: 'ar-SA', onResult: _onSpeechResult);
+    await _speechToText.listen(localeId: 'ar', onResult: _onSpeechResult);
   }
 
   String remove() {
@@ -69,6 +78,7 @@ class _MainViewState extends State<MainView> {
       r = remove();
       _lastWords = '';
     });
+
     log('normalisasi voice $_lastWords');
     log('compare ke $r');
     if (removeDiacritics(_lastWords) != r) {
@@ -79,12 +89,29 @@ class _MainViewState extends State<MainView> {
     _speechEnabled = false;
   }
 
+  final translator = GoogleTranslator();
+//   konversiKeBahasaArab(String teksBahasa) async {
+//     translator.baseUrl = "translate.google.com";
+//     translator.translateAndPrint(teksBahasa, to: 'Ar');
+//     // log(translator.);
+// //    var translation = await translator
+// //       .translate(teksBahasa, from: 'id', to: 'ar');
+// // log(translation.toString());
+//     // Melakukan transliterasi
+
+//     // return a;
+//   }
+
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() async {
       _lastWords = removeDiacritics(result.recognizedWords);
+      // log('asli ${result.recognizedWords}');
+      // var a = konversiKeBahasaArab(result.recognizedWords);
+      // log('ini adalah $a');
       cekpas();
 
       log('diucapkan ${result.recognizedWords}');
+
       // scrollTo();
     });
   }
@@ -93,6 +120,24 @@ class _MainViewState extends State<MainView> {
     int index,
   ) {
     sc.scrollTo(index: index, duration: Duration(seconds: 2));
+  }
+
+  Future<String> uploadFile(String filePath) async {
+    var apiUrl =
+        "https://api-inference.huggingface.co/models/tarteel-ai/whisper-base-ar-quran";
+    var headers = {
+      "Authorization": "Bearer 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",
+      "Content-Type": "audio/wav"
+    };
+    
+    ByteData data = await rootBundle.load(filePath);
+    Uint8ClampedList fileBytes = data.buffer.asUint8ClampedList();
+    var response =
+        await http.post(Uri.parse(apiUrl), headers: headers, body: fileBytes);
+
+    var a = response.bodyBytes;
+    var b = utf8.decode(a);
+    return b;
   }
 
   final SpeechToText _speechToText = SpeechToText();
@@ -113,8 +158,19 @@ class _MainViewState extends State<MainView> {
     context.read<MainBloc>().add(CheckPassed(_lastWords));
   }
 
+  show() {
+    FancySnackbar.show(
+      context,
+      "Correct ...",
+      logo: const Icon(
+        Icons.info,
+        color: Colors.white,
+      ),
+      backgroundColor: Colors.green,
+    );
+  }
+
   ItemScrollController sc = ItemScrollController();
-  int _mainArea = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,11 +181,7 @@ class _MainViewState extends State<MainView> {
         actions: [
           GestureDetector(
             onTap: () {
-              // _stopListening();
-              _mainArea += 1;
-              // _controller.jumpTo(_mainArea+20, );
-              // _controller.animateTo(7*100, duration: Duration(seconds: 3), curve: Curves.fastEaseInToSlowEaseOut);
-              // sc.scrollTo(index: _mainArea, duration: Duration(seconds: 2));
+       
             },
             child: Icon(
               Icons.stop,
@@ -137,11 +189,16 @@ class _MainViewState extends State<MainView> {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              context.read<MainBloc>().add(const GetDetailSurat(1));
+            onTap: () async {
+              // context.read<MainBloc>().add(const GetDetailSurat(1));
+              // _stopListening();
+              //  var output = await query("assets/audios/testt.wav");
+              String response = await uploadFile('assets/audios/yambu.mp3');
+              print(response);
             },
             onDoubleTap: () {
-              context.read<MainBloc>().add(const GetDetailSurat(104));
+              // context.read<MainBloc>().add(const GetDetailSurat(104));
+              _stopListening();
             },
             child: Icon(
               Icons.search,
@@ -166,17 +223,14 @@ class _MainViewState extends State<MainView> {
               height: MediaQuery.of(context).size.height,
               child: BlocBuilder<MainBloc, MainState>(
                 builder: (context, state) {
-                  if(state.index != 0){
+                  // if (state.isPassed == true) {
+                  //   show();
+                  // }
+                  if (state.index != 0) {
                     log('index adalah ${state.index}');
                     scrollTo(state.index);
-
                   }
                   if (state.quranData is QuranModels) {
-                    if (_ditemukan == true) {
-                      Future.delayed(const Duration(seconds: 4));
-
-                      _stopListening();
-                    }
                     var quranData = (state.quranData as QuranModels).data!;
                     var ayat = quranData.ayat;
 
@@ -198,7 +252,7 @@ class _MainViewState extends State<MainView> {
                               hasAlifNunTasydid(ayatItem.teksArab);
                           if (containsInnaKeyword ||
                               hasAlifNunTasydidKeyword) {}
-                          log('ada gunnah pada ayat ${ayatItem.teksArab} $containsInnaKeyword');
+                          // log(' status : $containsInnaKeyword gunnah pada ayat ${ayatItem.teksArab}');
 
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -215,19 +269,23 @@ class _MainViewState extends State<MainView> {
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    // mainAxisAlignment:
-                                    //     MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 6,
-                                          horizontal: 12,
-                                        ),
+                                        width: 30,
+                                        height: 30,
+                                        // padding: const EdgeInsets.all(
+                                        //     // vertical: 6,
+                                        //     12
+                                        //     // horizontal: 12,
+                                        //     ),
+                                        alignment: Alignment.center,
                                         decoration: ayatItem.terbaca == true
                                             ? BoxDecoration(
                                                 color: const Color(0xff189474),
                                                 borderRadius:
-                                                    BorderRadius.circular(50),
+                                                    BorderRadius.circular(100),
                                               )
                                             : BoxDecoration(
                                                 border: Border.all(
@@ -236,31 +294,39 @@ class _MainViewState extends State<MainView> {
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(50),
+                                                    BorderRadius.circular(100),
                                               ),
                                         child: Text(
                                           ayatItem.nomorAyat.toString(),
-                                          style: AppTextStyle.body3
-                                              .setSemiBold()
-                                              .copyWith(
-                                                  color:
-                                                      ayatItem.terbaca == true
-                                                          ? Colors.white
-                                                          : Colors.black),
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: ayatItem.terbaca == true
+                                                  ? Colors.white
+                                                  : Colors.black),
                                         ),
                                       ),
                                       const Spacer(),
                                       SizedBox(
-                                        width: 300,
-                                        child: RichText(
-                                          text: TextSpan(
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8,
+                                        child: Directionality(
+                                          textDirection: TextDirection.rtl,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              // onEnter: ,
 
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: ayatItem.terbaca == true
+                                                    ? const Color(0xff189474)
+                                                    : Color.fromARGB(
+                                                        255, 56, 56, 56),
+                                              ),
+                                              children: highlightInna(
+                                                  ayatItem.teksArab,
+                                                  ayatItem.terbaca),
                                             ),
-                                            children: highlightInna(
-                                                ayatItem.teksArab,),
                                           ),
                                         ),
                                       ),
@@ -293,119 +359,5 @@ class _MainViewState extends State<MainView> {
           onPressed: _startListening,
           child: Icon(_speechEnabled == false ? Icons.mic_none : Icons.mic)),
     );
-  }
-
-  bool containsInna(String textArabic) {
-    String lowercaseText = textArabic.toLowerCase();
-    return lowercaseText.contains('إِنَّ');
-  }
-
-  bool hasAlifNunTasydid(String textArabic) {
-    String lowercaseText = textArabic.toLowerCase();
-    RegExp regex = RegExp(r'\bاَنَ\b');
-    return regex.hasMatch(lowercaseText);
-  }
-
-  List<TajweedRule> getMatchingTajweedRules(List<String> matchingRules) {
-    return matchingRules
-        .map((rule) => alFatihahTajweedRules.firstWhere(
-            (tajweedRule) => tajweedRule.tajweedRules.contains(rule)))
-        .toList();
-  }
-
-  List<TextSpan> highlightInna(String text) {
-    List<TextSpan> spans = [];
-    final words = text.split(' ');
-
-    for (String word in words) {
-      if (word.contains('اِنَّ')) {
-        spans.add(
-          TextSpan(
-            text: word,
-            style: const TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      } else if (word.contains('نْكَ') ||
-          word.contains('نْـَكْ') ||
-          word.contains('نْـِكْ') ||
-          word.contains('نْـُكْ') ||
-          //
-          word.contains('نْف') ||
-          word.contains('نّْفِ') ||
-          word.contains('نّْفُ') ||
-          word.contains('نّْفٍ') ||
-          //
-          //
-          word.contains('نْزِ') ||
-          word.contains('نْزْ') ||
-          //
-          word.contains('نْقِ') ||
-          word.contains('نْـَقْ') ||
-          word.contains('نْـِقْ') ||
-          word.contains('نْـُقْ') ||
-          //
-          word.contains('نْدِ') ||
-          word.contains('نْ ذ') ||
-          word.contains('نْذِ') ||
-          word.contains(' ذْ') ||
-          word.contains('نْـِذْ') ||
-          word.contains('نْـُذْ') ||
-          word.contains('ظف') ||
-          word.contains('ضٌۙ') ||
-          word.contains('نْز') ||
-          word.contains('نْك') ||
-          word.contains('نْت')) {
-        spans.add(
-          TextSpan(
-            text: word,
-            style: const TextStyle(
-              color: Colors.green,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      } else if (word.contains('اَمَّ')) {
-        spans.add(
-          TextSpan(
-            text: word,
-            style: const TextStyle(
-              color: Colors.orange,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      } else if (word.contains('رَّ') || word.contains('يَّ')) {
-        spans.add(
-          TextSpan(
-            text: word,
-            style: const TextStyle(
-              color: Colors.lime,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      } else if (word.toLowerCase() == 'مِّ') {
-        spans.add(
-          TextSpan(
-            text: word,
-            style: const TextStyle(
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      } else {
-        spans.add(
-          TextSpan(
-            text: '$word ',
-          ),
-        );
-      }
-    }
-
-    return spans;
   }
 }
