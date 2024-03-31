@@ -39,6 +39,7 @@ dependencies:
   http_parser: ^4.0.2
   image_picker: ^1.0.2
   intl: any
+  
   json_annotation: ^4.6.0
   path_provider: ^2.1.0
   shared_preferences: ^2.2.0
@@ -57,6 +58,9 @@ dependencies:
   webview_flutter: ^3.0.2
   http: ^1.2.0
   scrollable_positioned_list: ^0.3.8
+  fancy_bar: ^2.0.0
+  fancy_snackbar: ^0.0.1
+  assets_audio_player: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -89,8 +93,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/audios/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
