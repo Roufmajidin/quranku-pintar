@@ -61,6 +61,14 @@ dependencies:
   fancy_bar: ^2.0.0
   fancy_snackbar: ^0.0.1
   assets_audio_player: ^3.1.1
+  record: ^4.4.4
+  flutter_sound_record: ^3.3.2
+  just_audio: ^0.9.37
+  flutter_sound: ^9.2.13
+  audioplayers: ^5.2.1
+  record_mp3: ^3.0.0
+  permission_handler: ^11.3.1
+  highlight_text: ^1.7.0
 
 dev_dependencies:
   flutter_test:
