@@ -17,67 +17,81 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   MainBloc({required this.quranUsecase}) : super(_Initial()) {
     on<GetDetailSurat>(_getDetailSurat);
     on<CheckPassed>(_checkPassed);
+    on<LoadingActive>(_loader);
   }
   // functionality
-  // check passed
-  Future<void> _checkPassed(MainEvent event, Emitter<MainState> emit) async {
-    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+  Future<void> _loader(MainEvent event, Emitter<MainState> emit) async {
+    bool selesai = false;
+      String lastWords = removeDiacritics((event as LoadingActive).loading);
+      log(lastWords);
+    if(selesai == false){
+      emit(state.copyWith(isLoading: lastWords));
+      log('state ${state.isLoading}');
 
-    String lastWords = (event as CheckPassed).ayat;
+    }
+  }
+  // check passed
+
+  Future<void> _checkPassed(MainEvent event, Emitter<MainState> emit) async {
+
+    String lastWords = removeDiacritics((event as CheckPassed).ayat);
+    emit(state.copyWith(isLoading: lastWords));
+
     // get userid
     // log('hallo  ${_lastWords}');
-    QuranModels quranData = state.quranData;
+    QuranModels quranData = state.quranData;  
     // print(quranData.runtimeType);
 
     if (state.quranData is QuranModels) {
       var hasilPencarian = quranData.data!.ayat.where((ayatItem) {
         String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
+        // String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
         double similarity = lastWords.similarityTo(normalizedLatinText);
 
         return similarity > 0.8;
       }).toList();
-          var a = StringSimilarity.compareTwoStrings(lastWords, 'الحمد لله رب العالمين');
-        String b =   'الحمد لله رب العالمين';
-          log('passed is $a\n $lastWords \n $b ');
+      //   var a = StringSimilarity.compareTwoStrings(lastWords, 'ذَلِكَ الْكِتَابُ لَا رَيْبَ فِي أُكَلِّ الْمُتَّقِينَ');
+      // String b =   'ذَلِكَ الْكِتَابُ لَا رَيْبَ فِي أُكَلِّ الْمُتَّقِينَ';
+      //   log('passed is $a\n $lastWords \n $b ');
 
       if (hasilPencarian.isNotEmpty) {
         if (lastWords == 'بسم الله الرحمن الرحيم') {
           log('Ayat: 1');
         } else {
           List<QuranAyat> mutableAyatList = List.from(quranData.data!.ayat);
-        
-        for (var ayatItem in hasilPencarian) {
-          log('');
-          log('Ayat: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat} index : ');
-          
-          int index = mutableAyatList.indexOf(ayatItem);
-          if (index != -1) {
-            mutableAyatList[index] = mutableAyatList[index].copyWith(terbaca: true);
-            log(' terbaca :${index.toString()}');
-            emit(state.copyWith(index: index));
-            emit(state.copyWith(isPassed: true));
 
-          }else{
+          for (var ayatItem in hasilPencarian) {
+            log('');
+            log('Ayat: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat} index : ');
 
-            emit(state.copyWith(isPassed: false));
+            int index = mutableAyatList.indexOf(ayatItem);
+            if (index != -1) {
+              mutableAyatList[index] =
+                  mutableAyatList[index].copyWith(terbaca: true);
+              log(' terbaca :${index.toString()}');
+              emit(state.copyWith(index: index));
+              emit(state.copyWith(isPassed: true));
+            } else {
+              emit(state.copyWith(isPassed: false));
+            }
+            log('status : ${state.isPassed}');
           }
-          log('status : ${state.isPassed}');
 
+          quranData = quranData.copyWith(
+              data: quranData.data!.copyWith(ayat: mutableAyatList));
+          emit(state.copyWith(
+              fetchDataProses: FetchStatus.success, quranData: quranData));
         }
-
-        quranData = quranData.copyWith(data: quranData.data!.copyWith(ayat: mutableAyatList));
-        emit(state.copyWith(fetchDataProses: FetchStatus.success, quranData: quranData));
-
-      }
       } else {
         log('Kata \"$lastWords\" tidak ditemukan dalam QuranData');
+
       }
     } else {
       log('Error: QuranData bukan merupakan instance dari QuranModels');
     }
     for (var element in quranData.data!.ayat) {
       // log('ayat : ${element.nomorAyat} ${element.terbaca}');
-      
+
     }
   }
 
@@ -96,6 +110,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       // log('hallo  ${r}');
     });
   }
+
+  // Future<void> _loader(MainEvent event, Emitter<MainState> emit) async {
+  //   emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+  //   log('fetch Surat');
+  //   String load = (event as LoadingActive).loading;
+
+  //   await Future.delayed(const Duration(seconds: 5));
+  //   emit(state.copyWith(isLoading: load));
+  //   log('isload $load');
+  // }
 
   // remove string helper
   String removeDiacritics(String text) {

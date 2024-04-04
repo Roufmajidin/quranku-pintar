@@ -21,6 +21,7 @@ mixin _$MainEvent {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String loading) loadingActive,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$MainEvent {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String loading)? loadingActive,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$MainEvent {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String loading)? loadingActive,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$MainEvent {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(LoadingActive value) loadingActive,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$MainEvent {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(LoadingActive value)? loadingActive,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$MainEvent {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -120,6 +126,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String loading) loadingActive,
   }) {
     return started();
   }
@@ -130,6 +137,7 @@ class _$StartedImpl implements _Started {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String loading)? loadingActive,
   }) {
     return started?.call();
   }
@@ -140,6 +148,7 @@ class _$StartedImpl implements _Started {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String loading)? loadingActive,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -154,6 +163,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(LoadingActive value) loadingActive,
   }) {
     return started(this);
   }
@@ -164,6 +174,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(LoadingActive value)? loadingActive,
   }) {
     return started?.call(this);
   }
@@ -174,6 +185,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -255,6 +267,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String loading) loadingActive,
   }) {
     return getSurat(surat);
   }
@@ -265,6 +278,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String loading)? loadingActive,
   }) {
     return getSurat?.call(surat);
   }
@@ -275,6 +289,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String loading)? loadingActive,
     required TResult orElse(),
   }) {
     if (getSurat != null) {
@@ -289,6 +304,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(LoadingActive value) loadingActive,
   }) {
     return getSurat(this);
   }
@@ -299,6 +315,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(LoadingActive value)? loadingActive,
   }) {
     return getSurat?.call(this);
   }
@@ -309,6 +326,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
   }) {
     if (getSurat != null) {
@@ -394,6 +412,7 @@ class _$CheckPassedImpl implements CheckPassed {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String loading) loadingActive,
   }) {
     return checkPassed(ayat);
   }
@@ -404,6 +423,7 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String loading)? loadingActive,
   }) {
     return checkPassed?.call(ayat);
   }
@@ -414,6 +434,7 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String loading)? loadingActive,
     required TResult orElse(),
   }) {
     if (checkPassed != null) {
@@ -428,6 +449,7 @@ class _$CheckPassedImpl implements CheckPassed {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(LoadingActive value) loadingActive,
   }) {
     return checkPassed(this);
   }
@@ -438,6 +460,7 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(LoadingActive value)? loadingActive,
   }) {
     return checkPassed?.call(this);
   }
@@ -448,6 +471,7 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
   }) {
     if (checkPassed != null) {
@@ -467,30 +491,191 @@ abstract class CheckPassed implements MainEvent {
 }
 
 /// @nodoc
+abstract class _$$LoadingActiveImplCopyWith<$Res> {
+  factory _$$LoadingActiveImplCopyWith(
+          _$LoadingActiveImpl value, $Res Function(_$LoadingActiveImpl) then) =
+      __$$LoadingActiveImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String loading});
+}
+
+/// @nodoc
+class __$$LoadingActiveImplCopyWithImpl<$Res>
+    extends _$MainEventCopyWithImpl<$Res, _$LoadingActiveImpl>
+    implements _$$LoadingActiveImplCopyWith<$Res> {
+  __$$LoadingActiveImplCopyWithImpl(
+      _$LoadingActiveImpl _value, $Res Function(_$LoadingActiveImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? loading = null,
+  }) {
+    return _then(_$LoadingActiveImpl(
+      null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoadingActiveImpl implements LoadingActive {
+  const _$LoadingActiveImpl(this.loading);
+
+  @override
+  final String loading;
+
+  @override
+  String toString() {
+    return 'MainEvent.loadingActive(loading: $loading)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoadingActiveImpl &&
+            (identical(other.loading, loading) || other.loading == loading));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, loading);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadingActiveImplCopyWith<_$LoadingActiveImpl> get copyWith =>
+      __$$LoadingActiveImplCopyWithImpl<_$LoadingActiveImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int surat) getSurat,
+    required TResult Function(String ayat) checkPassed,
+    required TResult Function(String loading) loadingActive,
+  }) {
+    return loadingActive(loading);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int surat)? getSurat,
+    TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String loading)? loadingActive,
+  }) {
+    return loadingActive?.call(loading);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int surat)? getSurat,
+    TResult Function(String ayat)? checkPassed,
+    TResult Function(String loading)? loadingActive,
+    required TResult orElse(),
+  }) {
+    if (loadingActive != null) {
+      return loadingActive(loading);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(GetDetailSurat value) getSurat,
+    required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(LoadingActive value) loadingActive,
+  }) {
+    return loadingActive(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(GetDetailSurat value)? getSurat,
+    TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(LoadingActive value)? loadingActive,
+  }) {
+    return loadingActive?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(GetDetailSurat value)? getSurat,
+    TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(LoadingActive value)? loadingActive,
+    required TResult orElse(),
+  }) {
+    if (loadingActive != null) {
+      return loadingActive(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LoadingActive implements MainEvent {
+  const factory LoadingActive(final String loading) = _$LoadingActiveImpl;
+
+  String get loading;
+  @JsonKey(ignore: true)
+  _$$LoadingActiveImplCopyWith<_$LoadingActiveImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$MainState {
   dynamic get quranData => throw _privateConstructorUsedError;
   List<QuranData> get quran => throw _privateConstructorUsedError;
   FetchStatus get fetchDataProses => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
   bool get isPassed => throw _privateConstructorUsedError;
+  String get isLoading => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index, bool isPassed)
+    required TResult Function(
+            dynamic quranData,
+            List<QuranData> quran,
+            FetchStatus fetchDataProses,
+            int index,
+            bool isPassed,
+            String isLoading)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index, bool isPassed)?
+    TResult? Function(
+            dynamic quranData,
+            List<QuranData> quran,
+            FetchStatus fetchDataProses,
+            int index,
+            bool isPassed,
+            String isLoading)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index, bool isPassed)?
+    TResult Function(
+            dynamic quranData,
+            List<QuranData> quran,
+            FetchStatus fetchDataProses,
+            int index,
+            bool isPassed,
+            String isLoading)?
         initial,
     required TResult orElse(),
   }) =>
@@ -527,7 +712,8 @@ abstract class $MainStateCopyWith<$Res> {
       List<QuranData> quran,
       FetchStatus fetchDataProses,
       int index,
-      bool isPassed});
+      bool isPassed,
+      String isLoading});
 }
 
 /// @nodoc
@@ -548,6 +734,7 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
     Object? fetchDataProses = null,
     Object? index = null,
     Object? isPassed = null,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       quranData: freezed == quranData
@@ -570,6 +757,10 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.isPassed
           : isPassed // ignore: cast_nullable_to_non_nullable
               as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -587,7 +778,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       List<QuranData> quran,
       FetchStatus fetchDataProses,
       int index,
-      bool isPassed});
+      bool isPassed,
+      String isLoading});
 }
 
 /// @nodoc
@@ -606,6 +798,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? fetchDataProses = null,
     Object? index = null,
     Object? isPassed = null,
+    Object? isLoading = null,
   }) {
     return _then(_$InitialImpl(
       quranData: freezed == quranData ? _value.quranData! : quranData,
@@ -625,6 +818,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.isPassed
           : isPassed // ignore: cast_nullable_to_non_nullable
               as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -637,7 +834,8 @@ class _$InitialImpl implements _Initial {
       final List<QuranData> quran = const <QuranData>[],
       this.fetchDataProses = FetchStatus.initial,
       this.index = 0,
-      this.isPassed = false})
+      this.isPassed = false,
+      this.isLoading = ''})
       : _quran = quran;
 
   @override
@@ -661,10 +859,13 @@ class _$InitialImpl implements _Initial {
   @override
   @JsonKey()
   final bool isPassed;
+  @override
+  @JsonKey()
+  final String isLoading;
 
   @override
   String toString() {
-    return 'MainState.initial(quranData: $quranData, quran: $quran, fetchDataProses: $fetchDataProses, index: $index, isPassed: $isPassed)';
+    return 'MainState.initial(quranData: $quranData, quran: $quran, fetchDataProses: $fetchDataProses, index: $index, isPassed: $isPassed, isLoading: $isLoading)';
   }
 
   @override
@@ -678,7 +879,9 @@ class _$InitialImpl implements _Initial {
                 other.fetchDataProses == fetchDataProses) &&
             (identical(other.index, index) || other.index == index) &&
             (identical(other.isPassed, isPassed) ||
-                other.isPassed == isPassed));
+                other.isPassed == isPassed) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
@@ -688,7 +891,8 @@ class _$InitialImpl implements _Initial {
       const DeepCollectionEquality().hash(_quran),
       fetchDataProses,
       index,
-      isPassed);
+      isPassed,
+      isLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -699,33 +903,51 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index, bool isPassed)
+    required TResult Function(
+            dynamic quranData,
+            List<QuranData> quran,
+            FetchStatus fetchDataProses,
+            int index,
+            bool isPassed,
+            String isLoading)
         initial,
   }) {
-    return initial(quranData, quran, fetchDataProses, index, isPassed);
+    return initial(
+        quranData, quran, fetchDataProses, index, isPassed, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index, bool isPassed)?
+    TResult? Function(
+            dynamic quranData,
+            List<QuranData> quran,
+            FetchStatus fetchDataProses,
+            int index,
+            bool isPassed,
+            String isLoading)?
         initial,
   }) {
-    return initial?.call(quranData, quran, fetchDataProses, index, isPassed);
+    return initial?.call(
+        quranData, quran, fetchDataProses, index, isPassed, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(dynamic quranData, List<QuranData> quran,
-            FetchStatus fetchDataProses, int index, bool isPassed)?
+    TResult Function(
+            dynamic quranData,
+            List<QuranData> quran,
+            FetchStatus fetchDataProses,
+            int index,
+            bool isPassed,
+            String isLoading)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(quranData, quran, fetchDataProses, index, isPassed);
+      return initial(
+          quranData, quran, fetchDataProses, index, isPassed, isLoading);
     }
     return orElse();
   }
@@ -765,7 +987,8 @@ abstract class _Initial implements MainState {
       final List<QuranData> quran,
       final FetchStatus fetchDataProses,
       final int index,
-      final bool isPassed}) = _$InitialImpl;
+      final bool isPassed,
+      final String isLoading}) = _$InitialImpl;
 
   @override
   dynamic get quranData;
@@ -777,6 +1000,8 @@ abstract class _Initial implements MainState {
   int get index;
   @override
   bool get isPassed;
+  @override
+  String get isLoading;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
