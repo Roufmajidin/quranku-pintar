@@ -10,6 +10,15 @@
 class $AssetsAudiosGen {
   const $AssetsAudiosGen();
 
+  /// File path: assets/audios/b.mp3
+  String get b => 'assets/audios/b.mp3';
+
+  /// File path: assets/audios/likal.mp3
+  String get likal => 'assets/audios/likal.mp3';
+
+  /// File path: assets/audios/sample1.mp3
+  String get sample1 => 'assets/audios/sample1.mp3';
+
   /// File path: assets/audios/satu.mp3
   String get satuMp3 => 'assets/audios/satu.mp3';
 
@@ -19,8 +28,12 @@ class $AssetsAudiosGen {
   /// File path: assets/audios/testt.wav
   String get testt => 'assets/audios/testt.wav';
 
+  /// File path: assets/audios/yambu.mp3
+  String get yambu => 'assets/audios/yambu.mp3';
+
   /// List of all assets
-  List<String> get values => [satuMp3, satuWav, testt];
+  List<String> get values =>
+      [b, likal, sample1, satuMp3, satuWav, testt, yambu];
 }
 
 class Assets {
