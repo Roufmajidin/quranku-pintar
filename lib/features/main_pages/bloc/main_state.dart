@@ -8,6 +8,7 @@ class MainState with _$MainState {
     @Default(FetchStatus.initial) FetchStatus fetchDataProses,
     @Default(0) int index,
     @Default(false) bool isPassed,
+    @Default('') String isLoading,
 
   }) = _Initial;
 }

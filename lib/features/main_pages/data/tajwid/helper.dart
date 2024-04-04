@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:quranku_pintar/features/main_pages/data/tajwid/rule.dart';
 
@@ -121,3 +123,20 @@ bool containsInna(String textArabic) {
 
     return spans;
   }
+  
+  String? converterArabJson(String jsonResponse) {
+    // Parsing string JSON menjadi objek Dart
+    Map<String, dynamic> jsonData = json.decode(jsonResponse);
+
+    // Mengambil nilai dari kunci "text"
+    if(jsonData == null ){
+      return 'error';
+    }
+    String? arabicText = jsonData['text'];
+
+    // Menghapus karakter yang tidak diperlukan
+    // arabicText = arabicText.replaceAll('"', '');
+
+    return arabicText;
+  
+}
