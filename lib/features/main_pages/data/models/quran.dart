@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quranku_pintar/features/main_pages/data/models/token.dart';
+
 
 
 part 'quran.freezed.dart';
@@ -43,8 +45,8 @@ class QuranAyat with _$QuranAyat {
     required String teksLatin,
     required String teksIndonesia,
     bool? terbaca,
-
     required Map<String, String> audio,
+    required List<TajweedToken?> toke
   }) = _QuranAyat;
 
   factory QuranAyat.fromJson(Map<String, dynamic> json) =>
