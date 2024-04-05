@@ -63,6 +63,11 @@ _$QuranAyatImpl _$$QuranAyatImplFromJson(Map<String, dynamic> json) =>
       teksIndonesia: json['teksIndonesia'] as String,
       terbaca: json['terbaca'] as bool?,
       audio: Map<String, String>.from(json['audio'] as Map),
+      toke: (json['toke'] as List<dynamic>)
+          .map((e) => e == null
+              ? null
+              : TajweedToken.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$QuranAyatImplToJson(_$QuranAyatImpl instance) =>
@@ -73,6 +78,7 @@ Map<String, dynamic> _$$QuranAyatImplToJson(_$QuranAyatImpl instance) =>
       'teksIndonesia': instance.teksIndonesia,
       'terbaca': instance.terbaca,
       'audio': instance.audio,
+      'toke': instance.toke,
     };
 
 _$SuratInfoImpl _$$SuratInfoImplFromJson(Map<String, dynamic> json) =>

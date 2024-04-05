@@ -599,6 +599,7 @@ mixin _$QuranAyat {
   String get teksIndonesia => throw _privateConstructorUsedError;
   bool? get terbaca => throw _privateConstructorUsedError;
   Map<String, String> get audio => throw _privateConstructorUsedError;
+  List<TajweedToken?> get toke => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -617,7 +618,8 @@ abstract class $QuranAyatCopyWith<$Res> {
       String teksLatin,
       String teksIndonesia,
       bool? terbaca,
-      Map<String, String> audio});
+      Map<String, String> audio,
+      List<TajweedToken?> toke});
 }
 
 /// @nodoc
@@ -639,6 +641,7 @@ class _$QuranAyatCopyWithImpl<$Res, $Val extends QuranAyat>
     Object? teksIndonesia = null,
     Object? terbaca = freezed,
     Object? audio = null,
+    Object? toke = null,
   }) {
     return _then(_value.copyWith(
       nomorAyat: null == nomorAyat
@@ -665,6 +668,10 @@ class _$QuranAyatCopyWithImpl<$Res, $Val extends QuranAyat>
           ? _value.audio
           : audio // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      toke: null == toke
+          ? _value.toke
+          : toke // ignore: cast_nullable_to_non_nullable
+              as List<TajweedToken?>,
     ) as $Val);
   }
 }
@@ -683,7 +690,8 @@ abstract class _$$QuranAyatImplCopyWith<$Res>
       String teksLatin,
       String teksIndonesia,
       bool? terbaca,
-      Map<String, String> audio});
+      Map<String, String> audio,
+      List<TajweedToken?> toke});
 }
 
 /// @nodoc
@@ -703,6 +711,7 @@ class __$$QuranAyatImplCopyWithImpl<$Res>
     Object? teksIndonesia = null,
     Object? terbaca = freezed,
     Object? audio = null,
+    Object? toke = null,
   }) {
     return _then(_$QuranAyatImpl(
       nomorAyat: null == nomorAyat
@@ -729,6 +738,10 @@ class __$$QuranAyatImplCopyWithImpl<$Res>
           ? _value._audio
           : audio // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      toke: null == toke
+          ? _value._toke
+          : toke // ignore: cast_nullable_to_non_nullable
+              as List<TajweedToken?>,
     ));
   }
 }
@@ -742,8 +755,10 @@ class _$QuranAyatImpl implements _QuranAyat {
       required this.teksLatin,
       required this.teksIndonesia,
       this.terbaca,
-      required final Map<String, String> audio})
-      : _audio = audio;
+      required final Map<String, String> audio,
+      required final List<TajweedToken?> toke})
+      : _audio = audio,
+        _toke = toke;
 
   factory _$QuranAyatImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuranAyatImplFromJson(json);
@@ -766,9 +781,17 @@ class _$QuranAyatImpl implements _QuranAyat {
     return EqualUnmodifiableMapView(_audio);
   }
 
+  final List<TajweedToken?> _toke;
+  @override
+  List<TajweedToken?> get toke {
+    if (_toke is EqualUnmodifiableListView) return _toke;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_toke);
+  }
+
   @override
   String toString() {
-    return 'QuranAyat(nomorAyat: $nomorAyat, teksArab: $teksArab, teksLatin: $teksLatin, teksIndonesia: $teksIndonesia, terbaca: $terbaca, audio: $audio)';
+    return 'QuranAyat(nomorAyat: $nomorAyat, teksArab: $teksArab, teksLatin: $teksLatin, teksIndonesia: $teksIndonesia, terbaca: $terbaca, audio: $audio, toke: $toke)';
   }
 
   @override
@@ -785,13 +808,21 @@ class _$QuranAyatImpl implements _QuranAyat {
             (identical(other.teksIndonesia, teksIndonesia) ||
                 other.teksIndonesia == teksIndonesia) &&
             (identical(other.terbaca, terbaca) || other.terbaca == terbaca) &&
-            const DeepCollectionEquality().equals(other._audio, _audio));
+            const DeepCollectionEquality().equals(other._audio, _audio) &&
+            const DeepCollectionEquality().equals(other._toke, _toke));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, nomorAyat, teksArab, teksLatin,
-      teksIndonesia, terbaca, const DeepCollectionEquality().hash(_audio));
+  int get hashCode => Object.hash(
+      runtimeType,
+      nomorAyat,
+      teksArab,
+      teksLatin,
+      teksIndonesia,
+      terbaca,
+      const DeepCollectionEquality().hash(_audio),
+      const DeepCollectionEquality().hash(_toke));
 
   @JsonKey(ignore: true)
   @override
@@ -814,7 +845,8 @@ abstract class _QuranAyat implements QuranAyat {
       required final String teksLatin,
       required final String teksIndonesia,
       final bool? terbaca,
-      required final Map<String, String> audio}) = _$QuranAyatImpl;
+      required final Map<String, String> audio,
+      required final List<TajweedToken?> toke}) = _$QuranAyatImpl;
 
   factory _QuranAyat.fromJson(Map<String, dynamic> json) =
       _$QuranAyatImpl.fromJson;
@@ -831,6 +863,8 @@ abstract class _QuranAyat implements QuranAyat {
   bool? get terbaca;
   @override
   Map<String, String> get audio;
+  @override
+  List<TajweedToken?> get toke;
   @override
   @JsonKey(ignore: true)
   _$$QuranAyatImplCopyWith<_$QuranAyatImpl> get copyWith =>
