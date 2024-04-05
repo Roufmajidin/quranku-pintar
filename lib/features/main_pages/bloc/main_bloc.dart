@@ -1,12 +1,11 @@
 import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quranku_pintar/core/error/utils/status.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
+import 'package:quranku_pintar/features/main_pages/data/tajwid/tajwid_helper/tajweed.dart';
 import 'package:quranku_pintar/features/main_pages/data/usecases/quran_usecase.dart';
 import 'package:string_similarity/string_similarity.dart';
-
 part 'main_event.dart';
 part 'main_state.dart';
 part 'main_bloc.freezed.dart';
@@ -22,24 +21,22 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   // functionality
   Future<void> _loader(MainEvent event, Emitter<MainState> emit) async {
     bool selesai = false;
-      String lastWords = removeDiacritics((event as LoadingActive).loading);
-      log(lastWords);
-    if(selesai == false){
+    String lastWords = removeDiacritics((event as LoadingActive).loading);
+    log(lastWords);
+    if (selesai == false) {
       emit(state.copyWith(isLoading: lastWords));
       log('state ${state.isLoading}');
-
     }
   }
   // check passed
 
   Future<void> _checkPassed(MainEvent event, Emitter<MainState> emit) async {
-
     String lastWords = removeDiacritics((event as CheckPassed).ayat);
     emit(state.copyWith(isLoading: lastWords));
 
     // get userid
     // log('hallo  ${_lastWords}');
-    QuranModels quranData = state.quranData;  
+    QuranModels quranData = state.quranData;
     // print(quranData.runtimeType);
 
     if (state.quranData is QuranModels) {
@@ -84,14 +81,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         }
       } else {
         log('Kata \"$lastWords\" tidak ditemukan dalam QuranData');
-
       }
     } else {
       log('Error: QuranData bukan merupakan instance dari QuranModels');
     }
     for (var element in quranData.data!.ayat) {
       // log('ayat : ${element.nomorAyat} ${element.terbaca}');
-
     }
   }
 
@@ -100,26 +95,51 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     log('fetch Surat');
     int surat = (event as GetDetailSurat).surat;
     // get userid
-    log('surat nomor : $surat');
+    // log('surat nomor : $surat');
 
     final getDetail = await quranUsecase.getDetailSurat(surat: surat);
     getDetail.fold(
+        // ignore: void_checks
         (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)), (r) {
       var quranData = r;
+      log('quranData ${quranData.toJson()}');
+      // log('===');
+
       emit(state.copyWith(fetchDataProses: FetchStatus.success, quranData: r));
       // log('hallo  ${r}');
+      //  hah
+
+      final ayatList = state.quranData;
+      final result = <QuranAyat>[];
+      int loaded = 0;
+      final ayas = r.data?.ayat.length;
+      final loadOnly = ayas;
+      if (ayatList != null) {
+        for (final ayatItem in r.data!.ayat) {
+          final tokens = Tajweed.tokenize(ayatItem.teksArab, 2, loaded + 1);
+          result.add(QuranAyat(
+            nomorAyat: ayatItem.nomorAyat,
+            teksArab: ayatItem.teksArab,
+            teksLatin: ayatItem.teksLatin,
+            teksIndonesia: ayatItem.teksIndonesia,
+            terbaca: ayatItem.terbaca,
+            audio: ayatItem.audio,
+            toke: tokens,
+          ));
+          if (++loaded >= loadOnly!) {
+            break;
+          }
+        }
+      }
+
+      final updatedQuranData = r.copyWith(
+        data: r.data?.copyWith(ayat: result),
+      );
+
+      emit(state.copyWith(quranData: updatedQuranData));
+      log(ayas.toString());
     });
   }
-
-  // Future<void> _loader(MainEvent event, Emitter<MainState> emit) async {
-  //   emit(state.copyWith(fetchDataProses: FetchStatus.loading));
-  //   log('fetch Surat');
-  //   String load = (event as LoadingActive).loading;
-
-  //   await Future.delayed(const Duration(seconds: 5));
-  //   emit(state.copyWith(isLoading: load));
-  //   log('isload $load');
-  // }
 
   // remove string helper
   String removeDiacritics(String text) {
@@ -129,3 +149,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         '');
   }
 }
+
+// sementara
+
+// class TokenizedAya {
+//   List<TajweedToken> tokens = [];
+
+//   TokenizedAya(this.tokens);
+// }

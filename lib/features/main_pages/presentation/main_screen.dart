@@ -6,6 +6,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -16,12 +17,14 @@ import 'package:quranku_pintar/common/extensions/font_weight.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
+import 'package:quranku_pintar/features/main_pages/data/models/token.dart';
 import 'package:quranku_pintar/features/main_pages/data/tajwid/helper.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:fancy_snackbar/fancy_snackbar.dart';
 import 'package:record/record.dart';
+
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -174,7 +177,7 @@ class _MainViewState extends State<MainView> {
     sc.scrollTo(index: index, duration: const Duration(seconds: 2));
   }
 
-   uploadFile(String filePath) async {
+  uploadFile(String filePath) async {
     // await uploadtoPy(filePath);
     log('tersimpan $pathConvert');
     var apiUrl =
@@ -193,56 +196,58 @@ class _MainViewState extends State<MainView> {
     var b = utf8.decode(a);
     Map<String, dynamic> jsonData = json.decode(b);
 
-    if(jsonData == null ){
+    if (jsonData == null) {
       return 'error';
     }
     String arabicText = jsonData['text'];
-   setState(() {
-     statusText = arabicText;
-     cekpas();
-   });
+    setState(() {
+      statusText = arabicText;
+      cekpas();
+    });
     return arabicText;
   }
+
   // py server python m4a dart convert ke mp3, (karena api gabisa m4a)
-Future<void> uploadtoPy(String filePath) async {
-  var apiUrl = "https://cb37-103-191-218-82.ngrok-free.app/convert";
+  Future<void> uploadtoPy(String filePath) async {
+    var apiUrl = "https://cb37-103-191-218-82.ngrok-free.app/convert";
 
-  File file = File(filePath);
-  List<int> fileBytes = await file.readAsBytes();
+    File file = File(filePath);
+    List<int> fileBytes = await file.readAsBytes();
 
-  var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-  request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
-      filename: filePath.split("/").last)); // Menggunakan nama file M4A sebagai nama file yang diunggah
+    var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+    request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
+        filename: filePath
+            .split("/")
+            .last)); // Menggunakan nama file M4A sebagai nama file yang diunggah
 
-  try {
-    var streamedResponse = await request.send();
-    if (streamedResponse.statusCode == 200) {
-      var response = await http.Response.fromStream(streamedResponse);
-      
-      var tempDir = await getTemporaryDirectory();
-      var outputFile = File('${tempDir.path}/output.mp3');
-      await outputFile.writeAsBytes(response.bodyBytes);
-      print('File MP3 berhasil disimpan: ${outputFile.path}');
-      setState(() {
-        pathConvert = outputFile.path;
-        
-      });
-      uploadFile(pathConvert);
-    } else {
-      print('Gagal mengunggah file. Status code: ${streamedResponse.statusCode}');
+    try {
+      var streamedResponse = await request.send();
+      if (streamedResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        var tempDir = await getTemporaryDirectory();
+        var outputFile = File('${tempDir.path}/output.mp3');
+        await outputFile.writeAsBytes(response.bodyBytes);
+        print('File MP3 berhasil disimpan: ${outputFile.path}');
+        setState(() {
+          pathConvert = outputFile.path;
+        });
+        uploadFile(pathConvert);
+      } else {
+        print(
+            'Gagal mengunggah file. Status code: ${streamedResponse.statusCode}');
+      }
+    } catch (e) {
+      print('Terjadi kesalahan: $e');
     }
-  } catch (e) {
-    print('Terjadi kesalahan: $e');
   }
-}
-
-
 
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
   String r = '';
   bool _ditemukan = false;
+  bool _isShowSnackbar = false;
   List<bool> readStatus = List.generate(7, (index) => false);
   ditemukan(bool c, int index, bool b) {
     _ditemukan = c;
@@ -258,15 +263,29 @@ Future<void> uploadtoPy(String filePath) async {
     context.read<MainBloc>().add(CheckPassed(statusText));
   }
 
-  show() {
+  showSnackBar(TajweedToken t) {
+    String tt = '';
+
+     if (t.rule.name == 'idghamWithGhunna') {
+         tt = 'Idgham Bighunna';
+      } else if (t.rule.name == 'idghamWithoutGhunna') {
+         tt = 'Idgham Bighunna';
+      } else {
+         tt = t.rule.name;
+      }
+    setState(() {
+      _isShowSnackbar = true;
+     
+    });
+
     FancySnackbar.show(
       context,
-      "Correct ...",
+      "Hukum: $tt [${t.text}] ",
       logo: const Icon(
         Icons.info,
         color: Colors.white,
       ),
-      backgroundColor: Colors.green,
+      backgroundColor: t.rule.color(context),
     );
   }
 
@@ -293,7 +312,7 @@ Future<void> uploadtoPy(String filePath) async {
               // context.read<MainBloc>().add(const GetDetailSurat(1));
               // _stopListening();
               //  var output = await query("assets/audios/testt.wav");
-               uploadtoPy(audioPath);
+              uploadtoPy(audioPath);
               // print(response);
             },
             onDoubleTap: () {
@@ -308,11 +327,11 @@ Future<void> uploadtoPy(String filePath) async {
         ],
         title: GestureDetector(
           onTap: () async {
-           uploadtoPy(audioPath);
-              // print(s.toString());
+            uploadtoPy(audioPath);
+            // print(s.toString());
             // setState(() async {
             //   // cekpas();
-              
+
             // });
           },
           child: Text(
@@ -421,6 +440,7 @@ Future<void> uploadtoPy(String filePath) async {
                                                           : Colors.black),
                                             ),
                                           ),
+                                          // Text(ayatItem.toke.length.toString()),
                                           const Spacer(),
                                           SizedBox(
                                             width: MediaQuery.of(context)
@@ -430,21 +450,73 @@ Future<void> uploadtoPy(String filePath) async {
                                             child: Directionality(
                                               textDirection: TextDirection.rtl,
                                               child: RichText(
-                                                text: TextSpan(
-                                                  // onEnter: ,
+                                                text:
+                                                    // TextSpan(
+                                                    //   // onEnter: ,
 
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: ayatItem.terbaca ==
-                                                            true
-                                                        ? const Color(
-                                                            0xff189474)
-                                                        : const Color.fromARGB(
-                                                            255, 56, 56, 56),
-                                                  ),
-                                                  children: highlightInna(
-                                                      ayatItem.teksArab,
-                                                      ayatItem.terbaca),
+                                                    //   style: TextStyle(
+                                                    //     fontSize: 18,
+                                                    //     color: ayatItem.terbaca ==
+                                                    //             true
+                                                    //         ? const Color(
+                                                    //             0xff189474)
+                                                    //         : const Color.fromARGB(
+                                                    //             255, 56, 56, 56),
+                                                    //   ),
+                                                    //   children: highlightInna(
+                                                    //       ayatItem.teksArab,
+                                                    //       ayatItem.terbaca),
+                                                    // ),
+                                                    TextSpan(
+                                                  children: <TextSpan>[
+                                                    for (final token
+                                                        in ayatItem.toke)
+                                                      TextSpan(
+                                                        recognizer:
+                                                            TapGestureRecognizer()
+                                                              ..onTap =
+                                                                  () async {
+                                                                if (token?.rule
+                                                                        .name !=
+                                                                    'none') {
+                                                                  print(
+                                                                      'Teks "${token?.rule.name}" ditekan!');
+                                                                  showSnackBar(
+                                                                      token!);
+                                                                  await Future.delayed(
+                                                                      const Duration(
+                                                                          seconds:
+                                                                              3));
+                                                                  setState(() {
+                                                                    _isShowSnackbar =
+                                                                        false;
+                                                                  });
+                                                                }
+                                                              },
+                                                        text: token?.text,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18,
+                                                          fontFamily:
+                                                              'Kitab Regular',
+                                                          color: token?.rule
+                                                                  .color(
+                                                                      context) ??
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onSurface,
+                                                          // ayatItem
+                                                          //             .terbaca ==
+                                                          //         true
+                                                          //     ? const Color(
+                                                          //         0xff189474)
+                                                          //     : const Color
+                                                          //         .fromARGB(255,
+                                                          //         56, 56, 56),
+                                                        ),
+                                                      ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -473,109 +545,111 @@ Future<void> uploadtoPy(String filePath) async {
 
                 //2
                 if (isDialog == true)
-                  BlocBuilder<MainBloc, MainState>(
-                    builder: (context, state) {
-                      
-                        return Positioned(
-                                        top: 400,
-                                        width: MediaQuery.of(context).size.width,
-                                        child: Container(
-                                          // color: Colors.white,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20),
-                                            ),
-                                          ),
-                                          height: 500,
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  // Spacer(flex: 1),
-                                                  const SizedBox(
-                                                    width: 40,
-                                                  ),
-                                                  Container(
-                                                      height: 5,
-                                                      width: 50,
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.green,
-                                                          borderRadius:
-                                                              BorderRadius.circular(12))),
-                                                  FloatingActionButton(
-                                                    backgroundColor: Colors.white,
-                                                    elevation: 0.0,
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        isDialog = false;
-                                                        statusText = '';
-                                                      });
-                                                    },
-                                                    child: const Padding(
-                                                      padding: EdgeInsets.all(8.0),
-                                                      child: Icon(Icons.close),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 60),
-                                              FloatingActionButton(
-                                                  backgroundColor: Colors.green,
-                                                  onPressed: () async {
-                                                    if (isRecord == true) {
-                                                      stopRecord();
-                                                      statusText = 'Mengecek Audio';
-                                                      await Future.delayed(
-                                                          const Duration(seconds: 5));
-                                                          
-                                                   await   uploadtoPy(audioPath);
-                                                      // print(response);
-                                                      // Map<String, dynamic> jsonData =
-                                                      //     json.decode(response);
-                  
-                                                      // String arabicText = jsonData['text'];
-                                                    
-                                                        cekpas();
-                                                    } else {
-                                                      _startListening();
-                                                      statusText = 'Inisilisasi Audio';
-                                                      startRecord();
-                                                    }
-                                                  },
-                                                  child: Stack(
-                                                    children: [
-                                                      if(statusText == '' || statusText == 'Inisilisasi Audio')
-                                                      Icon(
-                                                        _speechEnabled == false
-                                                            ? Icons.mic_none
-                                                            : Icons.mic,
-                                                        color: Colors.white,
-                                                      ),
-                                                  if(statusText == 'Mengecek Audio')
-                                                    CircularProgressIndicator(color: Colors.white,) 
-                                                
-                                                    ],
-                                                  )),
-                                              const SizedBox(height: 16),
-                                              Text(
-                                                statusText == ''
-                                                    ? "Tekan untuk memulai"
-                                                    : statusText,
-                                                style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
-                                              // Text(statusText)
-                                            ],
-                                          ),
-                                        ));  
-                      }
-                    
-                  )
+                  BlocBuilder<MainBloc, MainState>(builder: (context, state) {
+                    return Positioned(
+                        top: 400,
+                        width: MediaQuery.of(context).size.width,
+                        child: Container(
+                          // color: Colors.white,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          height: 500,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Spacer(flex: 1),
+                                  const SizedBox(
+                                    width: 40,
+                                  ),
+                                  Container(
+                                      height: 5,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius:
+                                              BorderRadius.circular(12))),
+                                  FloatingActionButton(
+                                    backgroundColor: Colors.white,
+                                    elevation: 0.0,
+                                    onPressed: () {
+                                      setState(() {
+                                        isDialog = false;
+                                        statusText = '';
+                                        isListening = false;
+                                        isRecord = false;
+                                        // pathConvert = ;
+                                      });
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(Icons.close),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 60),
+                              FloatingActionButton(
+                                  backgroundColor: Colors.green,
+                                  onPressed: () async {
+                                    if (isRecord == true) {
+                                      stopRecord();
+                                      statusText = 'Mengecek Audio';
+                                      await Future.delayed(
+                                          const Duration(seconds: 5));
+
+                                      await uploadtoPy(audioPath);
+                                      // print(response);
+                                      // Map<String, dynamic> jsonData =
+                                      //     json.decode(response);
+
+                                      // String arabicText = jsonData['text'];
+
+                                      cekpas();
+                                    } else {
+                                      _startListening();
+                                      statusText = 'Inisilisasi Audio';
+                                      startRecord();
+                                    }
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      if (statusText == '' ||
+                                          statusText == 'Inisilisasi Audio')
+                                        Icon(
+                                          _speechEnabled == false
+                                              ? Icons.mic_none
+                                              : Icons.mic,
+                                          color: Colors.white,
+                                        ),
+                                      if (statusText == 'Mengecek Audio')
+                                        const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        )
+                                    ],
+                                  )),
+                              const SizedBox(height: 16),
+                              Text(
+                                statusText == ''
+                                    ? "Tekan untuk memulai"
+                                    : statusText,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              ),
+                              // Text(statusText)
+                            ],
+                          ),
+                        ));
+                  })
               ],
             ),
           ],
@@ -583,22 +657,27 @@ Future<void> uploadtoPy(String filePath) async {
       ),
       floatingActionButton: isDialog == true
           ? const SizedBox()
-          : FloatingActionButton(
-              backgroundColor: Colors.green,
-              onPressed: () {
-                if (isDialog == false) {
-                  setState(() {
-                    isDialog = true;
-                  });
-                } else {
-                  setState(() {
-                    isDialog = false;
-                  });
-                }
-              },
-              child:
-                  Icon(_speechEnabled == false ? Icons.mic_none : Icons.mic)),
+          : _isShowSnackbar == false
+              ? FloatingActionButton(
+                  backgroundColor: Colors.green,
+                  onPressed: () {
+                    if (isDialog == false) {
+                      setState(() {
+                        isDialog = true;
+                      });
+                    } else {
+                      setState(() {
+                        isDialog = false;
+                      });
+                    }
+                  },
+                  child: Icon(
+                      _speechEnabled == false ? Icons.mic_none : Icons.mic),
+                )
+              : const SizedBox(),
     );
   }
 }
 
+
+// nitip kamu disini dlu 
