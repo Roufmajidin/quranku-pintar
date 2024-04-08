@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, unused_element
 
 import 'dart:convert';
 import 'dart:developer';
@@ -25,7 +25,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:fancy_snackbar/fancy_snackbar.dart';
 import 'package:record/record.dart';
 
-
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
 
@@ -44,7 +43,7 @@ class _MainViewState extends State<MainView> {
 
   panggilSuratByNomor() {
     setState(() {
-      context.read<MainBloc>().add(const GetDetailSurat(2));
+      context.read<MainBloc>().add(const GetDetailSurat(1));
     });
   }
 
@@ -84,6 +83,8 @@ class _MainViewState extends State<MainView> {
       if (await audioRecord.hasPermission()) {
         await audioRecord.start();
         setState(() {
+          statusText = 'Inisilisasi Audio';
+
           isRecord = true;
         });
       }
@@ -110,9 +111,14 @@ class _MainViewState extends State<MainView> {
     try {
       String? path = await audioRecord.stop();
       setState(() {
+        statusText = 'Mengecek Audio';
         isRecord = false;
         audioPath = path!;
+        log('stop for : audio path $audioPath');
       });
+      await uploadtoPy(audioPath);
+
+      await cekpas();
     } catch (e) {
       print('error stopping record $e');
     }
@@ -125,7 +131,7 @@ class _MainViewState extends State<MainView> {
       _speechEnabled = true;
     });
     await _speechToText.listen(
-      localeId: 'ar',
+      localeId: 'Ar',
       onResult: _onSpeechResult,
       // partialResults: false,
     );
@@ -179,7 +185,8 @@ class _MainViewState extends State<MainView> {
 
   uploadFile(String filePath) async {
     // await uploadtoPy(filePath);
-    log('tersimpan $pathConvert');
+
+    log('tersimpan $filePath');
     var apiUrl =
         "https://api-inference.huggingface.co/models/tarteel-ai/whisper-base-ar-quran";
     var headers = {
@@ -187,7 +194,7 @@ class _MainViewState extends State<MainView> {
       "Content-Type": "audio/wav"
     };
 
-    File file = File(pathConvert);
+    File file = File(filePath);
     Uint8List fileBytes = await file.readAsBytes();
     var response =
         await http.post(Uri.parse(apiUrl), headers: headers, body: fileBytes);
@@ -209,16 +216,14 @@ class _MainViewState extends State<MainView> {
 
   // py server python m4a dart convert ke mp3, (karena api gabisa m4a)
   Future<void> uploadtoPy(String filePath) async {
-    var apiUrl = "https://cb37-103-191-218-82.ngrok-free.app/convert";
-
+    var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
+    log('mau ke py $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
 
     var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
     request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
-        filename: filePath
-            .split("/")
-            .last)); // Menggunakan nama file M4A sebagai nama file yang diunggah
+        filename: filePath.split("/").last));
 
     try {
       var streamedResponse = await request.send();
@@ -229,10 +234,11 @@ class _MainViewState extends State<MainView> {
         var outputFile = File('${tempDir.path}/output.mp3');
         await outputFile.writeAsBytes(response.bodyBytes);
         print('File MP3 berhasil disimpan: ${outputFile.path}');
-        setState(() {
-          pathConvert = outputFile.path;
-        });
-        uploadFile(pathConvert);
+        // setState(() {
+        // pathConvert = outputFile.path;
+        // });
+        log('cekfile ke EP 2');
+        await uploadFile(outputFile.path);
       } else {
         print(
             'Gagal mengunggah file. Status code: ${streamedResponse.statusCode}');
@@ -266,21 +272,20 @@ class _MainViewState extends State<MainView> {
   showSnackBar(TajweedToken t) {
     String tt = '';
 
-     if (t.rule.name == 'idghamWithGhunna') {
-         tt = 'Idgham Bighunna';
-      } else if (t.rule.name == 'idghamWithoutGhunna') {
-         tt = 'Idgham Bighunna';
-      } else {
-         tt = t.rule.name;
-      }
+    if (t.rule.name == 'idghamWithGhunna') {
+      tt = 'Idgham Bighunna';
+    } else if (t.rule.name == 'idghamWithoutGhunna') {
+      tt = 'Idgham Bilaghunna';
+    } else {
+      tt = t.rule.name;
+    }
     setState(() {
       _isShowSnackbar = true;
-     
     });
 
     FancySnackbar.show(
       context,
-      "Hukum: $tt [${t.text}] ",
+      "Hukum: $tt [${t.text}]",
       logo: const Icon(
         Icons.info,
         color: Colors.white,
@@ -316,7 +321,6 @@ class _MainViewState extends State<MainView> {
               // print(response);
             },
             onDoubleTap: () {
-              // context.read<MainBloc>().add(const GetDetailSurat(104));
               _stopListening();
             },
             child: Icon(
@@ -449,75 +453,86 @@ class _MainViewState extends State<MainView> {
                                                 0.8,
                                             child: Directionality(
                                               textDirection: TextDirection.rtl,
-                                              child: RichText(
-                                                text:
-                                                    // TextSpan(
-                                                    //   // onEnter: ,
+                                              child: Stack(
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                clipBehavior:
+                                                    Clip.antiAliasWithSaveLayer,
+                                                children: [
+                                                  RichText(
+                                                    text:
+                                                        // TextSpan(
+                                                        //   // onEnter: ,
 
-                                                    //   style: TextStyle(
-                                                    //     fontSize: 18,
-                                                    //     color: ayatItem.terbaca ==
-                                                    //             true
-                                                    //         ? const Color(
-                                                    //             0xff189474)
-                                                    //         : const Color.fromARGB(
-                                                    //             255, 56, 56, 56),
-                                                    //   ),
-                                                    //   children: highlightInna(
-                                                    //       ayatItem.teksArab,
-                                                    //       ayatItem.terbaca),
-                                                    // ),
-                                                    TextSpan(
-                                                  children: <TextSpan>[
-                                                    for (final token
-                                                        in ayatItem.toke)
-                                                      TextSpan(
-                                                        recognizer:
-                                                            TapGestureRecognizer()
-                                                              ..onTap =
-                                                                  () async {
-                                                                if (token?.rule
-                                                                        .name !=
-                                                                    'none') {
-                                                                  print(
-                                                                      'Teks "${token?.rule.name}" ditekan!');
-                                                                  showSnackBar(
-                                                                      token!);
-                                                                  await Future.delayed(
-                                                                      const Duration(
+                                                        //   style: TextStyle(
+                                                        //     fontSize: 18,
+                                                        //     color: ayatItem.terbaca ==
+                                                        //             true
+                                                        //         ? const Color(
+                                                        //             0xff189474)
+                                                        //         : const Color.fromARGB(
+                                                        //             255, 56, 56, 56),
+                                                        //   ),
+                                                        //   children: highlightInna(
+                                                        //       ayatItem.teksArab,
+                                                        //       ayatItem.terbaca),
+                                                        // ),
+                                                        TextSpan(
+                                                      children: <TextSpan>[
+                                                        for (final token
+                                                            in ayatItem.toke)
+                                                          TextSpan(
+                                                            recognizer:
+                                                                TapGestureRecognizer()
+                                                                  ..onTap =
+                                                                      () async {
+                                                                    if (token
+                                                                            ?.rule
+                                                                            .name !=
+                                                                        'none') {
+                                                                      print(
+                                                                          'Teks "${token?.rule.name}" ditekan!');
+                                                                      showSnackBar(
+                                                                          token!);
+                                                                      await Future.delayed(const Duration(
                                                                           seconds:
                                                                               3));
-                                                                  setState(() {
-                                                                    _isShowSnackbar =
-                                                                        false;
-                                                                  });
-                                                                }
-                                                              },
-                                                        text: token?.text,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18,
-                                                          fontFamily:
-                                                              'Kitab Regular',
-                                                          color: token?.rule
-                                                                  .color(
-                                                                      context) ??
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .onSurface,
-                                                          // ayatItem
-                                                          //             .terbaca ==
-                                                          //         true
-                                                          //     ? const Color(
-                                                          //         0xff189474)
-                                                          //     : const Color
-                                                          //         .fromARGB(255,
-                                                          //         56, 56, 56),
-                                                        ),
-                                                      ),
-                                                  ],
-                                                ),
+                                                                      setState(
+                                                                          () {
+                                                                        _isShowSnackbar =
+                                                                            false;
+                                                                      });
+                                                                    }
+                                                                  },
+                                                            text: token?.text,
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 18,
+                                                              fontFamily:
+                                                                  'Kitab Regular',
+                                                              color: token?.rule
+                                                                      .color(
+                                                                          context) ??
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurface,
+                                                              // ayatItem
+                                                              //             .terbaca ==
+                                                              //         true
+                                                              //     ? const Color(
+                                                              //         0xff189474)
+                                                              //     : const Color
+                                                              //         .fromARGB(255,
+                                                              //         56, 56, 56),
+                                                            ),
+                                                          ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -601,21 +616,7 @@ class _MainViewState extends State<MainView> {
                                   onPressed: () async {
                                     if (isRecord == true) {
                                       stopRecord();
-                                      statusText = 'Mengecek Audio';
-                                      await Future.delayed(
-                                          const Duration(seconds: 5));
-
-                                      await uploadtoPy(audioPath);
-                                      // print(response);
-                                      // Map<String, dynamic> jsonData =
-                                      //     json.decode(response);
-
-                                      // String arabicText = jsonData['text'];
-
-                                      cekpas();
                                     } else {
-                                      _startListening();
-                                      statusText = 'Inisilisasi Audio';
                                       startRecord();
                                     }
                                   },
@@ -661,6 +662,8 @@ class _MainViewState extends State<MainView> {
               ? FloatingActionButton(
                   backgroundColor: Colors.green,
                   onPressed: () {
+                    // _startListening();
+
                     if (isDialog == false) {
                       setState(() {
                         isDialog = true;
@@ -678,6 +681,3 @@ class _MainViewState extends State<MainView> {
     );
   }
 }
-
-
-// nitip kamu disini dlu 
