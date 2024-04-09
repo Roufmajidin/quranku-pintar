@@ -34,22 +34,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     String lastWords = removeDiacritics((event as CheckPassed).ayat);
     emit(state.copyWith(isLoading: lastWords));
 
-    // get userid
-    // log('hallo  ${_lastWords}');
     QuranModels quranData = state.quranData;
-    // print(quranData.runtimeType);
 
     if (state.quranData is QuranModels) {
       var hasilPencarian = quranData.data!.ayat.where((ayatItem) {
         String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
-        // String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
         double similarity = lastWords.similarityTo(normalizedLatinText);
 
-        return similarity > 0.8;
+        return similarity > 0.6;
       }).toList();
-      //   var a = StringSimilarity.compareTwoStrings(lastWords, 'ذَلِكَ الْكِتَابُ لَا رَيْبَ فِي أُكَلِّ الْمُتَّقِينَ');
-      // String b =   'ذَلِكَ الْكِتَابُ لَا رَيْبَ فِي أُكَلِّ الْمُتَّقِينَ';
-      //   log('passed is $a\n $lastWords \n $b ');
 
       if (hasilPencarian.isNotEmpty) {
         if (lastWords == 'بسم الله الرحمن الرحيم') {
@@ -58,20 +51,27 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           List<QuranAyat> mutableAyatList = List.from(quranData.data!.ayat);
 
           for (var ayatItem in hasilPencarian) {
+            var a = StringSimilarity.compareTwoStrings(
+                removeDiacritics(ayatItem.teksArab), lastWords); // → 0.8
+            if (a >= 0.80 || a  >= 0.9) {
+              log(' oke similarity : $a');
+            } else {
+              log('is: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab},\n Nomor Ayat: ${ayatItem.nomorAyat} \n simm : $a');
+            }
             log('');
-            log('Ayat: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat} index : ');
+            log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat}');
 
             int index = mutableAyatList.indexOf(ayatItem);
             if (index != -1) {
               mutableAyatList[index] =
                   mutableAyatList[index].copyWith(terbaca: true);
-              log(' terbaca :${index.toString()}');
+              log('Terbaca: ${index.toString()}');
               emit(state.copyWith(index: index));
               emit(state.copyWith(isPassed: true));
             } else {
               emit(state.copyWith(isPassed: false));
             }
-            log('status : ${state.isPassed}');
+            log('Status: ${state.isPassed}');
           }
 
           quranData = quranData.copyWith(
@@ -84,9 +84,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       }
     } else {
       log('Error: QuranData bukan merupakan instance dari QuranModels');
-    }
-    for (var element in quranData.data!.ayat) {
-      // log('ayat : ${element.nomorAyat} ${element.terbaca}');
     }
   }
 
@@ -141,7 +138,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     });
   }
 
-  // remove string helper
   String removeDiacritics(String text) {
     return text.replaceAll(
         RegExp(

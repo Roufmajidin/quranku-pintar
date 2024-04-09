@@ -266,7 +266,7 @@ class _MainViewState extends State<MainView> {
     // String response = await uploadFile('assets/audios/satu.mp3');
 
     // ignore: use_build_context_synchronously
-    context.read<MainBloc>().add(CheckPassed(statusText));
+    context.read<MainBloc>().add(const CheckPassed('الرَّحْمٰنِ الرَّجيْمِۙ'));
   }
 
   showSnackBar(TajweedToken t) {
@@ -331,10 +331,10 @@ class _MainViewState extends State<MainView> {
         ],
         title: GestureDetector(
           onTap: () async {
-            uploadtoPy(audioPath);
+            // uploadtoPy(audioPath);
             // print(s.toString());
             // setState(() async {
-            //   // cekpas();
+              cekpas();
 
             // });
           },
