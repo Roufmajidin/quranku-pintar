@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quranku_pintar/common/extensions/font_weight.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
+import 'package:quranku_pintar/core/error/utils/status.dart';
 import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/token.dart';
@@ -118,7 +119,7 @@ class _MainViewState extends State<MainView> {
       });
       await uploadtoPy(audioPath);
 
-      await cekpas();
+      await cekpas(statusText);
     } catch (e) {
       print('error stopping record $e');
     }
@@ -169,7 +170,7 @@ class _MainViewState extends State<MainView> {
       // log('asli ${result.recognizedWords}');
       // var a = konversiKeBahasaArab(result.recognizedWords);
       // log('ini adalah $a');
-      cekpas();
+      cekpas(statusText);
 
       log('diucapkan ${result.recognizedWords}');
 
@@ -209,15 +210,15 @@ class _MainViewState extends State<MainView> {
     String arabicText = jsonData['text'];
     setState(() {
       statusText = arabicText;
-      cekpas();
+      cekpas(statusText);
     });
     return arabicText;
   }
 
-  // py server python m4a dart convert ke mp3, (karena api gabisa m4a)
-  Future<void> uploadtoPy(String filePath) async {
-    var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    log('mau ke py $filePath');
+  Future uploadtoPy(String filePath) async {
+    // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
+    var apiUrl = "https://0ea0-103-191-218-82.ngrok-free.app";
+    log('mau ke tartil $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
 
@@ -230,23 +231,58 @@ class _MainViewState extends State<MainView> {
       if (streamedResponse.statusCode == 200) {
         var response = await http.Response.fromStream(streamedResponse);
 
-        var tempDir = await getTemporaryDirectory();
-        var outputFile = File('${tempDir.path}/output.mp3');
-        await outputFile.writeAsBytes(response.bodyBytes);
-        print('File MP3 berhasil disimpan: ${outputFile.path}');
-        // setState(() {
-        // pathConvert = outputFile.path;
-        // });
-        log('cekfile ke EP 2');
-        await uploadFile(outputFile.path);
-      } else {
-        print(
-            'Gagal mengunggah file. Status code: ${streamedResponse.statusCode}');
+       var jsonResponse = jsonDecode(response.body);
+      
+      // Mengambil nilai teks dari kunci 'text'
+      var text = jsonResponse['text'][0];
+        log(text);
+        setState(() {
+          statusText = text;
+          cekpas(statusText);
+        });
       }
     } catch (e) {
       print('Terjadi kesalahan: $e');
     }
+    // return statusText;
   }
+
+  // py server python m4a dart convert ke mp3, (karena api gabisa m4a)
+  // Future<void> uploadtoPy(String filePath) async {
+  //   // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
+  //   var apiUrl = "https://0ea0-103-191-218-82.ngrok-free.app";
+  //   log('mau ke py $filePath');
+  //   File file = File(filePath);
+  //   List<int> fileBytes = await file.readAsBytes();
+
+  //   var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+  //   request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
+  //       filename: filePath.split("/").last));
+
+  //   try {
+  //     var streamedResponse = await request.send();
+  //     if (streamedResponse.statusCode == 200) {
+  //       var response = await http.Response.fromStream(streamedResponse);
+
+  //       var tempDir = await getTemporaryDirectory();
+  //       var outputFile = File('${tempDir.path}/output.mp3');
+  //       await outputFile.writeAsBytes(response.bodyBytes);
+  //       print('File MP3 berhasil disimpan: ${outputFile.path}');
+  //       // setState(() {
+  //       // pathConvert = outputFile.path;
+  //       // });
+  //       log('cekfile ke EP 2');
+  //       // await uploadFile(outputFile.path);
+  //       // uploadtotartil(outputFile.path);
+  //       log(response.body.toString());
+  //     } else {
+  //       print(
+  //           'Gagal mengunggah file. Status code: ${streamedResponse.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print('Terjadi kesalahan: $e');
+  //   }
+  // }
 
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
@@ -262,11 +298,11 @@ class _MainViewState extends State<MainView> {
   }
   // TODO:: PR
 
-  cekpas() async {
+  cekpas(String t) async {
     // String response = await uploadFile('assets/audios/satu.mp3');
 
     // ignore: use_build_context_synchronously
-    context.read<MainBloc>().add(const CheckPassed('الرَّحْمٰنِ الرَّجيْمِۙ'));
+    context.read<MainBloc>().add( CheckPassed(t));
   }
 
   showSnackBar(TajweedToken t) {
@@ -334,15 +370,21 @@ class _MainViewState extends State<MainView> {
             // uploadtoPy(audioPath);
             // print(s.toString());
             // setState(() async {
-              cekpas();
+            cekpas(statusText);
 
             // });
           },
-          child: Text(
-            "Halaman depan",
-            style: AppTextStyle.body1
-                .copyWith(color: AppColors.neutral.ne01)
-                .setSemiBold(),
+          child: SizedBox(
+            child: Column(
+              children: [
+                Text(
+                  "Detail Surat",
+                  style: AppTextStyle.body1
+                      .copyWith(color: AppColors.neutral.ne01)
+                      .setSemiBold(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -367,6 +409,11 @@ class _MainViewState extends State<MainView> {
                       if (state.index != 0) {
                         log('index adalah ${state.index}');
                         scrollTo(state.index);
+                      }
+                      if (state.fetchDataProses == FetchStatus.loading) {
+                        return const Center(
+                          child:  CircularProgressIndicator(color: Colors.green),
+                        );
                       }
                       if (state.quranData is QuranModels) {
                         var quranData = (state.quranData as QuranModels).data!;

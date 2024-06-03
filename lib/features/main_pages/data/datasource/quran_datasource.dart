@@ -23,7 +23,7 @@ class QuranDatasources {
       });
 
       print('ok $ayatJsonList');
-      
+
       final quranModel = QuranModels.fromJson(jsonData);
       return Right(quranModel);
     } else {

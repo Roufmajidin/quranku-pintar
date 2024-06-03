@@ -45,15 +45,33 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       }).toList();
 
       if (hasilPencarian.isNotEmpty) {
+        // cekcoba
+        List<String> hurufArab = separateArabicLetters(removeDiacritics('بِسْمِ اللَّهِ الرَّحْمَنِ'));
+        log(hurufArab.toString());
+
+        String hurufLengkap =removeDiacritics('بِسْمِ اللَّهِ الرَّحْنِ');
+        List<String> hurufKurang = hurufLengkap.split('');
+        log(hurufKurang.toString());
+      hurufKurang.forEach((huruf) {
+        if (!hurufArab.contains(huruf.runes.map((rune) => String.fromCharCode(rune)).join(''))) {
+          print('Huruf yang kurang: $huruf');
+        }
+});
+        // hurufArab.forEach((huruf) {
+        //   if (!hurufLengkap.contains(huruf)) {
+        //     print('Huruf yang tidak ada dalam kalimat: $huruf');
+        //   }
+        // });
+        //
         if (lastWords == 'بسم الله الرحمن الرحيم') {
           log('Ayat: 1');
         } else {
-          List<QuranAyat> mutableAyatList = List.from(quranData.data!.ayat);
+          List<QuranAyat> mutabablelis = List.from(quranData.data!.ayat);
 
           for (var ayatItem in hasilPencarian) {
             var a = StringSimilarity.compareTwoStrings(
                 removeDiacritics(ayatItem.teksArab), lastWords); // → 0.8
-            if (a >= 0.80 || a  >= 0.9) {
+            if (a >= 0.80 || a >= 0.9) {
               log(' oke similarity : $a');
             } else {
               log('is: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab},\n Nomor Ayat: ${ayatItem.nomorAyat} \n simm : $a');
@@ -61,13 +79,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
             log('');
             log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat}');
 
-            int index = mutableAyatList.indexOf(ayatItem);
+            int index = mutabablelis.indexOf(ayatItem);
             if (index != -1) {
-              mutableAyatList[index] =
-                  mutableAyatList[index].copyWith(terbaca: true);
+              mutabablelis[index] =
+                  mutabablelis[index].copyWith(terbaca: true);
               log('Terbaca: ${index.toString()}');
-              emit(state.copyWith(index: index));
-              emit(state.copyWith(isPassed: true));
+              emit(state.copyWith(index: index, isPassed: true));
             } else {
               emit(state.copyWith(isPassed: false));
             }
@@ -75,12 +92,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           }
 
           quranData = quranData.copyWith(
-              data: quranData.data!.copyWith(ayat: mutableAyatList));
+              data: quranData.data!.copyWith(ayat: mutabablelis));
           emit(state.copyWith(
               fetchDataProses: FetchStatus.success, quranData: quranData));
         }
       } else {
-        log('Kata \"$lastWords\" tidak ditemukan dalam QuranData');
+        log('Kata "$lastWords" tidak ditemukan dalam QuranData');
       }
     } else {
       log('Error: QuranData bukan merupakan instance dari QuranModels');
@@ -90,6 +107,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Future<void> _getDetailSurat(MainEvent event, Emitter<MainState> emit) async {
     emit(state.copyWith(fetchDataProses: FetchStatus.loading));
     log('fetch Surat');
+      emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+
     int surat = (event as GetDetailSurat).surat;
     // get userid
     // log('surat nomor : $surat');
@@ -139,11 +158,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   }
 
   String removeDiacritics(String text) {
-    return text.replaceAll(
-        RegExp(
-            r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D3-\u08E1\u08E3-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFC]'),
-        '');
+    var diacritics = RegExp(
+      r'[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0657\u0658\u0659\u065A\u065B\u065C\u065D\u065E\u065F\u0670]');
+  return text.replaceAll(diacritics, '');
+        
   }
+}
+
+List<String> separateArabicLetters(String sentence) {
+  return sentence.split('');
 }
 
 // sementara
