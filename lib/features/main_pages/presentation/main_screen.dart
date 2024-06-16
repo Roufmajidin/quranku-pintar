@@ -217,7 +217,7 @@ class _MainViewState extends State<MainView> {
 
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = "https://0ea0-103-191-218-82.ngrok-free.app";
+    var apiUrl = " https://4384-140-213-104-68.ngrok-free.app";
     log('mau ke tartil $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
@@ -231,10 +231,10 @@ class _MainViewState extends State<MainView> {
       if (streamedResponse.statusCode == 200) {
         var response = await http.Response.fromStream(streamedResponse);
 
-       var jsonResponse = jsonDecode(response.body);
-      
-      // Mengambil nilai teks dari kunci 'text'
-      var text = jsonResponse['text'][0];
+        var jsonResponse = jsonDecode(response.body);
+
+        // Mengambil nilai teks dari kunci 'text'
+        var text = jsonResponse['text'];
         log(text);
         setState(() {
           statusText = text;
@@ -302,7 +302,7 @@ class _MainViewState extends State<MainView> {
     // String response = await uploadFile('assets/audios/satu.mp3');
 
     // ignore: use_build_context_synchronously
-    context.read<MainBloc>().add( CheckPassed(t));
+    context.read<MainBloc>().add(CheckPassed(t));
   }
 
   showSnackBar(TajweedToken t) {
@@ -334,371 +334,399 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor:
-            _ditemukan == true ? Colors.green : const Color(0xff189474),
-        centerTitle: true,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              _stopListening();
-            },
-            child: Icon(
-              Icons.stop,
-              color: AppColors.neutral.ne01,
-            ),
-          ),
-          GestureDetector(
-            onTap: () async {
-              // context.read<MainBloc>().add(const GetDetailSurat(1));
-              // _stopListening();
-              //  var output = await query("assets/audios/testt.wav");
-              uploadtoPy(audioPath);
-              // print(response);
-            },
-            onDoubleTap: () {
-              _stopListening();
-            },
-            child: Icon(
-              Icons.download,
-              color: AppColors.neutral.ne01,
-            ),
-          ),
-        ],
-        title: GestureDetector(
-          onTap: () async {
-            // uploadtoPy(audioPath);
-            // print(s.toString());
-            // setState(() async {
-            cekpas(statusText);
+      // appBar: AppBar(
+      //   backgroundColor:
+      //       _ditemukan == true ? Colors.green : const Color(0xff189474),
+      //   centerTitle: true,
+      //   actions: [
+      //     GestureDetector(
+      //       onTap: () {
+      //         _stopListening();
+      //       },
+      //       child: Icon(
+      //         Icons.stop,
+      //         color: AppColors.neutral.ne01,
+      //       ),
+      //     ),
+      //     GestureDetector(
+      //       onTap: () async {
+      //         // context.read<MainBloc>().add(const GetDetailSurat(1));
+      //         // _stopListening();
+      //         //  var output = await query("assets/audios/testt.wav");
+      //         uploadtoPy(audioPath);
+      //         // print(response);
+      //       },
+      //       onDoubleTap: () {
+      //         _stopListening();
+      //       },
+      //       child: Icon(
+      //         Icons.download,
+      //         color: AppColors.neutral.ne01,
+      //       ),
+      //     ),
+      //   ],
+      //   title: GestureDetector(
+      //     onTap: () async {
+      //       // uploadtoPy(audioPath);
+      //       // print(s.toString());
+      //       // setState(() async {
+      //       cekpas(statusText);
 
-            // });
-          },
-          child: SizedBox(
-            child: Column(
-              children: [
-                Text(
-                  "Detail Surat",
-                  style: AppTextStyle.body1
-                      .copyWith(color: AppColors.neutral.ne01)
-                      .setSemiBold(),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      //       // });
+      //     },
+
+      //   ),
+      // ),
       backgroundColor: const Color.fromRGBO(234, 234, 234, 1),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            const SizedBox(height: 12),
-            if (isRecord) const Text('proses records'),
-            const SizedBox(height: 12),
-            Stack(
-              children: [
-                //1
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: BlocBuilder<MainBloc, MainState>(
-                    builder: (context, state) {
-                      // if (state.isPassed == true) {
-                      //   show();
-                      // }
-                      if (state.index != 0) {
-                        log('index adalah ${state.index}');
-                        scrollTo(state.index);
-                      }
-                      if (state.fetchDataProses == FetchStatus.loading) {
-                        return const Center(
-                          child:  CircularProgressIndicator(color: Colors.green),
-                        );
-                      }
-                      if (state.quranData is QuranModels) {
-                        var quranData = (state.quranData as QuranModels).data!;
-                        var ayat = quranData.ayat;
-
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 130),
-                          child: ScrollablePositionedList.builder(
-                            itemScrollController: sc,
-                            // controller: _controller,
-                            shrinkWrap: true,
-                            itemCount: ayat.length,
-                            itemBuilder: (context, index) {
-                              // var isRead = readStatus[index];
-
-                              var ayatItem = ayat[index];
-                              // log('ada ${ayatItem.teksArab}');
-                              bool containsInnaKeyword =
-                                  containsInna(ayatItem.teksArab);
-                              bool hasAlifNunTasydidKeyword =
-                                  hasAlifNunTasydid(ayatItem.teksArab);
-                              if (containsInnaKeyword ||
-                                  hasAlifNunTasydidKeyword) {}
-                              // log(' status : $containsInnaKeyword gunnah pada ayat ${ayatItem.teksArab}');
-
+            Container(
+                height: 160,
+                width: MediaQuery.of(context).size.width,
+                color: const Color(0xff189474),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 80, left: 16, right: 16),
+                  child: Column(  
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Surah Al-Fatihah",
+                          style: AppTextStyle.body1
+                              .copyWith(color: AppColors.neutral.ne01)
+                              .setSemiBold()),
+                      Text("Mari Mengaji sebagai bentuk pengalaman nilai dan norma dalam berketuhanan !",
+                          style: AppTextStyle.body3
+                              .copyWith(color: AppColors.neutral.ne01)
+                              ),
+                    ],
+                  ),
+                )),
+            SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  const SizedBox(height: 12),
+                  if (isRecord) const Text('proses records'),
+                  const SizedBox(height: 12),
+                  Stack(
+                    children: [
+                      //1
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        child: BlocBuilder<MainBloc, MainState>(
+                          builder: (context, state) {
+                            // if (state.isPassed == true) {
+                            //   show();
+                            // }
+                            if (state.index != 0) {
+                              log('index adalah ${state.index}');
+                              scrollTo(state.index);
+                            }
+                            if (state.fetchDataProses == FetchStatus.loading) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                    color: Colors.green),
+                              );
+                            }
+                            if (state.quranData is QuranModels) {
+                              var quranData =
+                                  (state.quranData as QuranModels).data!;
+                              var ayat = quranData.ayat;
+      
                               return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xfff5f5f5),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  // height: 70,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.80,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            width: 30,
-                                            height: 30,
-                                            alignment: Alignment.center,
-                                            decoration: ayatItem.terbaca == true
-                                                ? BoxDecoration(
-                                                    color:
-                                                        const Color(0xff189474),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                  )
-                                                : BoxDecoration(
-                                                    border: Border.all(
-                                                      color: const Color(
-                                                          0xff189474),
-                                                      width: 2,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                  ),
-                                            child: Text(
-                                              ayatItem.nomorAyat.toString(),
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color:
+                                // controller
+                                padding: EdgeInsets.only(
+                                    bottom: isDialog ? 500 : 280),
+                                child: ScrollablePositionedList.builder(
+                                  itemScrollController: sc,
+                                  // controller: _controller,
+                                  shrinkWrap: true,
+                                  itemCount: ayat.length,
+                                  itemBuilder: (context, index) {
+                                    // var isRead = readStatus[index];
+      
+                                    var ayatItem = ayat[index];
+                                    // log('ada ${ayatItem.teksArab}');
+                                    bool containsInnaKeyword =
+                                        containsInna(ayatItem.teksArab);
+                                    bool hasAlifNunTasydidKeyword =
+                                        hasAlifNunTasydid(ayatItem.teksArab);
+                                    if (containsInnaKeyword ||
+                                        hasAlifNunTasydidKeyword) {}
+                                    // log(' status : $containsInnaKeyword gunnah pada ayat ${ayatItem.teksArab}');
+      
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xfff5f5f5),
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                        // height: 70,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.80,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: 30,
+                                                  height: 30,
+                                                  alignment: Alignment.center,
+                                                  decoration:
                                                       ayatItem.terbaca == true
-                                                          ? Colors.white
-                                                          : Colors.black),
-                                            ),
-                                          ),
-                                          // Text(ayatItem.toke.length.toString()),
-                                          const Spacer(),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8,
-                                            child: Directionality(
-                                              textDirection: TextDirection.rtl,
-                                              child: Stack(
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                clipBehavior:
-                                                    Clip.antiAliasWithSaveLayer,
-                                                children: [
-                                                  RichText(
-                                                    text:
-                                                        // TextSpan(
-                                                        //   // onEnter: ,
-
-                                                        //   style: TextStyle(
-                                                        //     fontSize: 18,
-                                                        //     color: ayatItem.terbaca ==
-                                                        //             true
-                                                        //         ? const Color(
-                                                        //             0xff189474)
-                                                        //         : const Color.fromARGB(
-                                                        //             255, 56, 56, 56),
-                                                        //   ),
-                                                        //   children: highlightInna(
-                                                        //       ayatItem.teksArab,
-                                                        //       ayatItem.terbaca),
-                                                        // ),
-                                                        TextSpan(
-                                                      children: <TextSpan>[
-                                                        for (final token
-                                                            in ayatItem.toke)
-                                                          TextSpan(
-                                                            recognizer:
-                                                                TapGestureRecognizer()
-                                                                  ..onTap =
-                                                                      () async {
-                                                                    if (token
-                                                                            ?.rule
-                                                                            .name !=
-                                                                        'none') {
-                                                                      print(
-                                                                          'Teks "${token?.rule.name}" ditekan!');
-                                                                      showSnackBar(
-                                                                          token!);
-                                                                      await Future.delayed(const Duration(
-                                                                          seconds:
-                                                                              3));
-                                                                      setState(
-                                                                          () {
-                                                                        _isShowSnackbar =
-                                                                            false;
-                                                                      });
-                                                                    }
-                                                                  },
-                                                            text: token?.text,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 18,
-                                                              fontFamily:
-                                                                  'Kitab Regular',
-                                                              color: token?.rule
-                                                                      .color(
-                                                                          context) ??
-                                                                  Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .onSurface,
-                                                              // ayatItem
-                                                              //             .terbaca ==
-                                                              //         true
-                                                              //     ? const Color(
-                                                              //         0xff189474)
-                                                              //     : const Color
-                                                              //         .fromARGB(255,
-                                                              //         56, 56, 56),
+                                                          ? BoxDecoration(
+                                                              color: const Color(
+                                                                  0xff189474),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          100),
+                                                            )
+                                                          : BoxDecoration(
+                                                              border:
+                                                                  Border.all(
+                                                                color: const Color(
+                                                                    0xff189474),
+                                                                width: 2,
+                                                              ),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          100),
                                                             ),
+                                                  child: Text(
+                                                    ayatItem.nomorAyat
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color:
+                                                            ayatItem.terbaca ==
+                                                                    true
+                                                                ? Colors.white
+                                                                : Colors.black),
+                                                  ),
+                                                ),
+                                                // Text(ayatItem.toke.length.toString()),
+                                                const Spacer(),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8,
+                                                  child: Directionality(
+                                                    textDirection:
+                                                        TextDirection.rtl,
+                                                    child: Stack(
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      clipBehavior: Clip
+                                                          .antiAliasWithSaveLayer,
+                                                      children: [
+                                                        RichText(
+                                                          text:
+                                                              // TextSpan(
+                                                              //   // onEnter: ,
+      
+                                                              //   style: TextStyle(
+                                                              //     fontSize: 18,
+                                                              //     color: ayatItem.terbaca ==
+                                                              //             true
+                                                              //         ? const Color(
+                                                              //             0xff189474)
+                                                              //         : const Color.fromARGB(
+                                                              //             255, 56, 56, 56),
+                                                              //   ),
+                                                              //   children: highlightInna(
+                                                              //       ayatItem.teksArab,
+                                                              //       ayatItem.terbaca),
+                                                              // ),
+                                                              TextSpan(
+                                                            children: <TextSpan>[
+                                                              for (final token
+                                                                  in ayatItem
+                                                                      .toke)
+                                                                TextSpan(
+                                                                  recognizer:
+                                                                      TapGestureRecognizer()
+                                                                        ..onTap =
+                                                                            () async {
+                                                                          if (token?.rule.name !=
+                                                                              'none') {
+                                                                            print('Teks "${token?.rule.name}" ditekan!');
+                                                                            showSnackBar(token!);
+                                                                            await Future.delayed(const Duration(seconds: 3));
+                                                                            setState(() {
+                                                                              _isShowSnackbar = false;
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                  text: token
+                                                                      ?.text,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontFamily:
+                                                                        'Kitab Regular',
+                                                                    color: token
+                                                                            ?.rule
+                                                                            .color(
+                                                                                context) ??
+                                                                        Theme.of(context)
+                                                                            .colorScheme
+                                                                            .onSurface,
+                                                                    // ayatItem
+                                                                    //             .terbaca ==
+                                                                    //         true
+                                                                    //     ? const Color(
+                                                                    //         0xff189474)
+                                                                    //     : const Color
+                                                                    //         .fromARGB(255,
+                                                                    //         56, 56, 56),
+                                                                  ),
+                                                                ),
+                                                            ],
                                                           ),
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                        ],
+                                            const SizedBox(height: 20),
+                                            Text(
+                                              ayatItem.teksIndonesia,
+                                              style: AppTextStyle.body4.copyWith(
+                                                  // color: const Color(0xff189474),
+                                                  color: Colors.black),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      const SizedBox(height: 20),
-                                      Text(
-                                        ayatItem.teksIndonesia,
-                                        style: AppTextStyle.body4.copyWith(
-                                            // color: const Color(0xff189474),
-                                            color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
+                                    );
+                                  },
                                 ),
                               );
-                            },
-                          ),
-                        );
-                      }
-                      return const Text('Quran data not available');
-                    },
-                  ),
-                ),
-
-                //2
-                if (isDialog == true)
-                  BlocBuilder<MainBloc, MainState>(builder: (context, state) {
-                    return Positioned(
-                        top: 400,
-                        width: MediaQuery.of(context).size.width,
-                        child: Container(
-                          // color: Colors.white,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            ),
-                          ),
-                          height: 500,
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // Spacer(flex: 1),
-                                  const SizedBox(
-                                    width: 40,
+                            }
+                            return const Text('Quran data not available');
+                          },
+                        ),
+                      ),
+      
+                      //2
+                      if (isDialog == true)
+                        BlocBuilder<MainBloc, MainState>(
+                            builder: (context, state) {
+                          return Positioned(
+                              top: 300,
+                              width: MediaQuery.of(context).size.width,
+                              child: Container(
+                                // color: Colors.white,
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
                                   ),
-                                  Container(
-                                      height: 5,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                          color: Colors.green,
-                                          borderRadius:
-                                              BorderRadius.circular(12))),
-                                  FloatingActionButton(
-                                    backgroundColor: Colors.white,
-                                    elevation: 0.0,
-                                    onPressed: () {
-                                      setState(() {
-                                        isDialog = false;
-                                        statusText = '';
-                                        isListening = false;
-                                        isRecord = false;
-                                        // pathConvert = ;
-                                      });
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(Icons.close),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 60),
-                              FloatingActionButton(
-                                  backgroundColor: Colors.green,
-                                  onPressed: () async {
-                                    if (isRecord == true) {
-                                      stopRecord();
-                                    } else {
-                                      startRecord();
-                                    }
-                                  },
-                                  child: Stack(
-                                    children: [
-                                      if (statusText == '' ||
-                                          statusText == 'Inisilisasi Audio')
-                                        Icon(
-                                          _speechEnabled == false
-                                              ? Icons.mic_none
-                                              : Icons.mic,
-                                          color: Colors.white,
+                                ),
+                                height: 500,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        // Spacer(flex: 1),
+                                        const SizedBox(
+                                          width: 40,
                                         ),
-                                      if (statusText == 'Mengecek Audio')
-                                        const CircularProgressIndicator(
-                                          color: Colors.white,
-                                        )
-                                    ],
-                                  )),
-                              const SizedBox(height: 16),
-                              Text(
-                                statusText == ''
-                                    ? "Tekan untuk memulai"
-                                    : statusText,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
-                              ),
-                              // Text(statusText)
-                            ],
-                          ),
-                        ));
-                  })
-              ],
+                                        Container(
+                                            height: 5,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius:
+                                                    BorderRadius.circular(12))),
+                                        FloatingActionButton(
+                                          backgroundColor: Colors.white,
+                                          elevation: 0.0,
+                                          onPressed: () {
+                                            setState(() {
+                                              isDialog = false;
+                                              statusText = '';
+                                              isListening = false;
+                                              isRecord = false;
+                                              // pathConvert = ;
+                                            });
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Icon(Icons.close),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                    FloatingActionButton(
+                                        backgroundColor: Colors.green,
+                                        onPressed: () async {
+                                          if (isRecord == true) {
+                                            stopRecord();
+                                          } else {
+                                            startRecord();
+                                          }
+                                        },
+                                        child: Stack(
+                                          children: [
+                                            if (statusText == '' ||
+                                                statusText ==
+                                                    'Inisilisasi Audio')
+                                              Icon(
+                                                _speechEnabled == false
+                                                    ? Icons.mic_none
+                                                    : Icons.mic,
+                                                color: Colors.white,
+                                              ),
+                                            if (statusText == 'Mengecek Audio')
+                                              const CircularProgressIndicator(
+                                                color: Colors.white,
+                                              )
+                                          ],
+                                        )),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      statusText == ''
+                                          ? "Tekan untuk memulai"
+                                          : statusText,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                    // Text(statusText)
+                                  ],
+                                ),
+                              ));
+                        })
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

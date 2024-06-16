@@ -49,14 +49,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         List<String> hurufArab = separateArabicLetters(removeDiacritics('بِسْمِ اللَّهِ الرَّحْمَنِ'));
         log(hurufArab.toString());
 
-        String hurufLengkap =removeDiacritics('بِسْمِ اللَّهِ الرَّحْنِ');
-        List<String> hurufKurang = hurufLengkap.split('');
-        log(hurufKurang.toString());
-      hurufKurang.forEach((huruf) {
-        if (!hurufArab.contains(huruf.runes.map((rune) => String.fromCharCode(rune)).join(''))) {
-          print('Huruf yang kurang: $huruf');
-        }
-});
+//         String hurufLengkap =removeDiacritics('بِسْمِ اللَّهِ الرَّحْنِ');
+//         List<String> hurufKurang = hurufLengkap.split('');
+//         log(hurufKurang.toString());
+//       hurufKurang.forEach((huruf) {
+//         if (!hurufArab.contains(huruf.runes.map((rune) => String.fromCharCode(rune)).join(''))) {
+//           print('Huruf yang kurang: $huruf');
+//         }
+// }
+// );
         // hurufArab.forEach((huruf) {
         //   if (!hurufLengkap.contains(huruf)) {
         //     print('Huruf yang tidak ada dalam kalimat: $huruf');
