@@ -81,6 +81,34 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             )
+             , Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              child: Text(
+                "Apa Ya",
+                style: AppTextStyle.body2
+                    .setSemiBold()
+                    .copyWith(color: Colors.black),
+              ),
+              
+            ),
+              Padding(
+              padding: const EdgeInsets.only(left:16, right: 16),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 200,
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children: const [
+                    // MainWidget(),
+                    // MainWidget(),
+                 ExtraMenu(),
+                 ExtraMenu(),
+                 ExtraMenu(),
+                 ExtraMenu(),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -97,6 +125,25 @@ class MainWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
+      child: Container(
+          height: 80,
+          width: 80,
+          decoration: BoxDecoration(
+              color: Colors.grey[400],
+              borderRadius: BorderRadius.circular(12))),
+    );
+  }
+}
+
+class ExtraMenu extends StatelessWidget {
+  const ExtraMenu({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left:16, right:16, bottom: 8 ),
       child: Container(
           height: 80,
           width: 80,
