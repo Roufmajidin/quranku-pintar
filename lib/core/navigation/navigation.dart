@@ -32,18 +32,24 @@ class _NavigationState extends State<Navigation> {
             // ignore: deprecated_member_use_from_same_package
             icon: Icon(Icons.home),
             label: 'Beranda',
-            // ignore: deprecated_member_use_from_same_package
             selectedIcon:Icon(Icons.home, color: Colors.green,)
           ),
           NavigationDestination(
-            // ignore: deprecated_member_use_from_same_package
             icon: Icon(Icons.book_outlined),
             label: 'Mengaji',
-            // ignore: deprecated_member_use_from_same_package
             selectedIcon:Icon(Icons.book_rounded, color: Colors.green,)
           ),
-         
-        
+            NavigationDestination(
+            icon: Icon(Icons.book_outlined),
+            label: 'Kuis',
+            selectedIcon:Icon(Icons.book_rounded, color: Colors.green,)
+          ),
+           NavigationDestination(
+            icon: Icon(Icons.book_outlined),
+            label: 'Tentang Kami',
+            // ignore: deprecated_member_use_from_same_package
+            selectedIcon:Icon(Icons.info_outline, color: Colors.green,)
+          ),
         ],
         selectedIndex: currentPageIndex,
         onDestinationSelected: (int index) {
@@ -57,8 +63,11 @@ class _NavigationState extends State<Navigation> {
         // DashboardPage(),
         // const UjianPage(),
         // const TranskipNilaiPage(),
-       DashboardPage(),
-       MainPage(),
+       const DashboardPage(),
+       const MainPage(),
+       const MainPage(),
+       const MainPage(),
+      //  MainPage(),
       ][currentPageIndex],
     );
 
