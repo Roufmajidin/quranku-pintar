@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/features/dashboard/presentation/dashboard_page.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/main_page.dart';
+import 'package:quranku_pintar/features/main_pages/presentation/mengaji/mengaji_page.dart';
 import 'package:quranku_pintar/gen/assets.gen.dart';
 
 class Navigation extends StatefulWidget {
@@ -64,7 +65,7 @@ class _NavigationState extends State<Navigation> {
         // const UjianPage(),
         // const TranskipNilaiPage(),
        const DashboardPage(),
-       const MainPage(),
+       const MengajiPage(),
        const MainPage(),
        const MainPage(),
       //  MainPage(),
