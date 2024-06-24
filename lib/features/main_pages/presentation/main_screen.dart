@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -26,7 +25,9 @@ import 'package:fancy_snackbar/fancy_snackbar.dart';
 import 'package:record/record.dart';
 
 class MainView extends StatefulWidget {
-  const MainView({Key? key}) : super(key: key);
+  int nomor;
+
+  MainView({Key? key, required this.nomor}) : super(key: key);
 
   @override
   State<MainView> createState() => _MainViewState();
@@ -38,12 +39,12 @@ class _MainViewState extends State<MainView> {
     super.initState();
     _initSpeech();
 
-    panggilSuratByNomor();
+    panggilSuratByNomor(widget.nomor);
   }
 
-  panggilSuratByNomor() {
+  panggilSuratByNomor(int n) {
     setState(() {
-      context.read<MainBloc>().add(const GetDetailSurat(1));
+      context.read<MainBloc>().add(GetDetailSurat(n));
     });
   }
 
@@ -381,26 +382,37 @@ class _MainViewState extends State<MainView> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            Container(
-                height: 160,
-                width: MediaQuery.of(context).size.width,
-                color: const Color(0xff189474),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 80, left: 16, right: 16),
-                  child: Column(  
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Surah Al-Fatihah",
-                          style: AppTextStyle.body1
-                              .copyWith(color: AppColors.neutral.ne01)
-                              .setSemiBold()),
-                      Text("Mari Mengaji sebagai bentuk pengalaman nilai dan norma dalam berketuhanan !",
-                          style: AppTextStyle.body3
-                              .copyWith(color: AppColors.neutral.ne01)
-                              ),
-                    ],
-                  ),
-                )),
+            BlocBuilder<MainBloc, MainState>(builder: (context, state) {
+             
+              String ns = '';
+              if (state.quranData is QuranModels) {
+                var quranData = (state.quranData as QuranModels).data!;
+                var ayat = quranData.ayat;
+                ns = quranData.namaLatin;
+              }
+
+              return Container(
+                  height: 160,
+                  width: MediaQuery.of(context).size.width,
+                  color: const Color(0xff189474),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 80, left: 16, right: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Detail Surat $ns',
+                            style: AppTextStyle.body1
+                                .copyWith(color: AppColors.neutral.ne01)
+                                .setSemiBold()),
+                        Text(
+                            "Mari Mengaji sebagai bentuk pengalaman nilai dan norma dalam berketuhanan !",
+                            style: AppTextStyle.body3
+                                .copyWith(color: AppColors.neutral.ne01)),
+                      ],
+                    ),
+                  ));
+            }),
             SingleChildScrollView(
               physics: const NeverScrollableScrollPhysics(),
               child: Column(
@@ -432,7 +444,7 @@ class _MainViewState extends State<MainView> {
                               var quranData =
                                   (state.quranData as QuranModels).data!;
                               var ayat = quranData.ayat;
-      
+
                               return Padding(
                                 // controller
                                 padding: EdgeInsets.only(
@@ -444,7 +456,7 @@ class _MainViewState extends State<MainView> {
                                   itemCount: ayat.length,
                                   itemBuilder: (context, index) {
                                     // var isRead = readStatus[index];
-      
+
                                     var ayatItem = ayat[index];
                                     // log('ada ${ayatItem.teksArab}');
                                     bool containsInnaKeyword =
@@ -454,7 +466,7 @@ class _MainViewState extends State<MainView> {
                                     if (containsInnaKeyword ||
                                         hasAlifNunTasydidKeyword) {}
                                     // log(' status : $containsInnaKeyword gunnah pada ayat ${ayatItem.teksArab}');
-      
+
                                     return Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
@@ -536,7 +548,7 @@ class _MainViewState extends State<MainView> {
                                                           text:
                                                               // TextSpan(
                                                               //   // onEnter: ,
-      
+
                                                               //   style: TextStyle(
                                                               //     fontSize: 18,
                                                               //     color: ayatItem.terbaca ==
@@ -626,7 +638,7 @@ class _MainViewState extends State<MainView> {
                           },
                         ),
                       ),
-      
+
                       //2
                       if (isDialog == true)
                         BlocBuilder<MainBloc, MainState>(
