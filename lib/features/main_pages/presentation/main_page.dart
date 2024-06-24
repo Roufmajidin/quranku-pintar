@@ -6,14 +6,16 @@ import 'package:quranku_pintar/core/injection/dependency_injection.dart';
 import 'package:quranku_pintar/features/main_pages/data/usecases/quran_usecase.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  int nomor;
+
+   MainPage({super.key, required this.nomor});
 
   @override
   Widget build(BuildContext context) {
     // return const MainView();
      return BlocProvider(
       create: (context) => MainBloc(quranUsecase: sl<QuranUsecase>()),
-      child: const MainView(),
+      child:  MainView(nomor: nomor),
     );
   }
 }

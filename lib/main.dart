@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quranku_pintar/features/main_pages/presentation/main_page.dart';
+import 'package:quranku_pintar/core/navigation/navigation.dart';
 import 'package:quranku_pintar/core/injection/dependency_injection.dart';
 
 void main() async{
@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Poppins'
       ),
-      home: const MainPage(),
+      home: const Navigation()
+      //  MainPage(),
     );
   }
 } 

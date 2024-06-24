@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:quranku_pintar/core/error/failure/failure.dart';
 import 'package:quranku_pintar/features/main_pages/data/datasource/quran_datasource.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
+import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 
 class QuranRepositoryImpl {
   final QuranDatasources rds = QuranDatasources();
@@ -15,6 +16,16 @@ class QuranRepositoryImpl {
 
     try {
       final res = await rds.getDetailSurat(surat);
+      // log('repo $res');
+      return res;
+    } catch (e) {
+      return const Left(Failure.parsingFailure());
+    }
+  }
+  Future<Either<Failure, List<Surat>>> getALlSurat() async {
+
+    try {
+      final res = await rds.getAllSurah();
       // log('repo $res');
       return res;
     } catch (e) {
