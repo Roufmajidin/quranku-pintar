@@ -66,8 +66,9 @@ class _NavigationState extends State<Navigation> {
         // const TranskipNilaiPage(),
        const DashboardPage(),
        const MengajiPage(),
-       const MainPage(),
-       const MainPage(),
+       const MengajiPage(),
+        // MainPage(),
+        // MainPage(),
       //  MainPage(),
       ][currentPageIndex],
     );
