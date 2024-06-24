@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quranku_pintar/common/extensions/extensions.dart';
+import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 
 import '../../../../common/themes/themes.dart';
 
@@ -10,8 +12,15 @@ class Mengajiiew extends StatefulWidget {
   State<Mengajiiew> createState() => _MengajiiewState();
 }
 
+
 class _MengajiiewState extends State<Mengajiiew> {
+   panggillsemuasurat() {
+    setState(() {
+      context.read<MainBloc>().add(const GetAllSurah());
+    });
+  }
   @override
+  
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
@@ -26,18 +35,23 @@ class _MengajiiewState extends State<Mengajiiew> {
                   child: Padding(
                     padding:
                         const EdgeInsets.only(top: 80, left: 16, right: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Quranku Pintar",
-                            style: AppTextStyle.body1
-                                .copyWith(color: AppColors.neutral.ne01)
-                                .setSemiBold()),
-                        Text(
-                            "Mari Mengaji sebagai bentuk pengalaman nilai dan norma dalam berketuhanan !",
-                            style: AppTextStyle.body3
-                                .copyWith(color: AppColors.neutral.ne01)),
-                      ],
+                    child: GestureDetector(
+                      onTap: (){
+                        panggillsemuasurat();
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Quranku Pintar",
+                              style: AppTextStyle.body1
+                                  .copyWith(color: AppColors.neutral.ne01)
+                                  .setSemiBold()),
+                          Text(
+                              "Mari Mengaji sebagai bentuk pengalaman nilai dan norma dalam berketuhanan !",
+                              style: AppTextStyle.body3
+                                  .copyWith(color: AppColors.neutral.ne01)),
+                        ],
+                      ),
                     ),
                   )),
               SizedBox(
