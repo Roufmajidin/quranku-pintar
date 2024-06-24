@@ -12,7 +12,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:quranku_pintar/common/extensions/font_weight.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/core/error/utils/status.dart';

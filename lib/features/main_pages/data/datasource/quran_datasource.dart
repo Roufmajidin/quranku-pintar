@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:quranku_pintar/core/error/exeption/exception.dart';
 import 'package:quranku_pintar/core/error/failure/failure.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
+import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 
 class QuranDatasources {
   Future<Either<Failure, QuranModels>> getDetailSurat(int surat) async {
@@ -25,6 +26,25 @@ class QuranDatasources {
       print('ok $ayatJsonList');
 
       final quranModel = QuranModels.fromJson(jsonData);
+      return Right(quranModel);
+    } else {
+      throw ServerException();
+    }
+  }
+   Future<Either<Failure, Surat>> getAllSurah() async {
+    const String apiUrl = 'https://equran.id/api/v2/surat';
+    final response = await http.get(Uri.parse(apiUrl));
+    log('dt s : ${response.statusCode}');
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+     
+      print('okas');
+      for(var a in jsonData['data']){
+      log('nama surat ${a['namaLatin']} ');
+
+      }
+
+      final quranModel = Surat.fromJson(jsonData);
       return Right(quranModel);
     } else {
       throw ServerException();
