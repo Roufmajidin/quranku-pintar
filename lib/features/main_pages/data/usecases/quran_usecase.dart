@@ -14,7 +14,7 @@ class QuranUsecase {
 
     return await rri.getDetailSurat(surat: surat);
   }
-   Future<Either<Failure,Surat>> getAllSurah() async {
+   Future<Either<Failure,List<Surat>>> getAllSurah() async {
 
     return await rri.getALlSurat();
   }

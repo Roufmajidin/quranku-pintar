@@ -20,14 +20,14 @@ Surat _$SuratFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Surat {
-  dynamic get nomor => throw _privateConstructorUsedError;
+  int? get nomor => throw _privateConstructorUsedError;
   String? get nama => throw _privateConstructorUsedError;
   String? get namaLatin => throw _privateConstructorUsedError;
   int? get jumlahAyat => throw _privateConstructorUsedError;
   String? get tempatTurun => throw _privateConstructorUsedError;
   String? get arti => throw _privateConstructorUsedError;
   String? get deskripsi => throw _privateConstructorUsedError;
-  AudioFull? get audioFull => throw _privateConstructorUsedError;
+  AudioFull get audioFull => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,16 +40,16 @@ abstract class $SuratCopyWith<$Res> {
       _$SuratCopyWithImpl<$Res, Surat>;
   @useResult
   $Res call(
-      {dynamic nomor,
+      {int? nomor,
       String? nama,
       String? namaLatin,
       int? jumlahAyat,
       String? tempatTurun,
       String? arti,
       String? deskripsi,
-      AudioFull? audioFull});
+      AudioFull audioFull});
 
-  $AudioFullCopyWith<$Res>? get audioFull;
+  $AudioFullCopyWith<$Res> get audioFull;
 }
 
 /// @nodoc
@@ -72,13 +72,13 @@ class _$SuratCopyWithImpl<$Res, $Val extends Surat>
     Object? tempatTurun = freezed,
     Object? arti = freezed,
     Object? deskripsi = freezed,
-    Object? audioFull = freezed,
+    Object? audioFull = null,
   }) {
     return _then(_value.copyWith(
       nomor: freezed == nomor
           ? _value.nomor
           : nomor // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as int?,
       nama: freezed == nama
           ? _value.nama
           : nama // ignore: cast_nullable_to_non_nullable
@@ -103,21 +103,17 @@ class _$SuratCopyWithImpl<$Res, $Val extends Surat>
           ? _value.deskripsi
           : deskripsi // ignore: cast_nullable_to_non_nullable
               as String?,
-      audioFull: freezed == audioFull
+      audioFull: null == audioFull
           ? _value.audioFull
           : audioFull // ignore: cast_nullable_to_non_nullable
-              as AudioFull?,
+              as AudioFull,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AudioFullCopyWith<$Res>? get audioFull {
-    if (_value.audioFull == null) {
-      return null;
-    }
-
-    return $AudioFullCopyWith<$Res>(_value.audioFull!, (value) {
+  $AudioFullCopyWith<$Res> get audioFull {
+    return $AudioFullCopyWith<$Res>(_value.audioFull, (value) {
       return _then(_value.copyWith(audioFull: value) as $Val);
     });
   }
@@ -131,17 +127,17 @@ abstract class _$$SuratImplCopyWith<$Res> implements $SuratCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {dynamic nomor,
+      {int? nomor,
       String? nama,
       String? namaLatin,
       int? jumlahAyat,
       String? tempatTurun,
       String? arti,
       String? deskripsi,
-      AudioFull? audioFull});
+      AudioFull audioFull});
 
   @override
-  $AudioFullCopyWith<$Res>? get audioFull;
+  $AudioFullCopyWith<$Res> get audioFull;
 }
 
 /// @nodoc
@@ -162,13 +158,13 @@ class __$$SuratImplCopyWithImpl<$Res>
     Object? tempatTurun = freezed,
     Object? arti = freezed,
     Object? deskripsi = freezed,
-    Object? audioFull = freezed,
+    Object? audioFull = null,
   }) {
     return _then(_$SuratImpl(
       nomor: freezed == nomor
           ? _value.nomor
           : nomor // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as int?,
       nama: freezed == nama
           ? _value.nama
           : nama // ignore: cast_nullable_to_non_nullable
@@ -193,10 +189,10 @@ class __$$SuratImplCopyWithImpl<$Res>
           ? _value.deskripsi
           : deskripsi // ignore: cast_nullable_to_non_nullable
               as String?,
-      audioFull: freezed == audioFull
+      audioFull: null == audioFull
           ? _value.audioFull
           : audioFull // ignore: cast_nullable_to_non_nullable
-              as AudioFull?,
+              as AudioFull,
     ));
   }
 }
@@ -212,13 +208,13 @@ class _$SuratImpl implements _Surat {
       this.tempatTurun,
       this.arti,
       this.deskripsi,
-      this.audioFull});
+      required this.audioFull});
 
   factory _$SuratImpl.fromJson(Map<String, dynamic> json) =>
       _$$SuratImplFromJson(json);
 
   @override
-  final dynamic nomor;
+  final int? nomor;
   @override
   final String? nama;
   @override
@@ -232,7 +228,7 @@ class _$SuratImpl implements _Surat {
   @override
   final String? deskripsi;
   @override
-  final AudioFull? audioFull;
+  final AudioFull audioFull;
 
   @override
   String toString() {
@@ -244,7 +240,7 @@ class _$SuratImpl implements _Surat {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuratImpl &&
-            const DeepCollectionEquality().equals(other.nomor, nomor) &&
+            (identical(other.nomor, nomor) || other.nomor == nomor) &&
             (identical(other.nama, nama) || other.nama == nama) &&
             (identical(other.namaLatin, namaLatin) ||
                 other.namaLatin == namaLatin) &&
@@ -261,16 +257,8 @@ class _$SuratImpl implements _Surat {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(nomor),
-      nama,
-      namaLatin,
-      jumlahAyat,
-      tempatTurun,
-      arti,
-      deskripsi,
-      audioFull);
+  int get hashCode => Object.hash(runtimeType, nomor, nama, namaLatin,
+      jumlahAyat, tempatTurun, arti, deskripsi, audioFull);
 
   @JsonKey(ignore: true)
   @override
@@ -288,19 +276,19 @@ class _$SuratImpl implements _Surat {
 
 abstract class _Surat implements Surat {
   const factory _Surat(
-      {final dynamic nomor,
+      {final int? nomor,
       final String? nama,
       final String? namaLatin,
       final int? jumlahAyat,
       final String? tempatTurun,
       final String? arti,
       final String? deskripsi,
-      final AudioFull? audioFull}) = _$SuratImpl;
+      required final AudioFull audioFull}) = _$SuratImpl;
 
   factory _Surat.fromJson(Map<String, dynamic> json) = _$SuratImpl.fromJson;
 
   @override
-  dynamic get nomor;
+  int? get nomor;
   @override
   String? get nama;
   @override
@@ -314,7 +302,7 @@ abstract class _Surat implements Surat {
   @override
   String? get deskripsi;
   @override
-  AudioFull? get audioFull;
+  AudioFull get audioFull;
   @override
   @JsonKey(ignore: true)
   _$$SuratImplCopyWith<_$SuratImpl> get copyWith =>
@@ -327,11 +315,11 @@ AudioFull _$AudioFullFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AudioFull {
-  String get audio01 => throw _privateConstructorUsedError;
-  String get audio02 => throw _privateConstructorUsedError;
-  String get audio03 => throw _privateConstructorUsedError;
-  String get audio04 => throw _privateConstructorUsedError;
-  String get audio05 => throw _privateConstructorUsedError;
+  String? get audio01 => throw _privateConstructorUsedError;
+  String? get audio02 => throw _privateConstructorUsedError;
+  String? get audio03 => throw _privateConstructorUsedError;
+  String? get audio04 => throw _privateConstructorUsedError;
+  String? get audio05 => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -345,11 +333,11 @@ abstract class $AudioFullCopyWith<$Res> {
       _$AudioFullCopyWithImpl<$Res, AudioFull>;
   @useResult
   $Res call(
-      {String audio01,
-      String audio02,
-      String audio03,
-      String audio04,
-      String audio05});
+      {String? audio01,
+      String? audio02,
+      String? audio03,
+      String? audio04,
+      String? audio05});
 }
 
 /// @nodoc
@@ -365,33 +353,33 @@ class _$AudioFullCopyWithImpl<$Res, $Val extends AudioFull>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? audio01 = null,
-    Object? audio02 = null,
-    Object? audio03 = null,
-    Object? audio04 = null,
-    Object? audio05 = null,
+    Object? audio01 = freezed,
+    Object? audio02 = freezed,
+    Object? audio03 = freezed,
+    Object? audio04 = freezed,
+    Object? audio05 = freezed,
   }) {
     return _then(_value.copyWith(
-      audio01: null == audio01
+      audio01: freezed == audio01
           ? _value.audio01
           : audio01 // ignore: cast_nullable_to_non_nullable
-              as String,
-      audio02: null == audio02
+              as String?,
+      audio02: freezed == audio02
           ? _value.audio02
           : audio02 // ignore: cast_nullable_to_non_nullable
-              as String,
-      audio03: null == audio03
+              as String?,
+      audio03: freezed == audio03
           ? _value.audio03
           : audio03 // ignore: cast_nullable_to_non_nullable
-              as String,
-      audio04: null == audio04
+              as String?,
+      audio04: freezed == audio04
           ? _value.audio04
           : audio04 // ignore: cast_nullable_to_non_nullable
-              as String,
-      audio05: null == audio05
+              as String?,
+      audio05: freezed == audio05
           ? _value.audio05
           : audio05 // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -405,11 +393,11 @@ abstract class _$$AudioFullImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String audio01,
-      String audio02,
-      String audio03,
-      String audio04,
-      String audio05});
+      {String? audio01,
+      String? audio02,
+      String? audio03,
+      String? audio04,
+      String? audio05});
 }
 
 /// @nodoc
@@ -423,33 +411,33 @@ class __$$AudioFullImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? audio01 = null,
-    Object? audio02 = null,
-    Object? audio03 = null,
-    Object? audio04 = null,
-    Object? audio05 = null,
+    Object? audio01 = freezed,
+    Object? audio02 = freezed,
+    Object? audio03 = freezed,
+    Object? audio04 = freezed,
+    Object? audio05 = freezed,
   }) {
     return _then(_$AudioFullImpl(
-      audio01: null == audio01
+      audio01: freezed == audio01
           ? _value.audio01
           : audio01 // ignore: cast_nullable_to_non_nullable
-              as String,
-      audio02: null == audio02
+              as String?,
+      audio02: freezed == audio02
           ? _value.audio02
           : audio02 // ignore: cast_nullable_to_non_nullable
-              as String,
-      audio03: null == audio03
+              as String?,
+      audio03: freezed == audio03
           ? _value.audio03
           : audio03 // ignore: cast_nullable_to_non_nullable
-              as String,
-      audio04: null == audio04
+              as String?,
+      audio04: freezed == audio04
           ? _value.audio04
           : audio04 // ignore: cast_nullable_to_non_nullable
-              as String,
-      audio05: null == audio05
+              as String?,
+      audio05: freezed == audio05
           ? _value.audio05
           : audio05 // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -458,25 +446,21 @@ class __$$AudioFullImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AudioFullImpl implements _AudioFull {
   const _$AudioFullImpl(
-      {required this.audio01,
-      required this.audio02,
-      required this.audio03,
-      required this.audio04,
-      required this.audio05});
+      {this.audio01, this.audio02, this.audio03, this.audio04, this.audio05});
 
   factory _$AudioFullImpl.fromJson(Map<String, dynamic> json) =>
       _$$AudioFullImplFromJson(json);
 
   @override
-  final String audio01;
+  final String? audio01;
   @override
-  final String audio02;
+  final String? audio02;
   @override
-  final String audio03;
+  final String? audio03;
   @override
-  final String audio04;
+  final String? audio04;
   @override
-  final String audio05;
+  final String? audio05;
 
   @override
   String toString() {
@@ -516,25 +500,25 @@ class _$AudioFullImpl implements _AudioFull {
 
 abstract class _AudioFull implements AudioFull {
   const factory _AudioFull(
-      {required final String audio01,
-      required final String audio02,
-      required final String audio03,
-      required final String audio04,
-      required final String audio05}) = _$AudioFullImpl;
+      {final String? audio01,
+      final String? audio02,
+      final String? audio03,
+      final String? audio04,
+      final String? audio05}) = _$AudioFullImpl;
 
   factory _AudioFull.fromJson(Map<String, dynamic> json) =
       _$AudioFullImpl.fromJson;
 
   @override
-  String get audio01;
+  String? get audio01;
   @override
-  String get audio02;
+  String? get audio02;
   @override
-  String get audio03;
+  String? get audio03;
   @override
-  String get audio04;
+  String? get audio04;
   @override
-  String get audio05;
+  String? get audio05;
   @override
   @JsonKey(ignore: true)
   _$$AudioFullImplCopyWith<_$AudioFullImpl> get copyWith =>

@@ -22,7 +22,7 @@ class QuranRepositoryImpl {
       return const Left(Failure.parsingFailure());
     }
   }
-  Future<Either<Failure, Surat>> getALlSurat() async {
+  Future<Either<Failure, List<Surat>>> getALlSurat() async {
 
     try {
       final res = await rds.getAllSurah();

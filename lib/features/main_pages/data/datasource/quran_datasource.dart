@@ -31,21 +31,25 @@ class QuranDatasources {
       throw ServerException();
     }
   }
-   Future<Either<Failure, Surat>> getAllSurah() async {
+
+  Future<Either<Failure, List<Surat>>> getAllSurah() async {
     const String apiUrl = 'https://equran.id/api/v2/surat';
     final response = await http.get(Uri.parse(apiUrl));
     log('dt s : ${response.statusCode}');
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
-     
-      print('okas');
-      for(var a in jsonData['data']){
-      log('nama surat ${a['namaLatin']} ');
-
+      //  List<Surat> s = [];
+      List<Surat> surahList = (jsonData['data'] as List).map((data) {
+        return Surat.fromJson(data);
+      }).toList();
+      if (jsonData.containsKey('audioFull')) {
+        AudioFull audioFull = AudioFull.fromJson(jsonData['audioFull']);
+        log(audioFull.toString());
       }
 
-      final quranModel = Surat.fromJson(jsonData);
-      return Right(quranModel);
+      // final quranModel = Surat.fromJson(jsonData);
+      print(surahList);
+      return Right(surahList);
     } else {
       throw ServerException();
     }
