@@ -173,11 +173,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     a.fold(
         // ignore: void_checks
         (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)), (r) {
-      var allsurat = r;
+      List<Surat> allsurat = r;
         
 
       emit(state.copyWith(fetchDataProses: FetchStatus.success, surat: allsurat ));
-     log(allsurat.toString());
+     log(state.surat.length.toString());
 
       // log(ayas.toString());
     });

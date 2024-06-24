@@ -789,7 +789,7 @@ abstract class LoadingActive implements MainEvent {
 mixin _$MainState {
   dynamic get quranData => throw _privateConstructorUsedError;
   List<QuranData> get quran => throw _privateConstructorUsedError;
-  dynamic get surat => throw _privateConstructorUsedError;
+  List<Surat> get surat => throw _privateConstructorUsedError;
   FetchStatus get fetchDataProses => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
   bool get isPassed => throw _privateConstructorUsedError;
@@ -799,7 +799,7 @@ mixin _$MainState {
     required TResult Function(
             dynamic quranData,
             List<QuranData> quran,
-            dynamic surat,
+            List<Surat> surat,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -812,7 +812,7 @@ mixin _$MainState {
     TResult? Function(
             dynamic quranData,
             List<QuranData> quran,
-            dynamic surat,
+            List<Surat> surat,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -825,7 +825,7 @@ mixin _$MainState {
     TResult Function(
             dynamic quranData,
             List<QuranData> quran,
-            dynamic surat,
+            List<Surat> surat,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -864,7 +864,7 @@ abstract class $MainStateCopyWith<$Res> {
   $Res call(
       {dynamic quranData,
       List<QuranData> quran,
-      dynamic surat,
+      List<Surat> surat,
       FetchStatus fetchDataProses,
       int index,
       bool isPassed,
@@ -886,7 +886,7 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
   $Res call({
     Object? quranData = freezed,
     Object? quran = null,
-    Object? surat = freezed,
+    Object? surat = null,
     Object? fetchDataProses = null,
     Object? index = null,
     Object? isPassed = null,
@@ -901,10 +901,10 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.quran
           : quran // ignore: cast_nullable_to_non_nullable
               as List<QuranData>,
-      surat: freezed == surat
+      surat: null == surat
           ? _value.surat
           : surat // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as List<Surat>,
       fetchDataProses: null == fetchDataProses
           ? _value.fetchDataProses
           : fetchDataProses // ignore: cast_nullable_to_non_nullable
@@ -936,7 +936,7 @@ abstract class _$$InitialImplCopyWith<$Res>
   $Res call(
       {dynamic quranData,
       List<QuranData> quran,
-      dynamic surat,
+      List<Surat> surat,
       FetchStatus fetchDataProses,
       int index,
       bool isPassed,
@@ -956,7 +956,7 @@ class __$$InitialImplCopyWithImpl<$Res>
   $Res call({
     Object? quranData = freezed,
     Object? quran = null,
-    Object? surat = freezed,
+    Object? surat = null,
     Object? fetchDataProses = null,
     Object? index = null,
     Object? isPassed = null,
@@ -968,7 +968,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._quran
           : quran // ignore: cast_nullable_to_non_nullable
               as List<QuranData>,
-      surat: freezed == surat ? _value.surat! : surat,
+      surat: null == surat
+          ? _value._surat
+          : surat // ignore: cast_nullable_to_non_nullable
+              as List<Surat>,
       fetchDataProses: null == fetchDataProses
           ? _value.fetchDataProses
           : fetchDataProses // ignore: cast_nullable_to_non_nullable
@@ -995,12 +998,13 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {this.quranData = QuranModels,
       final List<QuranData> quran = const <QuranData>[],
-      this.surat = Surat,
+      final List<Surat> surat = const <Surat>[],
       this.fetchDataProses = FetchStatus.initial,
       this.index = 0,
       this.isPassed = false,
       this.isLoading = ''})
-      : _quran = quran;
+      : _quran = quran,
+        _surat = surat;
 
   @override
   @JsonKey()
@@ -1014,9 +1018,15 @@ class _$InitialImpl implements _Initial {
     return EqualUnmodifiableListView(_quran);
   }
 
+  final List<Surat> _surat;
   @override
   @JsonKey()
-  final dynamic surat;
+  List<Surat> get surat {
+    if (_surat is EqualUnmodifiableListView) return _surat;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_surat);
+  }
+
   @override
   @JsonKey()
   final FetchStatus fetchDataProses;
@@ -1042,7 +1052,7 @@ class _$InitialImpl implements _Initial {
             other is _$InitialImpl &&
             const DeepCollectionEquality().equals(other.quranData, quranData) &&
             const DeepCollectionEquality().equals(other._quran, _quran) &&
-            const DeepCollectionEquality().equals(other.surat, surat) &&
+            const DeepCollectionEquality().equals(other._surat, _surat) &&
             (identical(other.fetchDataProses, fetchDataProses) ||
                 other.fetchDataProses == fetchDataProses) &&
             (identical(other.index, index) || other.index == index) &&
@@ -1057,7 +1067,7 @@ class _$InitialImpl implements _Initial {
       runtimeType,
       const DeepCollectionEquality().hash(quranData),
       const DeepCollectionEquality().hash(_quran),
-      const DeepCollectionEquality().hash(surat),
+      const DeepCollectionEquality().hash(_surat),
       fetchDataProses,
       index,
       isPassed,
@@ -1075,7 +1085,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(
             dynamic quranData,
             List<QuranData> quran,
-            dynamic surat,
+            List<Surat> surat,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -1092,7 +1102,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(
             dynamic quranData,
             List<QuranData> quran,
-            dynamic surat,
+            List<Surat> surat,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -1109,7 +1119,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(
             dynamic quranData,
             List<QuranData> quran,
-            dynamic surat,
+            List<Surat> surat,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -1157,7 +1167,7 @@ abstract class _Initial implements MainState {
   const factory _Initial(
       {final dynamic quranData,
       final List<QuranData> quran,
-      final dynamic surat,
+      final List<Surat> surat,
       final FetchStatus fetchDataProses,
       final int index,
       final bool isPassed,
@@ -1168,7 +1178,7 @@ abstract class _Initial implements MainState {
   @override
   List<QuranData> get quran;
   @override
-  dynamic get surat;
+  List<Surat> get surat;
   @override
   FetchStatus get fetchDataProses;
   @override
