@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quranku_pintar/common/extensions/extensions.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 
+import '../widget/list_component.dart';
+
 class MbView extends StatefulWidget {
   const MbView({super.key});
 
@@ -56,62 +58,9 @@ class _MbViewState extends State<MbView> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            // log(surat[index].nomor.toString());
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //         MainPage(nomor: surat[index].nomor!),
-                            //   ),
-                            // );
+                         
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: Container(
-                              height: 80,
-                              width: size.width,
-                              decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 24, 197, 154),
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: 60,
-                                    width: 60,
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xff189474),
-                                        borderRadius: BorderRadius.circular(8)),
-                                    child: const Icon(Icons.lock, color: Colors.white,)
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: SizedBox(
-                                      width: size.width * 0.60,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Tahap Pertama",
-                                            style: AppTextStyle.body2
-                                                .setBold()
-                                                .copyWith(color: Colors.white),
-                                          ),
-                                          Text(
-                                            "Belajar Huruf Hijahiyah",
-                                            style: TextStyle(color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          child: MainComponent(size: size, title: "Tahap Pertama", subtitle: "Belajar Huruf Hijahiyah",icon: true, urutan: '1',),
                         );
                       },
                     ),
@@ -121,3 +70,4 @@ class _MbViewState extends State<MbView> {
     );
   }
 }
+

@@ -7,6 +7,7 @@ import 'package:quranku_pintar/core/error/utils/status.dart';
 import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/main_page.dart';
+import 'package:quranku_pintar/features/main_pages/presentation/widget/list_component.dart';
 
 import '../../../../common/themes/themes.dart';
 
@@ -98,61 +99,7 @@ class _MengajiiewState extends State<Mengajiiew> {
                                 ),
                               );
                             },
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Container(
-                                height: 80,
-                                width: size.width,
-                                decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromARGB(255, 24, 197, 154),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.center,
-                                      height: 60,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                          color: const Color(0xff189474),
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                      child: Text(
-                                        surat[index].nomor.toString(),
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: SizedBox(
-                                        width: size.width * 0.60,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              surat[index].namaLatin.toString(),
-                                              style: AppTextStyle.body2
-                                                  .setBold()
-                                                  .copyWith(
-                                                      color: Colors.white),
-                                            ),
-                                            Text(
-                                              surat[index].arti.toString(),
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            child: MainComponent(size: size, title:   surat[index].namaLatin.toString(),subtitle:   surat[index].arti.toString() , icon: false, urutan: surat[index].nomor.toString(),)
                           );
                         },
                       ),
