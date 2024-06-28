@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quranku_pintar/core/error/utils/status.dart';
+import 'package:quranku_pintar/features/main_pages/data/models/materi.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 import 'package:quranku_pintar/features/main_pages/data/tajwid/tajwid_helper/tajweed.dart';
@@ -19,6 +20,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     on<GetAllSurah>(_getAllSurat);
     on<CheckPassed>(_checkPassed);
     on<LoadingActive>(_loader);
+    on<GetMateri>(_getMateri);
   }
   // functionality
   Future<void> _loader(MainEvent event, Emitter<MainState> emit) async {
@@ -182,6 +184,30 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       // log(ayas.toString());
     });
   }
+
+  // get materi
+   Future<void> _getMateri(MainEvent event, Emitter<MainState> emit) async {
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+    log('fetch Surat');
+      emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+
+    // get userid
+    // log('surat nomor : $surat');
+
+    final a = await quranUsecase.getMateri();
+    a.fold(
+        // ignore: void_checks
+        (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)), (r) {
+      List<Materi> materi = r;
+        
+
+      emit(state.copyWith(fetchDataProses: FetchStatus.success, materi: materi ));
+     log(state.surat.length.toString());
+
+      // log(ayas.toString());
+    });
+  }
+
 
   String removeDiacritics(String text) {
     var diacritics = RegExp(

@@ -21,6 +21,7 @@ mixin _$MainEvent {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function() getAll,
+    required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
     required TResult Function(String loading) loadingActive,
   }) =>
@@ -30,6 +31,7 @@ mixin _$MainEvent {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function()? getAll,
+    TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
     TResult? Function(String loading)? loadingActive,
   }) =>
@@ -39,6 +41,7 @@ mixin _$MainEvent {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function()? getAll,
+    TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
     TResult Function(String loading)? loadingActive,
     required TResult orElse(),
@@ -49,6 +52,7 @@ mixin _$MainEvent {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
     required TResult Function(LoadingActive value) loadingActive,
   }) =>
@@ -58,6 +62,7 @@ mixin _$MainEvent {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
     TResult? Function(LoadingActive value)? loadingActive,
   }) =>
@@ -67,6 +72,7 @@ mixin _$MainEvent {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
     TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
@@ -132,6 +138,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function() getAll,
+    required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
     required TResult Function(String loading) loadingActive,
   }) {
@@ -144,6 +151,7 @@ class _$StartedImpl implements _Started {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function()? getAll,
+    TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
     TResult? Function(String loading)? loadingActive,
   }) {
@@ -156,6 +164,7 @@ class _$StartedImpl implements _Started {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function()? getAll,
+    TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
     TResult Function(String loading)? loadingActive,
     required TResult orElse(),
@@ -172,6 +181,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
     required TResult Function(LoadingActive value) loadingActive,
   }) {
@@ -184,6 +194,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
     TResult? Function(LoadingActive value)? loadingActive,
   }) {
@@ -196,6 +207,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
     TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
@@ -279,6 +291,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function() getAll,
+    required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
     required TResult Function(String loading) loadingActive,
   }) {
@@ -291,6 +304,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function()? getAll,
+    TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
     TResult? Function(String loading)? loadingActive,
   }) {
@@ -303,6 +317,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function()? getAll,
+    TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
     TResult Function(String loading)? loadingActive,
     required TResult orElse(),
@@ -319,6 +334,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
     required TResult Function(LoadingActive value) loadingActive,
   }) {
@@ -331,6 +347,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
     TResult? Function(LoadingActive value)? loadingActive,
   }) {
@@ -343,6 +360,7 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
     TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
@@ -404,6 +422,7 @@ class _$GetAllSurahImpl implements GetAllSurah {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function() getAll,
+    required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
     required TResult Function(String loading) loadingActive,
   }) {
@@ -416,6 +435,7 @@ class _$GetAllSurahImpl implements GetAllSurah {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function()? getAll,
+    TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
     TResult? Function(String loading)? loadingActive,
   }) {
@@ -428,6 +448,7 @@ class _$GetAllSurahImpl implements GetAllSurah {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function()? getAll,
+    TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
     TResult Function(String loading)? loadingActive,
     required TResult orElse(),
@@ -444,6 +465,7 @@ class _$GetAllSurahImpl implements GetAllSurah {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
     required TResult Function(LoadingActive value) loadingActive,
   }) {
@@ -456,6 +478,7 @@ class _$GetAllSurahImpl implements GetAllSurah {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
     TResult? Function(LoadingActive value)? loadingActive,
   }) {
@@ -468,6 +491,7 @@ class _$GetAllSurahImpl implements GetAllSurah {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
     TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
@@ -481,6 +505,132 @@ class _$GetAllSurahImpl implements GetAllSurah {
 
 abstract class GetAllSurah implements MainEvent {
   const factory GetAllSurah() = _$GetAllSurahImpl;
+}
+
+/// @nodoc
+abstract class _$$GetMateriImplCopyWith<$Res> {
+  factory _$$GetMateriImplCopyWith(
+          _$GetMateriImpl value, $Res Function(_$GetMateriImpl) then) =
+      __$$GetMateriImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetMateriImplCopyWithImpl<$Res>
+    extends _$MainEventCopyWithImpl<$Res, _$GetMateriImpl>
+    implements _$$GetMateriImplCopyWith<$Res> {
+  __$$GetMateriImplCopyWithImpl(
+      _$GetMateriImpl _value, $Res Function(_$GetMateriImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$GetMateriImpl implements GetMateri {
+  const _$GetMateriImpl();
+
+  @override
+  String toString() {
+    return 'MainEvent.getMateri()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$GetMateriImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int surat) getSurat,
+    required TResult Function() getAll,
+    required TResult Function() getMateri,
+    required TResult Function(String ayat) checkPassed,
+    required TResult Function(String loading) loadingActive,
+  }) {
+    return getMateri();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int surat)? getSurat,
+    TResult? Function()? getAll,
+    TResult? Function()? getMateri,
+    TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String loading)? loadingActive,
+  }) {
+    return getMateri?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int surat)? getSurat,
+    TResult Function()? getAll,
+    TResult Function()? getMateri,
+    TResult Function(String ayat)? checkPassed,
+    TResult Function(String loading)? loadingActive,
+    required TResult orElse(),
+  }) {
+    if (getMateri != null) {
+      return getMateri();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(GetDetailSurat value) getSurat,
+    required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
+    required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(LoadingActive value) loadingActive,
+  }) {
+    return getMateri(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(GetDetailSurat value)? getSurat,
+    TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
+    TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(LoadingActive value)? loadingActive,
+  }) {
+    return getMateri?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(GetDetailSurat value)? getSurat,
+    TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
+    TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(LoadingActive value)? loadingActive,
+    required TResult orElse(),
+  }) {
+    if (getMateri != null) {
+      return getMateri(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetMateri implements MainEvent {
+  const factory GetMateri() = _$GetMateriImpl;
 }
 
 /// @nodoc
@@ -550,6 +700,7 @@ class _$CheckPassedImpl implements CheckPassed {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function() getAll,
+    required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
     required TResult Function(String loading) loadingActive,
   }) {
@@ -562,6 +713,7 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function()? getAll,
+    TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
     TResult? Function(String loading)? loadingActive,
   }) {
@@ -574,6 +726,7 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function()? getAll,
+    TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
     TResult Function(String loading)? loadingActive,
     required TResult orElse(),
@@ -590,6 +743,7 @@ class _$CheckPassedImpl implements CheckPassed {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
     required TResult Function(LoadingActive value) loadingActive,
   }) {
@@ -602,6 +756,7 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
     TResult? Function(LoadingActive value)? loadingActive,
   }) {
@@ -614,6 +769,7 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
     TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
@@ -701,6 +857,7 @@ class _$LoadingActiveImpl implements LoadingActive {
     required TResult Function() started,
     required TResult Function(int surat) getSurat,
     required TResult Function() getAll,
+    required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
     required TResult Function(String loading) loadingActive,
   }) {
@@ -713,6 +870,7 @@ class _$LoadingActiveImpl implements LoadingActive {
     TResult? Function()? started,
     TResult? Function(int surat)? getSurat,
     TResult? Function()? getAll,
+    TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
     TResult? Function(String loading)? loadingActive,
   }) {
@@ -725,6 +883,7 @@ class _$LoadingActiveImpl implements LoadingActive {
     TResult Function()? started,
     TResult Function(int surat)? getSurat,
     TResult Function()? getAll,
+    TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
     TResult Function(String loading)? loadingActive,
     required TResult orElse(),
@@ -741,6 +900,7 @@ class _$LoadingActiveImpl implements LoadingActive {
     required TResult Function(_Started value) started,
     required TResult Function(GetDetailSurat value) getSurat,
     required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
     required TResult Function(LoadingActive value) loadingActive,
   }) {
@@ -753,6 +913,7 @@ class _$LoadingActiveImpl implements LoadingActive {
     TResult? Function(_Started value)? started,
     TResult? Function(GetDetailSurat value)? getSurat,
     TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
     TResult? Function(LoadingActive value)? loadingActive,
   }) {
@@ -765,6 +926,7 @@ class _$LoadingActiveImpl implements LoadingActive {
     TResult Function(_Started value)? started,
     TResult Function(GetDetailSurat value)? getSurat,
     TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
     TResult Function(LoadingActive value)? loadingActive,
     required TResult orElse(),
@@ -790,6 +952,7 @@ mixin _$MainState {
   dynamic get quranData => throw _privateConstructorUsedError;
   List<QuranData> get quran => throw _privateConstructorUsedError;
   List<Surat> get surat => throw _privateConstructorUsedError;
+  List<Materi> get materi => throw _privateConstructorUsedError;
   FetchStatus get fetchDataProses => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
   bool get isPassed => throw _privateConstructorUsedError;
@@ -800,6 +963,7 @@ mixin _$MainState {
             dynamic quranData,
             List<QuranData> quran,
             List<Surat> surat,
+            List<Materi> materi,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -813,6 +977,7 @@ mixin _$MainState {
             dynamic quranData,
             List<QuranData> quran,
             List<Surat> surat,
+            List<Materi> materi,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -826,6 +991,7 @@ mixin _$MainState {
             dynamic quranData,
             List<QuranData> quran,
             List<Surat> surat,
+            List<Materi> materi,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -865,6 +1031,7 @@ abstract class $MainStateCopyWith<$Res> {
       {dynamic quranData,
       List<QuranData> quran,
       List<Surat> surat,
+      List<Materi> materi,
       FetchStatus fetchDataProses,
       int index,
       bool isPassed,
@@ -887,6 +1054,7 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
     Object? quranData = freezed,
     Object? quran = null,
     Object? surat = null,
+    Object? materi = null,
     Object? fetchDataProses = null,
     Object? index = null,
     Object? isPassed = null,
@@ -905,6 +1073,10 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.surat
           : surat // ignore: cast_nullable_to_non_nullable
               as List<Surat>,
+      materi: null == materi
+          ? _value.materi
+          : materi // ignore: cast_nullable_to_non_nullable
+              as List<Materi>,
       fetchDataProses: null == fetchDataProses
           ? _value.fetchDataProses
           : fetchDataProses // ignore: cast_nullable_to_non_nullable
@@ -937,6 +1109,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       {dynamic quranData,
       List<QuranData> quran,
       List<Surat> surat,
+      List<Materi> materi,
       FetchStatus fetchDataProses,
       int index,
       bool isPassed,
@@ -957,6 +1130,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? quranData = freezed,
     Object? quran = null,
     Object? surat = null,
+    Object? materi = null,
     Object? fetchDataProses = null,
     Object? index = null,
     Object? isPassed = null,
@@ -972,6 +1146,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._surat
           : surat // ignore: cast_nullable_to_non_nullable
               as List<Surat>,
+      materi: null == materi
+          ? _value._materi
+          : materi // ignore: cast_nullable_to_non_nullable
+              as List<Materi>,
       fetchDataProses: null == fetchDataProses
           ? _value.fetchDataProses
           : fetchDataProses // ignore: cast_nullable_to_non_nullable
@@ -999,12 +1177,14 @@ class _$InitialImpl implements _Initial {
       {this.quranData = QuranModels,
       final List<QuranData> quran = const <QuranData>[],
       final List<Surat> surat = const <Surat>[],
+      final List<Materi> materi = const <Materi>[],
       this.fetchDataProses = FetchStatus.initial,
       this.index = 0,
       this.isPassed = false,
       this.isLoading = ''})
       : _quran = quran,
-        _surat = surat;
+        _surat = surat,
+        _materi = materi;
 
   @override
   @JsonKey()
@@ -1027,6 +1207,15 @@ class _$InitialImpl implements _Initial {
     return EqualUnmodifiableListView(_surat);
   }
 
+  final List<Materi> _materi;
+  @override
+  @JsonKey()
+  List<Materi> get materi {
+    if (_materi is EqualUnmodifiableListView) return _materi;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_materi);
+  }
+
   @override
   @JsonKey()
   final FetchStatus fetchDataProses;
@@ -1042,7 +1231,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, fetchDataProses: $fetchDataProses, index: $index, isPassed: $isPassed, isLoading: $isLoading)';
+    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, materi: $materi, fetchDataProses: $fetchDataProses, index: $index, isPassed: $isPassed, isLoading: $isLoading)';
   }
 
   @override
@@ -1053,6 +1242,7 @@ class _$InitialImpl implements _Initial {
             const DeepCollectionEquality().equals(other.quranData, quranData) &&
             const DeepCollectionEquality().equals(other._quran, _quran) &&
             const DeepCollectionEquality().equals(other._surat, _surat) &&
+            const DeepCollectionEquality().equals(other._materi, _materi) &&
             (identical(other.fetchDataProses, fetchDataProses) ||
                 other.fetchDataProses == fetchDataProses) &&
             (identical(other.index, index) || other.index == index) &&
@@ -1068,6 +1258,7 @@ class _$InitialImpl implements _Initial {
       const DeepCollectionEquality().hash(quranData),
       const DeepCollectionEquality().hash(_quran),
       const DeepCollectionEquality().hash(_surat),
+      const DeepCollectionEquality().hash(_materi),
       fetchDataProses,
       index,
       isPassed,
@@ -1086,14 +1277,15 @@ class _$InitialImpl implements _Initial {
             dynamic quranData,
             List<QuranData> quran,
             List<Surat> surat,
+            List<Materi> materi,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
             String isLoading)
         initial,
   }) {
-    return initial(
-        quranData, quran, surat, fetchDataProses, index, isPassed, isLoading);
+    return initial(quranData, quran, surat, materi, fetchDataProses, index,
+        isPassed, isLoading);
   }
 
   @override
@@ -1103,14 +1295,15 @@ class _$InitialImpl implements _Initial {
             dynamic quranData,
             List<QuranData> quran,
             List<Surat> surat,
+            List<Materi> materi,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
             String isLoading)?
         initial,
   }) {
-    return initial?.call(
-        quranData, quran, surat, fetchDataProses, index, isPassed, isLoading);
+    return initial?.call(quranData, quran, surat, materi, fetchDataProses,
+        index, isPassed, isLoading);
   }
 
   @override
@@ -1120,6 +1313,7 @@ class _$InitialImpl implements _Initial {
             dynamic quranData,
             List<QuranData> quran,
             List<Surat> surat,
+            List<Materi> materi,
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
@@ -1128,8 +1322,8 @@ class _$InitialImpl implements _Initial {
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(
-          quranData, quran, surat, fetchDataProses, index, isPassed, isLoading);
+      return initial(quranData, quran, surat, materi, fetchDataProses, index,
+          isPassed, isLoading);
     }
     return orElse();
   }
@@ -1168,6 +1362,7 @@ abstract class _Initial implements MainState {
       {final dynamic quranData,
       final List<QuranData> quran,
       final List<Surat> surat,
+      final List<Materi> materi,
       final FetchStatus fetchDataProses,
       final int index,
       final bool isPassed,
@@ -1179,6 +1374,8 @@ abstract class _Initial implements MainState {
   List<QuranData> get quran;
   @override
   List<Surat> get surat;
+  @override
+  List<Materi> get materi;
   @override
   FetchStatus get fetchDataProses;
   @override

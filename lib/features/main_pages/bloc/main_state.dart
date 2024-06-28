@@ -6,6 +6,7 @@ class MainState with _$MainState {
     @Default(QuranModels) quranData,
     @Default(<QuranData>[] ) List<QuranData> quran,
     @Default(<Surat>[]) List<Surat> surat,   
+    @Default(<Materi>[]) List<Materi> materi,   
     @Default(FetchStatus.initial) FetchStatus fetchDataProses,
     @Default(0) int index,
     @Default(false) bool isPassed,
