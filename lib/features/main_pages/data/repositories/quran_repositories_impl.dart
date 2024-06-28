@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:quranku_pintar/core/error/failure/failure.dart';
 import 'package:quranku_pintar/features/main_pages/data/datasource/quran_datasource.dart';
+import 'package:quranku_pintar/features/main_pages/data/models/materi.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 
@@ -26,6 +27,16 @@ class QuranRepositoryImpl {
 
     try {
       final res = await rds.getAllSurah();
+      // log('repo $res');
+      return res;
+    } catch (e) {
+      return const Left(Failure.parsingFailure());
+    }
+  }
+   Future<Either<Failure, List<Materi>>> getMateri() async {
+
+    try {
+      final res = await rds.getMateri();
       // log('repo $res');
       return res;
     } catch (e) {

@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:quranku_pintar/core/error/exeption/exception.dart';
 import 'package:quranku_pintar/core/error/failure/failure.dart';
+import 'package:quranku_pintar/features/main_pages/data/models/materi.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 
@@ -50,6 +51,28 @@ class QuranDatasources {
       // final quranModel = Surat.fromJson(jsonData);
       print(surahList);
       return Right(surahList);
+    } else {
+      throw ServerException();
+    }
+  }
+  // get materi 
+
+  
+  Future<Either<Failure, List<Materi>>> getMateri() async {
+    const String apiUrl = 'https://9104-140-213-39-141.ngrok-free.app/getmateri';
+    final response = await http.get(Uri.parse(apiUrl));
+    log('dt s : ${response.statusCode}');
+    if (response.statusCode == 200) {
+           final List<dynamic> jsonData = jsonDecode(response.body);
+
+      //  List<Surat> s = [];
+      List<Materi> materiList = jsonData.map((data) {
+        return Materi.fromJson(data);
+      }).toList();
+
+     
+      print(materiList);
+      return Right(materiList);
     } else {
       throw ServerException();
     }
