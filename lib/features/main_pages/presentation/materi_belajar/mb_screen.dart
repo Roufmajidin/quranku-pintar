@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quranku_pintar/common/extensions/extensions.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
+import 'package:quranku_pintar/core/error/utils/status.dart';
 import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
+import 'package:quranku_pintar/features/main_pages/data/models/materi.dart';
 
 import '../widget/list_component.dart';
 
@@ -11,15 +15,13 @@ class MbView extends StatefulWidget {
 
   @override
   State<MbView> createState() => _MbViewState();
-  
 }
-
 
 class _MbViewState extends State<MbView> {
   double sizeList = 600;
   panggilMateri() {
     setState(() {
-      context.read<MainBloc>().add(GetMateri());
+      context.read<MainBloc>().add(const GetMateri());
     });
   }
 
@@ -33,10 +35,9 @@ class _MbViewState extends State<MbView> {
             children: [
               // appbar
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   panggilMateri();
                   print('oj');
-
                 },
                 child: Container(
                     height: 180,
@@ -63,27 +64,53 @@ class _MbViewState extends State<MbView> {
               ),
 
               // content
-              SizedBox(
-                  height: sizeList,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: ListView.builder(
-                      // clipBehavior: Clip.antiAlias,
-                      scrollDirection: Axis.vertical,
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                         
+              BlocBuilder<MainBloc, MainState>(
+                builder: (context, state) {
+                  if (state.fetchDataProses == FetchStatus.loading) {
+                    return SizedBox(
+                      height: sizeList,
+                      child: const Center(
+                        child: CircularProgressIndicator(color: Colors.green),
+                      ),
+                    );
+                  }
+                  Map<dynamic, List<Materi>> groupedData = state.groupedMateri;
+                  
+
+                  return SizedBox(
+                      height: sizeList,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: ListView.builder(
+                          // clipBehavior: Clip.antiAlias,
+                          scrollDirection: Axis.vertical,
+                          itemCount: groupedData.length,
+                          itemBuilder: (context, index) {
+
+                              String jenisKuisKey = groupedData.keys.elementAt(index);
+            List<Materi> kategoriMap = groupedData[jenisKuisKey]!;
+
+                            return GestureDetector(
+                              onTap: () {
+                                log(kategoriMap.length.toString());
+                              },
+                              child: MainComponent(
+                                size: size,
+                                title:
+                                  jenisKuisKey,
+                                subtitle:
+                                 kategoriMap[0].kategori.toString(),
+                                icon: true,
+                                urutan: '1',
+                              ),
+                            );
                           },
-                          child: MainComponent(size: size, title: "Tahap Pertama", subtitle: "Belajar Huruf Hijahiyah",icon: true, urutan: '1',),
-                        );
-                      },
-                    ),
-                  ))
+                        ),
+                      ));
+                },
+              )
             ],
           )),
     );
   }
 }
-
