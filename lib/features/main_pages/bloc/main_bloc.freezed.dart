@@ -957,6 +957,7 @@ mixin _$MainState {
   int get index => throw _privateConstructorUsedError;
   bool get isPassed => throw _privateConstructorUsedError;
   String get isLoading => throw _privateConstructorUsedError;
+  dynamic get groupedMateri => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -967,7 +968,8 @@ mixin _$MainState {
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
-            String isLoading)
+            String isLoading,
+            dynamic groupedMateri)
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -981,7 +983,8 @@ mixin _$MainState {
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
-            String isLoading)?
+            String isLoading,
+            dynamic groupedMateri)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -995,7 +998,8 @@ mixin _$MainState {
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
-            String isLoading)?
+            String isLoading,
+            dynamic groupedMateri)?
         initial,
     required TResult orElse(),
   }) =>
@@ -1035,7 +1039,8 @@ abstract class $MainStateCopyWith<$Res> {
       FetchStatus fetchDataProses,
       int index,
       bool isPassed,
-      String isLoading});
+      String isLoading,
+      dynamic groupedMateri});
 }
 
 /// @nodoc
@@ -1059,6 +1064,7 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
     Object? index = null,
     Object? isPassed = null,
     Object? isLoading = null,
+    Object? groupedMateri = freezed,
   }) {
     return _then(_value.copyWith(
       quranData: freezed == quranData
@@ -1093,6 +1099,10 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as String,
+      groupedMateri: freezed == groupedMateri
+          ? _value.groupedMateri
+          : groupedMateri // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 }
@@ -1113,7 +1123,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       FetchStatus fetchDataProses,
       int index,
       bool isPassed,
-      String isLoading});
+      String isLoading,
+      dynamic groupedMateri});
 }
 
 /// @nodoc
@@ -1135,6 +1146,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? index = null,
     Object? isPassed = null,
     Object? isLoading = null,
+    Object? groupedMateri = freezed,
   }) {
     return _then(_$InitialImpl(
       quranData: freezed == quranData ? _value.quranData! : quranData,
@@ -1166,6 +1178,8 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as String,
+      groupedMateri:
+          freezed == groupedMateri ? _value.groupedMateri! : groupedMateri,
     ));
   }
 }
@@ -1181,7 +1195,8 @@ class _$InitialImpl implements _Initial {
       this.fetchDataProses = FetchStatus.initial,
       this.index = 0,
       this.isPassed = false,
-      this.isLoading = ''})
+      this.isLoading = '',
+      this.groupedMateri = const []})
       : _quran = quran,
         _surat = surat,
         _materi = materi;
@@ -1228,10 +1243,13 @@ class _$InitialImpl implements _Initial {
   @override
   @JsonKey()
   final String isLoading;
+  @override
+  @JsonKey()
+  final dynamic groupedMateri;
 
   @override
   String toString() {
-    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, materi: $materi, fetchDataProses: $fetchDataProses, index: $index, isPassed: $isPassed, isLoading: $isLoading)';
+    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, materi: $materi, fetchDataProses: $fetchDataProses, index: $index, isPassed: $isPassed, isLoading: $isLoading, groupedMateri: $groupedMateri)';
   }
 
   @override
@@ -1249,7 +1267,9 @@ class _$InitialImpl implements _Initial {
             (identical(other.isPassed, isPassed) ||
                 other.isPassed == isPassed) &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            const DeepCollectionEquality()
+                .equals(other.groupedMateri, groupedMateri));
   }
 
   @override
@@ -1262,7 +1282,8 @@ class _$InitialImpl implements _Initial {
       fetchDataProses,
       index,
       isPassed,
-      isLoading);
+      isLoading,
+      const DeepCollectionEquality().hash(groupedMateri));
 
   @JsonKey(ignore: true)
   @override
@@ -1281,11 +1302,12 @@ class _$InitialImpl implements _Initial {
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
-            String isLoading)
+            String isLoading,
+            dynamic groupedMateri)
         initial,
   }) {
     return initial(quranData, quran, surat, materi, fetchDataProses, index,
-        isPassed, isLoading);
+        isPassed, isLoading, groupedMateri);
   }
 
   @override
@@ -1299,11 +1321,12 @@ class _$InitialImpl implements _Initial {
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
-            String isLoading)?
+            String isLoading,
+            dynamic groupedMateri)?
         initial,
   }) {
     return initial?.call(quranData, quran, surat, materi, fetchDataProses,
-        index, isPassed, isLoading);
+        index, isPassed, isLoading, groupedMateri);
   }
 
   @override
@@ -1317,13 +1340,14 @@ class _$InitialImpl implements _Initial {
             FetchStatus fetchDataProses,
             int index,
             bool isPassed,
-            String isLoading)?
+            String isLoading,
+            dynamic groupedMateri)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
       return initial(quranData, quran, surat, materi, fetchDataProses, index,
-          isPassed, isLoading);
+          isPassed, isLoading, groupedMateri);
     }
     return orElse();
   }
@@ -1366,7 +1390,8 @@ abstract class _Initial implements MainState {
       final FetchStatus fetchDataProses,
       final int index,
       final bool isPassed,
-      final String isLoading}) = _$InitialImpl;
+      final String isLoading,
+      final dynamic groupedMateri}) = _$InitialImpl;
 
   @override
   dynamic get quranData;
@@ -1384,6 +1409,8 @@ abstract class _Initial implements MainState {
   bool get isPassed;
   @override
   String get isLoading;
+  @override
+  dynamic get groupedMateri;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

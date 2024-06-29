@@ -11,6 +11,8 @@ class MainState with _$MainState {
     @Default(0) int index,
     @Default(false) bool isPassed,
     @Default('') String isLoading,
+        @Default([])  groupedMateri,
+
 
   }) = _Initial;
 }

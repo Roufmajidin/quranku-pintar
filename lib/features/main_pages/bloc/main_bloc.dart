@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -50,7 +51,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
       if (hasilPencarian.isNotEmpty) {
         // cekcoba
-        List<String> hurufArab = separateArabicLetters(removeDiacritics('بِسْمِ اللَّهِ الرَّحْمَنِ'));
+        List<String> hurufArab = separateArabicLetters(
+            removeDiacritics('بِسْمِ اللَّهِ الرَّحْمَنِ'));
         log(hurufArab.toString());
 
 //         String hurufLengkap =removeDiacritics('بِسْمِ اللَّهِ الرَّحْنِ');
@@ -86,8 +88,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
             int index = mutabablelis.indexOf(ayatItem);
             if (index != -1) {
-              mutabablelis[index] =
-                  mutabablelis[index].copyWith(terbaca: true);
+              mutabablelis[index] = mutabablelis[index].copyWith(terbaca: true);
               log('Terbaca: ${index.toString()}');
               emit(state.copyWith(index: index, isPassed: true));
             } else {
@@ -112,7 +113,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Future<void> _getDetailSurat(MainEvent event, Emitter<MainState> emit) async {
     emit(state.copyWith(fetchDataProses: FetchStatus.loading));
     log('fetch Surat');
-      emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
 
     int surat = (event as GetDetailSurat).surat;
     // get userid
@@ -163,10 +164,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   }
 
   // get surah
-   Future<void> _getAllSurat(MainEvent event, Emitter<MainState> emit) async {
+  Future<void> _getAllSurat(MainEvent event, Emitter<MainState> emit) async {
     emit(state.copyWith(fetchDataProses: FetchStatus.loading));
     log('fetch Surat');
-      emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
 
     // get userid
     // log('surat nomor : $surat');
@@ -176,20 +177,20 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         // ignore: void_checks
         (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)), (r) {
       List<Surat> allsurat = r;
-        
 
-      emit(state.copyWith(fetchDataProses: FetchStatus.success, surat: allsurat ));
-     log(state.surat.length.toString());
+      emit(state.copyWith(
+          fetchDataProses: FetchStatus.success, surat: allsurat));
+      log(state.surat.length.toString());
 
       // log(ayas.toString());
     });
   }
 
   // get materi
-   Future<void> _getMateri(MainEvent event, Emitter<MainState> emit) async {
+  Future<void> _getMateri(MainEvent event, Emitter<MainState> emit) async {
     emit(state.copyWith(fetchDataProses: FetchStatus.loading));
     log('fetch Surat');
-      emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
 
     // get userid
     // log('surat nomor : $surat');
@@ -199,21 +200,46 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         // ignore: void_checks
         (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)), (r) {
       List<Materi> materi = r;
-        
+      groupByJenisKuis(materi);
 
-      emit(state.copyWith(fetchDataProses: FetchStatus.success, materi: materi ));
-     log(state.surat.length.toString());
+      emit(state.copyWith(
+        fetchDataProses: FetchStatus.success,
+        materi: materi,
+      ));
+      log(state.surat.length.toString());
 
       // log(ayas.toString());
     });
   }
 
+  void groupByJenisKuis(List<Materi> materiList) {
+    Map<String, Map<String, List<Materi>>> groupedByJenisKuisAndKategori = {};
+
+   for (var materi in materiList) {
+    String? jenisKuis = materi.jenis_kuis;
+    String? kategori = materi.kategori;
+
+    if (jenisKuis != null && kategori != null) {
+      if (!groupedByJenisKuisAndKategori.containsKey(jenisKuis)) {
+        groupedByJenisKuisAndKategori[jenisKuis] = {};
+      }
+      if (!groupedByJenisKuisAndKategori[jenisKuis]!.containsKey(kategori)) {
+        groupedByJenisKuisAndKategori[jenisKuis]![kategori] = [];
+      }
+      groupedByJenisKuisAndKategori[jenisKuis]![kategori]!.add(materi);
+    }
+    emit(state.copyWith(
+        fetchDataProses: FetchStatus.success,
+        groupedMateri: groupedByJenisKuisAndKategori,
+      ));
+  }
+    print(groupedByJenisKuisAndKategori);
+  }
 
   String removeDiacritics(String text) {
     var diacritics = RegExp(
-      r'[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0657\u0658\u0659\u065A\u065B\u065C\u065D\u065E\u065F\u0670]');
-  return text.replaceAll(diacritics, '');
-        
+        r'[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0657\u0658\u0659\u065A\u065B\u065C\u065D\u065E\u065F\u0670]');
+    return text.replaceAll(diacritics, '');
   }
 }
 
