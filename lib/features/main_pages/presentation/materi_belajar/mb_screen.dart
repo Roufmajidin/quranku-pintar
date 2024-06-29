@@ -81,7 +81,7 @@ class _MbViewState extends State<MbView> {
                       ),
                     );
                   }
-                  Map<String, Map<String, List<Materi>>> groupedData =
+                 var groupedData =
                       state.groupedMateri;
 
                   return SizedBox(
