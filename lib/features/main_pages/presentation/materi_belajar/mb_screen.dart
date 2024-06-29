@@ -7,6 +7,7 @@ import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/core/error/utils/status.dart';
 import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/materi.dart';
+import 'package:quranku_pintar/features/main_pages/presentation/materi_belajar/detail/detail_page.dart';
 
 import '../widget/list_component.dart';
 
@@ -23,6 +24,12 @@ class _MbViewState extends State<MbView> {
     setState(() {
       context.read<MainBloc>().add(const GetMateri());
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    panggilMateri();
   }
 
   @override
@@ -74,39 +81,65 @@ class _MbViewState extends State<MbView> {
                       ),
                     );
                   }
-                  Map<dynamic, List<Materi>> groupedData = state.groupedMateri;
-                  
+                  Map<String, Map<String, List<Materi>>> groupedData =
+                      state.groupedMateri;
 
                   return SizedBox(
-                      height: sizeList,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: ListView.builder(
-                          // clipBehavior: Clip.antiAlias,
-                          scrollDirection: Axis.vertical,
-                          itemCount: groupedData.length,
-                          itemBuilder: (context, index) {
+                    height: sizeList,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: groupedData.length,
+                        itemBuilder: (context, jenisKuisIndex) {
+                          String jenisKuisKey =
+                              groupedData.keys.elementAt(jenisKuisIndex);
+                          Map<String, List<Materi>> kategoriMap =
+                              groupedData[jenisKuisKey]!;
 
-                              String jenisKuisKey = groupedData.keys.elementAt(index);
-            List<Materi> kategoriMap = groupedData[jenisKuisKey]!;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: kategoriMap.length,
+                                itemBuilder: (context, kategoriIndex) {
+                                  String kategoriKey =
+                                      kategoriMap.keys.elementAt(kategoriIndex);
+                                  List<Materi> items =
+                                      kategoriMap[kategoriKey]!;
 
-                            return GestureDetector(
-                              onTap: () {
-                                log(kategoriMap.length.toString());
-                              },
-                              child: MainComponent(
-                                size: size,
-                                title:
-                                  jenisKuisKey,
-                                subtitle:
-                                 kategoriMap[0].kategori.toString(),
-                                icon: true,
-                                urutan: '1',
+                                  return GestureDetector(
+                                    onTap: () {
+                                      log(items.toString());
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailPage(i: items),
+                                        ),
+                                      );
+                                    },
+                                    child: MainComponent(
+                                      isMateri: true,
+                                      size: size,
+                                      title: jenisKuisKey,
+                                      subtitle:
+                                          kategoriKey, // Display the titles of the items
+                                      icon: true,
+                                      urutan: items.length
+                                          .toString(), // Display the count of items
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
-                      ));
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  );
                 },
               )
             ],
