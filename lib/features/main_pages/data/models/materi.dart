@@ -7,7 +7,7 @@ class Materi with _$Materi {
   const factory Materi({
      @Default([]) List<String> contoh_soal,
      int? id,
-     String? jenisKuis,
+     String? jenis_kuis,
      String? judul,
      String? kategori,
      String? materi,

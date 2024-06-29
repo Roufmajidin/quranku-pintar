@@ -22,7 +22,7 @@ Materi _$MateriFromJson(Map<String, dynamic> json) {
 mixin _$Materi {
   List<String> get contoh_soal => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
-  String? get jenisKuis => throw _privateConstructorUsedError;
+  String? get jenis_kuis => throw _privateConstructorUsedError;
   String? get judul => throw _privateConstructorUsedError;
   String? get kategori => throw _privateConstructorUsedError;
   String? get materi => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $MateriCopyWith<$Res> {
   $Res call(
       {List<String> contoh_soal,
       int? id,
-      String? jenisKuis,
+      String? jenis_kuis,
       String? judul,
       String? kategori,
       String? materi});
@@ -61,7 +61,7 @@ class _$MateriCopyWithImpl<$Res, $Val extends Materi>
   $Res call({
     Object? contoh_soal = null,
     Object? id = freezed,
-    Object? jenisKuis = freezed,
+    Object? jenis_kuis = freezed,
     Object? judul = freezed,
     Object? kategori = freezed,
     Object? materi = freezed,
@@ -75,9 +75,9 @@ class _$MateriCopyWithImpl<$Res, $Val extends Materi>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      jenisKuis: freezed == jenisKuis
-          ? _value.jenisKuis
-          : jenisKuis // ignore: cast_nullable_to_non_nullable
+      jenis_kuis: freezed == jenis_kuis
+          ? _value.jenis_kuis
+          : jenis_kuis // ignore: cast_nullable_to_non_nullable
               as String?,
       judul: freezed == judul
           ? _value.judul
@@ -105,7 +105,7 @@ abstract class _$$MateriImplCopyWith<$Res> implements $MateriCopyWith<$Res> {
   $Res call(
       {List<String> contoh_soal,
       int? id,
-      String? jenisKuis,
+      String? jenis_kuis,
       String? judul,
       String? kategori,
       String? materi});
@@ -124,7 +124,7 @@ class __$$MateriImplCopyWithImpl<$Res>
   $Res call({
     Object? contoh_soal = null,
     Object? id = freezed,
-    Object? jenisKuis = freezed,
+    Object? jenis_kuis = freezed,
     Object? judul = freezed,
     Object? kategori = freezed,
     Object? materi = freezed,
@@ -138,9 +138,9 @@ class __$$MateriImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      jenisKuis: freezed == jenisKuis
-          ? _value.jenisKuis
-          : jenisKuis // ignore: cast_nullable_to_non_nullable
+      jenis_kuis: freezed == jenis_kuis
+          ? _value.jenis_kuis
+          : jenis_kuis // ignore: cast_nullable_to_non_nullable
               as String?,
       judul: freezed == judul
           ? _value.judul
@@ -164,7 +164,7 @@ class _$MateriImpl implements _Materi {
   const _$MateriImpl(
       {final List<String> contoh_soal = const [],
       this.id,
-      this.jenisKuis,
+      this.jenis_kuis,
       this.judul,
       this.kategori,
       this.materi})
@@ -185,7 +185,7 @@ class _$MateriImpl implements _Materi {
   @override
   final int? id;
   @override
-  final String? jenisKuis;
+  final String? jenis_kuis;
   @override
   final String? judul;
   @override
@@ -195,7 +195,7 @@ class _$MateriImpl implements _Materi {
 
   @override
   String toString() {
-    return 'Materi(contoh_soal: $contoh_soal, id: $id, jenisKuis: $jenisKuis, judul: $judul, kategori: $kategori, materi: $materi)';
+    return 'Materi(contoh_soal: $contoh_soal, id: $id, jenis_kuis: $jenis_kuis, judul: $judul, kategori: $kategori, materi: $materi)';
   }
 
   @override
@@ -206,8 +206,8 @@ class _$MateriImpl implements _Materi {
             const DeepCollectionEquality()
                 .equals(other._contoh_soal, _contoh_soal) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.jenisKuis, jenisKuis) ||
-                other.jenisKuis == jenisKuis) &&
+            (identical(other.jenis_kuis, jenis_kuis) ||
+                other.jenis_kuis == jenis_kuis) &&
             (identical(other.judul, judul) || other.judul == judul) &&
             (identical(other.kategori, kategori) ||
                 other.kategori == kategori) &&
@@ -220,7 +220,7 @@ class _$MateriImpl implements _Materi {
       runtimeType,
       const DeepCollectionEquality().hash(_contoh_soal),
       id,
-      jenisKuis,
+      jenis_kuis,
       judul,
       kategori,
       materi);
@@ -243,7 +243,7 @@ abstract class _Materi implements Materi {
   const factory _Materi(
       {final List<String> contoh_soal,
       final int? id,
-      final String? jenisKuis,
+      final String? jenis_kuis,
       final String? judul,
       final String? kategori,
       final String? materi}) = _$MateriImpl;
@@ -255,7 +255,7 @@ abstract class _Materi implements Materi {
   @override
   int? get id;
   @override
-  String? get jenisKuis;
+  String? get jenis_kuis;
   @override
   String? get judul;
   @override
