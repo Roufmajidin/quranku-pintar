@@ -10,6 +10,7 @@ class MainComponent extends StatefulWidget {
     required this.subtitle,
     required this.icon,
     required this.urutan,
+     bool? isMateri,
   });
 
   final Size size;
@@ -17,6 +18,7 @@ class MainComponent extends StatefulWidget {
   final String subtitle;
   final bool icon;
   final String urutan;
+   bool? isMateri;
 
   @override
   State<MainComponent> createState() => _MainComponentState();
@@ -28,7 +30,7 @@ class _MainComponentState extends State<MainComponent> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Container(
-        height: 80,
+        height: widget.isMateri == false ? 80 : 120,
         width: widget.size.width,
         decoration: BoxDecoration(
             color: const Color.fromARGB(255, 24, 197, 154),
