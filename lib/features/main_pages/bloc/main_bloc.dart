@@ -70,16 +70,22 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         //   }
         // });
         //
+
+        int aa = 0;
         if (lastWords == 'بسم الله الرحمن الرحيم') {
           log('Ayat: 1');
+          emit(state.copyWith(ayatIndex: aa));
+
         } else {
           List<QuranAyat> mutabablelis = List.from(quranData.data!.ayat);
 
           for (var ayatItem in hasilPencarian) {
             var a = StringSimilarity.compareTwoStrings(
                 removeDiacritics(ayatItem.teksArab), lastWords); // → 0.8
+
             if (a >= 0.80 || a >= 0.9) {
               log(' oke similarity : $a');
+        // emit(state.copyWith(ayatIndex: aa += 1));
             } else {
               log('is: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab},\n Nomor Ayat: ${ayatItem.nomorAyat} \n simm : $a');
             }
@@ -246,6 +252,28 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 List<String> separateArabicLetters(String sentence) {
   return sentence.split('');
 }
+
+void compareTexts(String text1, String text2) {
+  List<String> differences = [];
+
+  int maxLength = text1.length > text2.length ? text1.length : text2.length;
+  for (int i = 0; i < maxLength; i++) {
+    String char1 = i < text1.length ? text1[i] : '';
+    String char2 = i < text2.length ? text2[i] : '';
+
+    if (char1 != char2) {
+      differences.add('Posisi $i: "$char1" vs "$char2"');
+    }
+  }
+
+  if (differences.isEmpty) {
+    print("Kalimat sama");
+  } else {
+    print("Kalimat berbeda pada posisi: ");
+    differences.forEach((diff) => print(diff));
+  }
+}
+
 
 // sementara
 

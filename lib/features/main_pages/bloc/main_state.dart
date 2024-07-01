@@ -9,6 +9,7 @@ class MainState with _$MainState {
     @Default(<Materi>[]) List<Materi> materi,   
     @Default(FetchStatus.initial) FetchStatus fetchDataProses,
     @Default(0) int index,
+    @Default(0) int ayatIndex,
     @Default(false) bool isPassed,
     @Default('') String isLoading,
         @Default([])  groupedMateri,
