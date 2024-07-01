@@ -18,6 +18,7 @@ import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/token.dart';
 import 'package:quranku_pintar/features/main_pages/data/tajwid/helper.dart';
+import 'package:quranku_pintar/features/main_pages/presentation/pe.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -59,6 +60,7 @@ class _MainViewState extends State<MainView> {
   bool isRecord = false;
   String audioPath = '';
   bool isDialog = false;
+  bool selesai = false;
   String statusText = "";
   String pathConvert = "";
 
@@ -84,7 +86,7 @@ class _MainViewState extends State<MainView> {
       if (await audioRecord.hasPermission()) {
         await audioRecord.start();
         setState(() {
-          statusText = 'Inisilisasi Audio';
+          statusText = 'Inisialisasi Audio';
 
           isRecord = true;
         });
@@ -217,7 +219,7 @@ class _MainViewState extends State<MainView> {
 
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = " https://4384-140-213-104-68.ngrok-free.app";
+    var apiUrl = "https://1e3e-103-191-218-249.ngrok-free.app";
     log('mau ke tartil $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
@@ -237,8 +239,10 @@ class _MainViewState extends State<MainView> {
         var text = jsonResponse['text'];
         log(text);
         setState(() {
+          selesai = true;
           statusText = text;
           cekpas(statusText);
+
         });
       }
     } catch (e) {
@@ -329,7 +333,7 @@ class _MainViewState extends State<MainView> {
       backgroundColor: t.rule.color(context),
     );
   }
-
+  String pp = '';
   ItemScrollController sc = ItemScrollController();
   @override
   Widget build(BuildContext context) {
@@ -383,12 +387,12 @@ class _MainViewState extends State<MainView> {
         child: Column(
           children: [
             BlocBuilder<MainBloc, MainState>(builder: (context, state) {
-             
               String ns = '';
               if (state.quranData is QuranModels) {
                 var quranData = (state.quranData as QuranModels).data!;
                 var ayat = quranData.ayat;
                 ns = quranData.namaLatin;
+                pp = ayat[state.ayatIndex].teksArab;
               }
 
               return Container(
@@ -683,6 +687,7 @@ class _MainViewState extends State<MainView> {
                                               isListening = false;
                                               isRecord = false;
                                               // pathConvert = ;
+                                              selesai = false;
                                             });
                                           },
                                           child: const Padding(
@@ -706,7 +711,7 @@ class _MainViewState extends State<MainView> {
                                           children: [
                                             if (statusText == '' ||
                                                 statusText ==
-                                                    'Inisilisasi Audio')
+                                                    'Inisialisasi Audio')
                                               Icon(
                                                 _speechEnabled == false
                                                     ? Icons.mic_none
@@ -720,16 +725,35 @@ class _MainViewState extends State<MainView> {
                                           ],
                                         )),
                                     const SizedBox(height: 16),
+                                    // pe
+                                    // statusText == ''
+                                    //     ? Text('Ucapkan ayat ke- ${state.ayatIndex+1}')
+                                    //     : TextComparison(
+                                    //         ayatAcuanText:
+                                    //            pp,
+                                    //         teksRekognisiText:
+                                    //             "بسم الله  الرحيم",
+                                    //       ),
+
                                     Text(
                                       statusText == ''
                                           ? "Tekan untuk memulai"
-                                          : statusText,
+                                          : 'Result is',
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16),
                                     ),
-                                    // Text(statusText)
+                                    // Text(statusText),
+                                    selesai == true ?
+                                    TextComparison(
+                                            ayatAcuanText:
+                                               pp,
+                                            teksRekognisiText:
+                                                statusText
+                                          )
+                                          : const SizedBox(),
+                                    const SizedBox(height: 16),
                                   ],
                                 ),
                               ));
