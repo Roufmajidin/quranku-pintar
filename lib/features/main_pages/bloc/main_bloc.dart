@@ -72,44 +72,35 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         //
 
         int aa = 0;
-        if (lastWords == 'بسم الله الرحمن الرحيم') {
-          log('Ayat: 1');
-          emit(state.copyWith(ayatIndex: aa));
 
-        } else {
-          List<QuranAyat> mutabablelis = List.from(quranData.data!.ayat);
+        List<QuranAyat> mutabablelis = List.from(quranData.data!.ayat);
 
-          for (var ayatItem in hasilPencarian) {
-            var a = StringSimilarity.compareTwoStrings(
-                removeDiacritics(ayatItem.teksArab), lastWords); // → 0.8
+        for (var ayatItem in hasilPencarian) {
+          var a = StringSimilarity.compareTwoStrings(
+              removeDiacritics(ayatItem.teksArab), lastWords); // → 0.8
 
-            if (a >= 0.80 || a >= 0.9) {
-              log(' oke similarity : $a');
-        // emit(state.copyWith(ayatIndex: aa += 1));
-            } else {
-              log('is: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab},\n Nomor Ayat: ${ayatItem.nomorAyat} \n simm : $a');
-            }
-            log('');
-            log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat}');
-
-            int index = mutabablelis.indexOf(ayatItem);
-            if (index != -1) {
-              mutabablelis[index] = mutabablelis[index].copyWith(terbaca: true);
-              log('Terbaca: ${index.toString()}');
-              emit(state.copyWith(index: index, isPassed: true));
-            } else {
-              emit(state.copyWith(isPassed: false));
-            }
-            log('Status: ${state.isPassed}');
+          log('');
+          log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat}');
+          emit(
+              state.copyWith(ayatIndex: aa += 1, ayatAcuan: ayatItem.teksArab));
+          print('ayat acuan : ${ayatItem.teksArab}');
+          int index = mutabablelis.indexOf(ayatItem);
+          if (index != -1) {
+            mutabablelis[index] = mutabablelis[index].copyWith(terbaca: true);
+            log('Terbaca: ${index.toString()}');
+            emit(state.copyWith(index: index, isPassed: true));
+          } else {
+            emit(state.copyWith(isPassed: false));
           }
-
-          quranData = quranData.copyWith(
-              data: quranData.data!.copyWith(ayat: mutabablelis));
-          emit(state.copyWith(
-              fetchDataProses: FetchStatus.success, quranData: quranData));
+          log('Status: ${state.isPassed}');
         }
-      } else {
-        log('Kata "$lastWords" tidak ditemukan dalam QuranData');
+
+        quranData = quranData.copyWith(
+            data: quranData.data!.copyWith(ayat: mutabablelis));
+        emit(state.copyWith(
+          fetchDataProses: FetchStatus.success,
+          quranData: quranData,
+        ));
       }
     } else {
       log('Error: QuranData bukan merupakan instance dari QuranModels');
@@ -221,24 +212,24 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   void groupByJenisKuis(List<Materi> materiList) {
     Map<String, Map<String, List<Materi>>> groupedByJenisKuisAndKategori = {};
 
-   for (var materi in materiList) {
-    String? jenisKuis = materi.jenis_kuis;
-    String? kategori = materi.kategori;
+    for (var materi in materiList) {
+      String? jenisKuis = materi.jenis_kuis;
+      String? kategori = materi.kategori;
 
-    if (jenisKuis != null && kategori != null) {
-      if (!groupedByJenisKuisAndKategori.containsKey(jenisKuis)) {
-        groupedByJenisKuisAndKategori[jenisKuis] = {};
+      if (jenisKuis != null && kategori != null) {
+        if (!groupedByJenisKuisAndKategori.containsKey(jenisKuis)) {
+          groupedByJenisKuisAndKategori[jenisKuis] = {};
+        }
+        if (!groupedByJenisKuisAndKategori[jenisKuis]!.containsKey(kategori)) {
+          groupedByJenisKuisAndKategori[jenisKuis]![kategori] = [];
+        }
+        groupedByJenisKuisAndKategori[jenisKuis]![kategori]!.add(materi);
       }
-      if (!groupedByJenisKuisAndKategori[jenisKuis]!.containsKey(kategori)) {
-        groupedByJenisKuisAndKategori[jenisKuis]![kategori] = [];
-      }
-      groupedByJenisKuisAndKategori[jenisKuis]![kategori]!.add(materi);
-    }
-    emit(state.copyWith(
+      emit(state.copyWith(
         fetchDataProses: FetchStatus.success,
         groupedMateri: groupedByJenisKuisAndKategori,
       ));
-  }
+    }
     print(groupedByJenisKuisAndKategori);
   }
 

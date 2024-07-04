@@ -956,6 +956,7 @@ mixin _$MainState {
   FetchStatus get fetchDataProses => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
   int get ayatIndex => throw _privateConstructorUsedError;
+  String get ayatAcuan => throw _privateConstructorUsedError;
   bool get isPassed => throw _privateConstructorUsedError;
   String get isLoading => throw _privateConstructorUsedError;
   dynamic get groupedMateri => throw _privateConstructorUsedError;
@@ -969,6 +970,7 @@ mixin _$MainState {
             FetchStatus fetchDataProses,
             int index,
             int ayatIndex,
+            String ayatAcuan,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri)
@@ -985,6 +987,7 @@ mixin _$MainState {
             FetchStatus fetchDataProses,
             int index,
             int ayatIndex,
+            String ayatAcuan,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri)?
@@ -1001,6 +1004,7 @@ mixin _$MainState {
             FetchStatus fetchDataProses,
             int index,
             int ayatIndex,
+            String ayatAcuan,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri)?
@@ -1043,6 +1047,7 @@ abstract class $MainStateCopyWith<$Res> {
       FetchStatus fetchDataProses,
       int index,
       int ayatIndex,
+      String ayatAcuan,
       bool isPassed,
       String isLoading,
       dynamic groupedMateri});
@@ -1068,6 +1073,7 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
     Object? fetchDataProses = null,
     Object? index = null,
     Object? ayatIndex = null,
+    Object? ayatAcuan = null,
     Object? isPassed = null,
     Object? isLoading = null,
     Object? groupedMateri = freezed,
@@ -1101,6 +1107,10 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.ayatIndex
           : ayatIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      ayatAcuan: null == ayatAcuan
+          ? _value.ayatAcuan
+          : ayatAcuan // ignore: cast_nullable_to_non_nullable
+              as String,
       isPassed: null == isPassed
           ? _value.isPassed
           : isPassed // ignore: cast_nullable_to_non_nullable
@@ -1133,6 +1143,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       FetchStatus fetchDataProses,
       int index,
       int ayatIndex,
+      String ayatAcuan,
       bool isPassed,
       String isLoading,
       dynamic groupedMateri});
@@ -1156,6 +1167,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? fetchDataProses = null,
     Object? index = null,
     Object? ayatIndex = null,
+    Object? ayatAcuan = null,
     Object? isPassed = null,
     Object? isLoading = null,
     Object? groupedMateri = freezed,
@@ -1186,6 +1198,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.ayatIndex
           : ayatIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      ayatAcuan: null == ayatAcuan
+          ? _value.ayatAcuan
+          : ayatAcuan // ignore: cast_nullable_to_non_nullable
+              as String,
       isPassed: null == isPassed
           ? _value.isPassed
           : isPassed // ignore: cast_nullable_to_non_nullable
@@ -1211,6 +1227,7 @@ class _$InitialImpl implements _Initial {
       this.fetchDataProses = FetchStatus.initial,
       this.index = 0,
       this.ayatIndex = 0,
+      this.ayatAcuan = '',
       this.isPassed = false,
       this.isLoading = '',
       this.groupedMateri = const []})
@@ -1259,6 +1276,9 @@ class _$InitialImpl implements _Initial {
   final int ayatIndex;
   @override
   @JsonKey()
+  final String ayatAcuan;
+  @override
+  @JsonKey()
   final bool isPassed;
   @override
   @JsonKey()
@@ -1269,7 +1289,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, materi: $materi, fetchDataProses: $fetchDataProses, index: $index, ayatIndex: $ayatIndex, isPassed: $isPassed, isLoading: $isLoading, groupedMateri: $groupedMateri)';
+    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, materi: $materi, fetchDataProses: $fetchDataProses, index: $index, ayatIndex: $ayatIndex, ayatAcuan: $ayatAcuan, isPassed: $isPassed, isLoading: $isLoading, groupedMateri: $groupedMateri)';
   }
 
   @override
@@ -1286,6 +1306,8 @@ class _$InitialImpl implements _Initial {
             (identical(other.index, index) || other.index == index) &&
             (identical(other.ayatIndex, ayatIndex) ||
                 other.ayatIndex == ayatIndex) &&
+            (identical(other.ayatAcuan, ayatAcuan) ||
+                other.ayatAcuan == ayatAcuan) &&
             (identical(other.isPassed, isPassed) ||
                 other.isPassed == isPassed) &&
             (identical(other.isLoading, isLoading) ||
@@ -1304,6 +1326,7 @@ class _$InitialImpl implements _Initial {
       fetchDataProses,
       index,
       ayatIndex,
+      ayatAcuan,
       isPassed,
       isLoading,
       const DeepCollectionEquality().hash(groupedMateri));
@@ -1325,13 +1348,14 @@ class _$InitialImpl implements _Initial {
             FetchStatus fetchDataProses,
             int index,
             int ayatIndex,
+            String ayatAcuan,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri)
         initial,
   }) {
     return initial(quranData, quran, surat, materi, fetchDataProses, index,
-        ayatIndex, isPassed, isLoading, groupedMateri);
+        ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri);
   }
 
   @override
@@ -1345,13 +1369,14 @@ class _$InitialImpl implements _Initial {
             FetchStatus fetchDataProses,
             int index,
             int ayatIndex,
+            String ayatAcuan,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri)?
         initial,
   }) {
     return initial?.call(quranData, quran, surat, materi, fetchDataProses,
-        index, ayatIndex, isPassed, isLoading, groupedMateri);
+        index, ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri);
   }
 
   @override
@@ -1365,6 +1390,7 @@ class _$InitialImpl implements _Initial {
             FetchStatus fetchDataProses,
             int index,
             int ayatIndex,
+            String ayatAcuan,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri)?
@@ -1373,7 +1399,7 @@ class _$InitialImpl implements _Initial {
   }) {
     if (initial != null) {
       return initial(quranData, quran, surat, materi, fetchDataProses, index,
-          ayatIndex, isPassed, isLoading, groupedMateri);
+          ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri);
     }
     return orElse();
   }
@@ -1416,6 +1442,7 @@ abstract class _Initial implements MainState {
       final FetchStatus fetchDataProses,
       final int index,
       final int ayatIndex,
+      final String ayatAcuan,
       final bool isPassed,
       final String isLoading,
       final dynamic groupedMateri}) = _$InitialImpl;
@@ -1434,6 +1461,8 @@ abstract class _Initial implements MainState {
   int get index;
   @override
   int get ayatIndex;
+  @override
+  String get ayatAcuan;
   @override
   bool get isPassed;
   @override

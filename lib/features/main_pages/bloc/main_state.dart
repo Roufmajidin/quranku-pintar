@@ -10,9 +10,10 @@ class MainState with _$MainState {
     @Default(FetchStatus.initial) FetchStatus fetchDataProses,
     @Default(0) int index,
     @Default(0) int ayatIndex,
+    @Default('') String ayatAcuan,
     @Default(false) bool isPassed,
     @Default('') String isLoading,
-        @Default([])  groupedMateri,
+    @Default([])  groupedMateri,
 
 
   }) = _Initial;
