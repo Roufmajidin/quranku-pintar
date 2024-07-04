@@ -6,7 +6,7 @@ class TextComparison extends StatelessWidget {
   final String ayatAcuanText;
   final String teksRekognisiText;
 
-  TextComparison({required this.ayatAcuanText, required this.teksRekognisiText});
+  const TextComparison({required this.ayatAcuanText, required this.teksRekognisiText});
 
   @override
   Widget build(BuildContext context) {
