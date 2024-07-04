@@ -59,7 +59,7 @@ class QuranDatasources {
 
   
   Future<Either<Failure, List<Materi>>> getMateri() async {
-    const String apiUrl = 'https://1e3e-103-191-218-249.ngrok-free.app/getmateri';
+    const String apiUrl = 'https://39b2-140-213-99-243.ngrok-free.app/getmateri';
     final response = await http.get(Uri.parse(apiUrl));
     log('dt s : ${response.statusCode}');
     if (response.statusCode == 200) {
