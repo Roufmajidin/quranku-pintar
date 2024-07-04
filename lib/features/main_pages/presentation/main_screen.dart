@@ -219,7 +219,7 @@ class _MainViewState extends State<MainView> {
 
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = "https://1e3e-103-191-218-249.ngrok-free.app";
+    var apiUrl = "https://39b2-140-213-99-243.ngrok-free.app";
     log('mau ke tartil $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
@@ -242,7 +242,6 @@ class _MainViewState extends State<MainView> {
           selesai = true;
           statusText = text;
           cekpas(statusText);
-
         });
       }
     } catch (e) {
@@ -333,6 +332,7 @@ class _MainViewState extends State<MainView> {
       backgroundColor: t.rule.color(context),
     );
   }
+
   String pp = '';
   ItemScrollController sc = ItemScrollController();
   @override
@@ -392,7 +392,9 @@ class _MainViewState extends State<MainView> {
                 var quranData = (state.quranData as QuranModels).data!;
                 var ayat = quranData.ayat;
                 ns = quranData.namaLatin;
-                pp = ayat[state.ayatIndex].teksArab;
+                if (state.ayatIndex == 0) {
+                  pp = quranData.ayat[0].teksArab;
+                }
               }
 
               return Container(
@@ -705,6 +707,8 @@ class _MainViewState extends State<MainView> {
                                             stopRecord();
                                           } else {
                                             startRecord();
+                                            pp = '';
+                                            statusText = '';
                                           }
                                         },
                                         child: Stack(
@@ -745,15 +749,34 @@ class _MainViewState extends State<MainView> {
                                           fontSize: 16),
                                     ),
                                     // Text(statusText),
-                                    selesai == true ?
-                                    TextComparison(
-                                            ayatAcuanText:
-                                               pp,
-                                            teksRekognisiText:
-                                                statusText
-                                          )
-                                          : const SizedBox(),
+                                    selesai == true
+                                        ? BlocBuilder<MainBloc, MainState>(
+                                            builder: (context, state) {
+                                            if (statusText !=
+                                                    'Mengecek Audio' ||
+                                                statusText !=
+                                                    'Inisialisasi Audio') {
+                                              return TextComparison(
+                                                  ayatAcuanText:
+                                                      isRecord == true
+                                                          ? ''
+                                                          : state.ayatAcuan,
+                                                  teksRekognisiText:
+                                                      statusText ==
+                                                              'Mengecek Audio' ||    statusText ==
+                                                              'Inisialisasi Audio'
+                                                          ? ''
+                                                          : statusText);
+                                            }
+                                            return const SizedBox();
+                                          })
+                                        : const SizedBox(),
                                     const SizedBox(height: 16),
+                                    GestureDetector(
+                                        onTap: () {
+                                          print(statusText);
+                                        },
+                                        child: Text('cek'))
                                   ],
                                 ),
                               ));
