@@ -53,11 +53,12 @@ String pp = '';
 ItemScrollController sc = ItemScrollController();
 
 class _DetailViewState extends State<DetailView> {
-  @override
+  late List<bool> isPlay;
   double sizeList = 600;
   @override
   void initState() {
     super.initState();
+    isPlay = List.filled(widget.i.length, false);
     _initSpeech();
   }
 
@@ -69,13 +70,12 @@ class _DetailViewState extends State<DetailView> {
   String _lastWords = '';
   String r = '';
   bool _ditemukan = false;
-  bool _isShowSnackbar = false;
   late Record audioRecord;
   late AudioPlayer audioPlayer;
   void _initSpeech() async {
     _speechEnabled = await _speechToText.initialize();
-    // audioRecord = Record();
-    // audioPlayer = AudioPlayer();
+    audioRecord = Record();
+    audioPlayer = AudioPlayer();
     setState(() {});
   }
 
@@ -309,7 +309,7 @@ class _DetailViewState extends State<DetailView> {
                         ),
                       );
                     }
-                
+
                     return SizedBox(
                       height: sizeList,
                       child: Padding(
@@ -320,288 +320,340 @@ class _DetailViewState extends State<DetailView> {
                             itemBuilder: (context, index) {
                               var d = widget.i[index];
                               var no = index += 1;
-                              return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                       isDialog == false ? isDialog = true : isDialog = false
-                                      ;
-                                    });
-                                    log(d.toString());
-                                   
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 16),
-                                    child: Container(
-                                      // height: 120,
-                                      width: size.width,
-                                      decoration: BoxDecoration(
-                                          color: const Color.fromARGB(
-                                                  255, 24, 197, 154)
-                                              .withOpacity(0.8),
-                                          borderRadius: BorderRadius.circular(8)),
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 0),
-                                            child: SizedBox(
-                                              width: size.width * 0.9,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Align(
-                                                    alignment: Alignment.topLeft,
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          width: 50,
-                                                          height: 50,
-                                                          decoration: BoxDecoration(
-                                                              color: const Color
-                                                                  .fromARGB(255, 24,
-                                                                  197, 154),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(8)),
-                                                          child: Text(
-                                                            no.toString(),
-                                                            style: AppTextStyle
-                                                                .body2
-                                                                .setBold()
-                                                                .copyWith(
-                                                                    color: Colors
-                                                                        .white),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets.only(
-                                                                  left: 16),
-                                                          child: Text(
-                                                            d.judul.toString(),
-                                                            style: AppTextStyle
-                                                                .body2
-                                                                .setSemiBold()
-                                                                .copyWith(
-                                                                    fontFamily:
-                                                                        'Popins',
-                                                                    color: Colors
-                                                                        .white),
-                                                          ),
-                                                        ),
-                                                      ],
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: Container(
+                                  // height: 120,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                              255, 24, 197, 154)
+                                          .withOpacity(0.8),
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 0),
+                                        child: SizedBox(
+                                          width: size.width * 0.9,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      width: 50,
+                                                      height: 50,
+                                                      decoration: BoxDecoration(
+                                                          color: const Color
+                                                              .fromARGB(255, 24,
+                                                              197, 154),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8)),
+                                                      child: Text(
+                                                        no.toString(),
+                                                        style: AppTextStyle
+                                                            .body2
+                                                            .setBold()
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .white),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(height: 8),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 8),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          d.materi.toString(),
-                                                          style: const TextStyle(
-                                                              color: Colors.white,
-                                                              fontStyle:
-                                                                  FontStyle.italic),
-                                                        ),
-                                                        const SizedBox(height: 8),
-                                                        Text(
-                                                          'Contoh Soal ${d.contoh_soal.toString()}',
-                                                          style: AppTextStyle.body2
-                                                              .setSemiBold()
-                                                              .copyWith(
-                                                                  fontFamily:
-                                                                      'Popins',
-                                                                  color:
-                                                                      Colors.white),
-                                                        ),
-                                                        const SizedBox(height: 8),
-                                                        const Text(
-                                                          'Latihan : Lafalkan salah satu huruf yang ada pada contoh!',
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontStyle:
-                                                                  FontStyle.italic),
-                                                        ),
-                                                        Align(
-                                                          alignment:
-                                                              Alignment.bottomRight,
-                                                          child: Container(
-                                                              alignment:
-                                                                  Alignment.center,
-                                                              width: 50,
-                                                              height: 50,
-                                                              decoration: BoxDecoration(
-                                                                  color: const Color
-                                                                      .fromARGB(255,
-                                                                      24, 197, 154),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8)),
-                                                              child: const Icon(
-                                                                Icons.mic,
-                                                                color: Colors.white,
-                                                              )),
-                                                        ),
-                                                        const SizedBox(height: 8),
-                                                      ],
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 16),
+                                                      child: Text(
+                                                        d.judul.toString(),
+                                                        style: AppTextStyle
+                                                            .body2
+                                                            .setSemiBold()
+                                                            .copyWith(
+                                                                fontFamily:
+                                                                    'Popins',
+                                                                color: Colors
+                                                                    .white),
+                                                      ),
                                                     ),
-                                                  )
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
+                                              const SizedBox(height: 8),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      d.materi.toString(),
+                                                      style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontStyle:
+                                                              FontStyle.italic),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    Text(
+                                                      'Contoh Soal : ${d.contoh_soal.toString()}',
+                                                      style: AppTextStyle.body3
+                                                          .setSemiBold()
+                                                          .copyWith(
+                                                              fontFamily:
+                                                                  'Popins',
+                                                              color:
+                                                                  Colors.white),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    Row(
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              for (int i = 0;
+                                                                  i <
+                                                                      isPlay
+                                                                          .length;
+                                                                  i++) {
+                                                                isPlay =
+                                                                    List.filled(
+                                                                        widget.i
+                                                                            .length,
+                                                                        false);
+                                                              }
+                                                              isPlay[index] =
+                                                                  true;
+                                                            });
+                                                            log(isPlay
+                                                                .toString());
+                                                          },
+                                                          child: Icon(
+                                                              !isPlay[index]
+                                                                  ? Icons
+                                                                      .play_arrow_rounded
+                                                                  : Icons.pause,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                        Text(
+                                                          isPlay[index]
+                                                              ? 'Playying...'
+                                                              : 'Audio Bacaan',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    const SizedBox(height: 8),
+                                                    const Text(
+                                                      'Latihan : Lafalkan salah satu huruf yang ada pada contoh!',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontStyle:
+                                                              FontStyle.italic),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          isDialog == false
+                                                              ? isDialog = true
+                                                              : isDialog =
+                                                                  false;
+                                                        });
+                                                        log(d.toString());
+                                                      },
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .bottomRight,
+                                                        child: Container(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            width: 50,
+                                                            height: 50,
+                                                            decoration: BoxDecoration(
+                                                                color: const Color
+                                                                    .fromARGB(
+                                                                    255,
+                                                                    24,
+                                                                    197,
+                                                                    154),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8)),
+                                                            child: const Icon(
+                                                              Icons.mic,
+                                                              color:
+                                                                  Colors.white,
+                                                            )),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ));
+                                    ],
+                                  ),
+                                ),
+                              );
                             },
                           )),
                     );
                   },
                 ),
-              
-              isDialog == true ?
+                isDialog == true
+                    ?
 
-              // dialog
-              BlocBuilder<MainBloc, MainState>(builder: (context, state) {
-                return Positioned(
-                    top: 300,
-                    width: MediaQuery.of(context).size.width,
-                    child: Container(
-                      // color: Colors.white,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      height: 500,
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Spacer(flex: 1),
-                              const SizedBox(
-                                width: 40,
-                              ),
-                              Container(
-                                  height: 5,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(12))),
-                              FloatingActionButton(
-                                backgroundColor: Colors.white,
-                                elevation: 0.0,
-                                onPressed: () {
-                                  setState(() {
-                                    isDialog = false;
-                                    statusText = '';
-                                    isListening = false;
-                                    isRecord = false;
-                                    // pathConvert = ;
-                                    selesai = false;
-                                  });
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(Icons.close),
+                    // dialog
+                    BlocBuilder<MainBloc, MainState>(builder: (context, state) {
+                        return Positioned(
+                            top: 300,
+                            width: MediaQuery.of(context).size.width,
+                            child: Container(
+                              // color: Colors.white,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          FloatingActionButton(
-                              backgroundColor: Colors.green,
-                              onPressed: () async {
-                                if (isRecord == true) {
-                                  stopRecord();
-                                } else {
-                                  startRecord();
-                                  pp = '';
-                                  statusText = '';
-                                }
-                              },
-                              child: Stack(
+                              height: 500,
+                              child: Column(
                                 children: [
-                                  if (statusText == '' ||
-                                      statusText == 'Inisialisasi Audio')
-                                    Icon(
-                                      _speechEnabled == false
-                                          ? Icons.mic_none
-                                          : Icons.mic,
-                                      color: Colors.white,
-                                    ),
-                                  if (statusText == 'Mengecek Audio')
-                                    const CircularProgressIndicator(
-                                      color: Colors.white,
-                                    )
-                                ],
-                              )),
-                          const SizedBox(height: 16),
-                          // pe
-                          // statusText == ''
-                          //     ? Text('Ucapkan ayat ke- ${state.ayatIndex+1}')
-                          //     : TextComparison(
-                          //         ayatAcuanText:
-                          //            pp,
-                          //         teksRekognisiText:
-                          //             "بسم الله  الرحيم",
-                          //       ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      // Spacer(flex: 1),
+                                      const SizedBox(
+                                        width: 40,
+                                      ),
+                                      Container(
+                                          height: 5,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(12))),
+                                      FloatingActionButton(
+                                        backgroundColor: Colors.white,
+                                        elevation: 0.0,
+                                        onPressed: () {
+                                          setState(() {
+                                            isDialog = false;
+                                            statusText = '';
+                                            isListening = false;
+                                            isRecord = false;
+                                            // pathConvert = ;
+                                            selesai = false;
+                                          });
+                                        },
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(Icons.close),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  FloatingActionButton(
+                                      backgroundColor: Colors.green,
+                                      onPressed: () async {
+                                        if (isRecord == true) {
+                                          stopRecord();
+                                        } else {
+                                          startRecord();
+                                          pp = '';
+                                          statusText = '';
+                                        }
+                                      },
+                                      child: Stack(
+                                        children: [
+                                          if (statusText == '' ||
+                                              statusText ==
+                                                  'Inisialisasi Audio')
+                                            Icon(
+                                              _speechEnabled == false
+                                                  ? Icons.mic_none
+                                                  : Icons.mic,
+                                              color: Colors.white,
+                                            ),
+                                          if (statusText == 'Mengecek Audio')
+                                            const CircularProgressIndicator(
+                                              color: Colors.white,
+                                            )
+                                        ],
+                                      )),
+                                  const SizedBox(height: 16),
+                                  // pe
+                                  // statusText == ''
+                                  //     ? Text('Ucapkan ayat ke- ${state.ayatIndex+1}')
+                                  //     : TextComparison(
+                                  //         ayatAcuanText:
+                                  //            pp,
+                                  //         teksRekognisiText:
+                                  //             "بسم الله  الرحيم",
+                                  //       ),
 
-                          Text(
-                            statusText == ''
-                                ? "Tekan untuk memulai"
-                                : 'Result is',
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          ),
-                          // Text(statusText),
-                          selesai == true
-                              ? BlocBuilder<MainBloc, MainState>(
-                                  builder: (context, state) {
-                                  if (statusText != 'Mengecek Audio' ||
-                                      statusText != 'Inisialisasi Audio') {
-                                    return TextComparison(
-                                        ayatAcuanText: isRecord == true
-                                            ? ''
-                                            : state.ayatAcuan,
-                                        teksRekognisiText:
-                                            statusText == 'Mengecek Audio' ||
-                                                    statusText ==
-                                                        'Inisialisasi Audio'
-                                                ? ''
-                                                : statusText);
-                                  }
-                                  return const SizedBox();
-                                })
-                              : const SizedBox(),
-                          const SizedBox(height: 16),
-                        ],
-                      ),
-                    ));
-              }) :
-              const SizedBox()
-              
-                                    
+                                  Text(
+                                    statusText == ''
+                                        ? "Tekan untuk memulai"
+                                        : 'Result is',
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                  // Text(statusText),
+                                  selesai == true
+                                      ? BlocBuilder<MainBloc, MainState>(
+                                          builder: (context, state) {
+                                          if (statusText != 'Mengecek Audio' ||
+                                              statusText !=
+                                                  'Inisialisasi Audio') {
+                                            return TextComparison(
+                                                ayatAcuanText: isRecord == true
+                                                    ? ''
+                                                    : state.ayatAcuan,
+                                                teksRekognisiText: statusText ==
+                                                            'Mengecek Audio' ||
+                                                        statusText ==
+                                                            'Inisialisasi Audio'
+                                                    ? ''
+                                                    : statusText);
+                                          }
+                                          return const SizedBox();
+                                        })
+                                      : const SizedBox(),
+                                  const SizedBox(height: 16),
+                                ],
+                              ),
+                            ));
+                      })
+                    : const SizedBox()
               ],
             ),
             //  cont
-          
-              
           ],
         ),
       ),
