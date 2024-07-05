@@ -32,6 +32,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:fancy_snackbar/fancy_snackbar.dart';
 import 'package:record/record.dart';
+import 'package:just_audio/just_audio.dart' as ja;
 
 class DetailView extends StatefulWidget {
   DetailView({super.key, required this.i});
@@ -71,12 +72,24 @@ class _DetailViewState extends State<DetailView> {
   String r = '';
   bool _ditemukan = false;
   late Record audioRecord;
-  late AudioPlayer audioPlayer;
+  late ja.AudioPlayer _player;
   void _initSpeech() async {
     _speechEnabled = await _speechToText.initialize();
     audioRecord = Record();
-    audioPlayer = AudioPlayer();
+
+    _player = ja.AudioPlayer();
+    _player.play();
+    // Set the release mode to keep the source after playback has completed.
+
     setState(() {});
+  }
+
+  Future<void> _initAudioPlayer() async {
+    await _player.setUrl(
+        'https://3518-103-191-218-249.ngrok-free.app/get_audio/output_file.mp3'); // Mengatur URL audio untuk diputar
+    await _player.setLoopMode(
+        ja.LoopMode.off); // Opsional: Mengatur mode pengulangan audio
+    _player.play(); // Memulai pemutaran audio
   }
 
   Future<void> startRecord() async {
@@ -95,14 +108,30 @@ class _DetailViewState extends State<DetailView> {
   }
 
   String cntoh = '';
-  Future<void> playRecord() async {
+  Future<void> playRecord(String url, int index) async {
     try {
-      Source urlS = UrlSource(audioPath);
+    var uri = 'https://3518-103-191-218-249.ngrok-free.app/get_audio/$url';
+      // Source urlS = UrlSource(
+      //     'https://3518-103-191-218-249.ngrok-free.app/get_audio/output_file.mp3');
+
+      await _player.setUrl(
+          uri);
+      _player.play();
+
+      _player.playerStateStream.listen((state) {
+        if (state.processingState == ja.ProcessingState.completed) {
+          print('selesai');
+            setState(() {
+              isPlay[index] = false;
+            });
+         
+          _player.stop();
+        }
+      });
       setState(() {
-        cntoh = urlS.toString();
+        cntoh = uri.toString();
       });
       log(cntoh.toString());
-      await audioPlayer.play(urlS);
     } catch (e) {
       print('error playy $e');
     }
@@ -430,11 +459,17 @@ class _DetailViewState extends State<DetailView> {
                                                                             .length;
                                                                     i++) {
                                                                   isPlay[i] =
-                                                                      false; 
+                                                                      false;
                                                                 }
                                                                 isPlay[index] =
-                                                                    true; 
+                                                                    true;
+                                                                playRecord(
+                                                                    d.audio
+                                                                        .toString(),
+                                                                    index);
                                                               }
+                                                              // isPlay[index] =
+                                                              //     true;
                                                             });
                                                             log(isPlay
                                                                 .toString());
