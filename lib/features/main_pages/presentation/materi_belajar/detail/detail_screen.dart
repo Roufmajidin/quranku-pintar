@@ -231,7 +231,7 @@ class _DetailViewState extends State<DetailView> {
 
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = "https://39b2-140-213-99-243.ngrok-free.app";
+    var apiUrl = "https://3518-103-191-218-249.ngrok-free.app";
     log('mau ke tartil $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
@@ -419,19 +419,22 @@ class _DetailViewState extends State<DetailView> {
                                                         GestureDetector(
                                                           onTap: () {
                                                             setState(() {
-                                                              for (int i = 0;
-                                                                  i <
-                                                                      isPlay
-                                                                          .length;
-                                                                  i++) {
-                                                                isPlay =
-                                                                    List.filled(
-                                                                        widget.i
-                                                                            .length,
-                                                                        false);
+                                                              if (isPlay[
+                                                                  index]) {
+                                                                isPlay[index] =
+                                                                    false;
+                                                              } else {
+                                                                for (int i = 0;
+                                                                    i <
+                                                                        isPlay
+                                                                            .length;
+                                                                    i++) {
+                                                                  isPlay[i] =
+                                                                      false; 
+                                                                }
+                                                                isPlay[index] =
+                                                                    true; 
                                                               }
-                                                              isPlay[index] =
-                                                                  true;
                                                             });
                                                             log(isPlay
                                                                 .toString());
