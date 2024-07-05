@@ -11,6 +11,7 @@ class Materi with _$Materi {
      String? judul,
      String? kategori,
      String? materi,
+     String? audio,
   }) = _Materi;
 
   factory Materi.fromJson(Map<String, dynamic> json) => _$MateriFromJson(json);

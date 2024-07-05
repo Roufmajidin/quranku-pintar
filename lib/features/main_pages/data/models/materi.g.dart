@@ -16,6 +16,7 @@ _$MateriImpl _$$MateriImplFromJson(Map<String, dynamic> json) => _$MateriImpl(
       judul: json['judul'] as String?,
       kategori: json['kategori'] as String?,
       materi: json['materi'] as String?,
+      audio: json['audio'] as String?,
     );
 
 Map<String, dynamic> _$$MateriImplToJson(_$MateriImpl instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$MateriImplToJson(_$MateriImpl instance) =>
       'judul': instance.judul,
       'kategori': instance.kategori,
       'materi': instance.materi,
+      'audio': instance.audio,
     };

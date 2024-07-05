@@ -26,6 +26,7 @@ mixin _$Materi {
   String? get judul => throw _privateConstructorUsedError;
   String? get kategori => throw _privateConstructorUsedError;
   String? get materi => throw _privateConstructorUsedError;
+  String? get audio => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $MateriCopyWith<$Res> {
       String? jenis_kuis,
       String? judul,
       String? kategori,
-      String? materi});
+      String? materi,
+      String? audio});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$MateriCopyWithImpl<$Res, $Val extends Materi>
     Object? judul = freezed,
     Object? kategori = freezed,
     Object? materi = freezed,
+    Object? audio = freezed,
   }) {
     return _then(_value.copyWith(
       contoh_soal: null == contoh_soal
@@ -91,6 +94,10 @@ class _$MateriCopyWithImpl<$Res, $Val extends Materi>
           ? _value.materi
           : materi // ignore: cast_nullable_to_non_nullable
               as String?,
+      audio: freezed == audio
+          ? _value.audio
+          : audio // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -108,7 +115,8 @@ abstract class _$$MateriImplCopyWith<$Res> implements $MateriCopyWith<$Res> {
       String? jenis_kuis,
       String? judul,
       String? kategori,
-      String? materi});
+      String? materi,
+      String? audio});
 }
 
 /// @nodoc
@@ -128,6 +136,7 @@ class __$$MateriImplCopyWithImpl<$Res>
     Object? judul = freezed,
     Object? kategori = freezed,
     Object? materi = freezed,
+    Object? audio = freezed,
   }) {
     return _then(_$MateriImpl(
       contoh_soal: null == contoh_soal
@@ -154,6 +163,10 @@ class __$$MateriImplCopyWithImpl<$Res>
           ? _value.materi
           : materi // ignore: cast_nullable_to_non_nullable
               as String?,
+      audio: freezed == audio
+          ? _value.audio
+          : audio // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -167,7 +180,8 @@ class _$MateriImpl implements _Materi {
       this.jenis_kuis,
       this.judul,
       this.kategori,
-      this.materi})
+      this.materi,
+      this.audio})
       : _contoh_soal = contoh_soal;
 
   factory _$MateriImpl.fromJson(Map<String, dynamic> json) =>
@@ -192,10 +206,12 @@ class _$MateriImpl implements _Materi {
   final String? kategori;
   @override
   final String? materi;
+  @override
+  final String? audio;
 
   @override
   String toString() {
-    return 'Materi(contoh_soal: $contoh_soal, id: $id, jenis_kuis: $jenis_kuis, judul: $judul, kategori: $kategori, materi: $materi)';
+    return 'Materi(contoh_soal: $contoh_soal, id: $id, jenis_kuis: $jenis_kuis, judul: $judul, kategori: $kategori, materi: $materi, audio: $audio)';
   }
 
   @override
@@ -211,7 +227,8 @@ class _$MateriImpl implements _Materi {
             (identical(other.judul, judul) || other.judul == judul) &&
             (identical(other.kategori, kategori) ||
                 other.kategori == kategori) &&
-            (identical(other.materi, materi) || other.materi == materi));
+            (identical(other.materi, materi) || other.materi == materi) &&
+            (identical(other.audio, audio) || other.audio == audio));
   }
 
   @JsonKey(ignore: true)
@@ -223,7 +240,8 @@ class _$MateriImpl implements _Materi {
       jenis_kuis,
       judul,
       kategori,
-      materi);
+      materi,
+      audio);
 
   @JsonKey(ignore: true)
   @override
@@ -246,7 +264,8 @@ abstract class _Materi implements Materi {
       final String? jenis_kuis,
       final String? judul,
       final String? kategori,
-      final String? materi}) = _$MateriImpl;
+      final String? materi,
+      final String? audio}) = _$MateriImpl;
 
   factory _Materi.fromJson(Map<String, dynamic> json) = _$MateriImpl.fromJson;
 
@@ -262,6 +281,8 @@ abstract class _Materi implements Materi {
   String? get kategori;
   @override
   String? get materi;
+  @override
+  String? get audio;
   @override
   @JsonKey(ignore: true)
   _$$MateriImplCopyWith<_$MateriImpl> get copyWith =>
