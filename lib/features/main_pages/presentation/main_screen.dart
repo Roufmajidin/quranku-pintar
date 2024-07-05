@@ -219,7 +219,7 @@ class _MainViewState extends State<MainView> {
 
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = "https://3518-103-191-218-249.ngrok-free.app";
+    var apiUrl = "https://3c8b-103-191-218-249.ngrok-free.app";
     log('mau ke tartil $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
