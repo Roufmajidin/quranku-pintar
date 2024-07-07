@@ -221,6 +221,9 @@ class _MainViewState extends State<MainView> {
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
     var apiUrl = "https://80be-140-213-47-231.ngrok-free.app";
+    setState(() {
+      statusText = 'Mengecek Audio';
+    });
     log('mau ke tartil $filePath');
     // ubah
     // File file = File(filePath);
@@ -229,12 +232,12 @@ class _MainViewState extends State<MainView> {
     // var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
     // request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
     //     filename: filePath.split("/").last));
-    ByteData bytes = await rootBundle.load('assets/audios/middun.m4a');
+    ByteData bytes = await rootBundle.load('assets/audios/bismillah.m4a');
     Uint8List buffer = bytes.buffer.asUint8List();
 
     // Simpan sementara di direktori aplikasi
     Directory tempDir = await getTemporaryDirectory();
-    String tempPath = '${tempDir.path}/middun.m4a';
+    String tempPath = '${tempDir.path}/bismillah.m4a';
     File tempFile = File(tempPath);
     await tempFile.writeAsBytes(buffer);
 
@@ -676,7 +679,7 @@ class _MainViewState extends State<MainView> {
                                     topRight: Radius.circular(20),
                                   ),
                                 ),
-                                height: 500,
+                                // height: 500,
                                 child: Column(
                                   children: [
                                     Row(
@@ -742,8 +745,8 @@ class _MainViewState extends State<MainView> {
                                               const CircularProgressIndicator(
                                                 color: Colors.white,
                                               )
-                                            else 
-                                              const Icon(Icons.mic)
+                                            // else 
+                                            //   const Icon(Icons.mic)
                                               
                                           ],
                                         )),
@@ -761,11 +764,8 @@ class _MainViewState extends State<MainView> {
                                     Text(
                                       statusText == ''
                                           ? "Tekan untuk memulai"
-                                          : 'Result is',
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
+                                          : 'Result Is',
+                                      style: AppTextStyle.body3.setRegular(),
                                     ),
                                     // Text(statusText),
                                     selesai == true
@@ -790,12 +790,30 @@ class _MainViewState extends State<MainView> {
                                             return const SizedBox();
                                           })
                                         : const SizedBox(),
-                                    const SizedBox(height: 16),
-                                    GestureDetector(
-                                        onTap: () {
-                                          print(statusText);
-                                        },
-                                        child: const Text('cek'))
+                                    const SizedBox(height: 15),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal:30),
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            print(statusText);
+                                          },
+                                          // koreksi
+                                          child:  ListView.builder(
+                                            padding: const EdgeInsets.only(bottom: 40),
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.vertical,
+                                            physics: const ScrollPhysics(),
+                                            itemCount: state.koreksian.length-1,
+                                            itemBuilder: (context, index) {
+                                            return Row(
+                                              children: [
+                                                const Icon(Icons.circle, size: 6,),
+                                                const SizedBox(width: 6),
+                                                Text(state.koreksian[index], style: AppTextStyle.body3.setRegular().copyWith(overflow: TextOverflow.ellipsis),),
+                                              ],
+                                            );
+                                          },)),
+                                    )
                                   ],
                                 ),
                               ));

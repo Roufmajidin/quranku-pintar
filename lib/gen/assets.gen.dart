@@ -13,8 +13,14 @@ class $AssetsAudiosGen {
   /// File path: assets/audios/b.mp3
   String get b => 'assets/audios/b.mp3';
 
+  /// File path: assets/audios/bismillah.m4a
+  String get bismillah => 'assets/audios/bismillah.m4a';
+
   /// File path: assets/audios/likal.mp3
   String get likal => 'assets/audios/likal.mp3';
+
+  /// File path: assets/audios/middun.m4a
+  String get middun => 'assets/audios/middun.m4a';
 
   /// File path: assets/audios/sample1.mp3
   String get sample1 => 'assets/audios/sample1.mp3';
@@ -33,7 +39,7 @@ class $AssetsAudiosGen {
 
   /// List of all assets
   List<String> get values =>
-      [b, likal, sample1, satuMp3, satuWav, testt, yambu];
+      [b, bismillah, likal, middun, sample1, satuMp3, satuWav, testt, yambu];
 }
 
 class Assets {

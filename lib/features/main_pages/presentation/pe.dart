@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:diff_match_patch/diff_match_patch.dart';
+import 'package:quranku_pintar/common/extensions/font_weight.dart';
+import 'package:quranku_pintar/common/themes/themes.dart';
 
 class TextComparison extends StatefulWidget {
   final String ayatAcuanText;
@@ -70,13 +72,12 @@ class _TextComparisonState extends State<TextComparison> {
           return TextSpan(
             recognizer: recognizer,
             text: diff.text,
-            style: TextStyle(
-                color: showBackground == true
+            style: AppTextStyle.body1.setBold().copyWith(color: showBackground == true
                     ? textColor.withOpacity(0.4)
                     : textColor,
                 backgroundColor: showBackground == true
                     ? Colors.amber.withOpacity(0.5)
-                    : Colors.white.withOpacity(0.2)),
+                    : Colors.white.withOpacity(0.2))
           );
         }).toList(),
       ),
