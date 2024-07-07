@@ -960,6 +960,7 @@ mixin _$MainState {
   bool get isPassed => throw _privateConstructorUsedError;
   String get isLoading => throw _privateConstructorUsedError;
   dynamic get groupedMateri => throw _privateConstructorUsedError;
+  List<String> get koreksian => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -973,7 +974,8 @@ mixin _$MainState {
             String ayatAcuan,
             bool isPassed,
             String isLoading,
-            dynamic groupedMateri)
+            dynamic groupedMateri,
+            List<String> koreksian)
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -990,7 +992,8 @@ mixin _$MainState {
             String ayatAcuan,
             bool isPassed,
             String isLoading,
-            dynamic groupedMateri)?
+            dynamic groupedMateri,
+            List<String> koreksian)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -1007,7 +1010,8 @@ mixin _$MainState {
             String ayatAcuan,
             bool isPassed,
             String isLoading,
-            dynamic groupedMateri)?
+            dynamic groupedMateri,
+            List<String> koreksian)?
         initial,
     required TResult orElse(),
   }) =>
@@ -1050,7 +1054,8 @@ abstract class $MainStateCopyWith<$Res> {
       String ayatAcuan,
       bool isPassed,
       String isLoading,
-      dynamic groupedMateri});
+      dynamic groupedMateri,
+      List<String> koreksian});
 }
 
 /// @nodoc
@@ -1077,6 +1082,7 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
     Object? isPassed = null,
     Object? isLoading = null,
     Object? groupedMateri = freezed,
+    Object? koreksian = null,
   }) {
     return _then(_value.copyWith(
       quranData: freezed == quranData
@@ -1123,6 +1129,10 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.groupedMateri
           : groupedMateri // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      koreksian: null == koreksian
+          ? _value.koreksian
+          : koreksian // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -1146,7 +1156,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       String ayatAcuan,
       bool isPassed,
       String isLoading,
-      dynamic groupedMateri});
+      dynamic groupedMateri,
+      List<String> koreksian});
 }
 
 /// @nodoc
@@ -1171,6 +1182,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? isPassed = null,
     Object? isLoading = null,
     Object? groupedMateri = freezed,
+    Object? koreksian = null,
   }) {
     return _then(_$InitialImpl(
       quranData: freezed == quranData ? _value.quranData! : quranData,
@@ -1212,6 +1224,10 @@ class __$$InitialImplCopyWithImpl<$Res>
               as String,
       groupedMateri:
           freezed == groupedMateri ? _value.groupedMateri! : groupedMateri,
+      koreksian: null == koreksian
+          ? _value._koreksian
+          : koreksian // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -1230,10 +1246,12 @@ class _$InitialImpl implements _Initial {
       this.ayatAcuan = '',
       this.isPassed = false,
       this.isLoading = '',
-      this.groupedMateri = const []})
+      this.groupedMateri = const [],
+      final List<String> koreksian = const []})
       : _quran = quran,
         _surat = surat,
-        _materi = materi;
+        _materi = materi,
+        _koreksian = koreksian;
 
   @override
   @JsonKey()
@@ -1286,10 +1304,18 @@ class _$InitialImpl implements _Initial {
   @override
   @JsonKey()
   final dynamic groupedMateri;
+  final List<String> _koreksian;
+  @override
+  @JsonKey()
+  List<String> get koreksian {
+    if (_koreksian is EqualUnmodifiableListView) return _koreksian;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_koreksian);
+  }
 
   @override
   String toString() {
-    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, materi: $materi, fetchDataProses: $fetchDataProses, index: $index, ayatIndex: $ayatIndex, ayatAcuan: $ayatAcuan, isPassed: $isPassed, isLoading: $isLoading, groupedMateri: $groupedMateri)';
+    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, materi: $materi, fetchDataProses: $fetchDataProses, index: $index, ayatIndex: $ayatIndex, ayatAcuan: $ayatAcuan, isPassed: $isPassed, isLoading: $isLoading, groupedMateri: $groupedMateri, koreksian: $koreksian)';
   }
 
   @override
@@ -1313,7 +1339,9 @@ class _$InitialImpl implements _Initial {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
-                .equals(other.groupedMateri, groupedMateri));
+                .equals(other.groupedMateri, groupedMateri) &&
+            const DeepCollectionEquality()
+                .equals(other._koreksian, _koreksian));
   }
 
   @override
@@ -1329,7 +1357,8 @@ class _$InitialImpl implements _Initial {
       ayatAcuan,
       isPassed,
       isLoading,
-      const DeepCollectionEquality().hash(groupedMateri));
+      const DeepCollectionEquality().hash(groupedMateri),
+      const DeepCollectionEquality().hash(_koreksian));
 
   @JsonKey(ignore: true)
   @override
@@ -1351,11 +1380,12 @@ class _$InitialImpl implements _Initial {
             String ayatAcuan,
             bool isPassed,
             String isLoading,
-            dynamic groupedMateri)
+            dynamic groupedMateri,
+            List<String> koreksian)
         initial,
   }) {
     return initial(quranData, quran, surat, materi, fetchDataProses, index,
-        ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri);
+        ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri, koreksian);
   }
 
   @override
@@ -1372,11 +1402,23 @@ class _$InitialImpl implements _Initial {
             String ayatAcuan,
             bool isPassed,
             String isLoading,
-            dynamic groupedMateri)?
+            dynamic groupedMateri,
+            List<String> koreksian)?
         initial,
   }) {
-    return initial?.call(quranData, quran, surat, materi, fetchDataProses,
-        index, ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri);
+    return initial?.call(
+        quranData,
+        quran,
+        surat,
+        materi,
+        fetchDataProses,
+        index,
+        ayatIndex,
+        ayatAcuan,
+        isPassed,
+        isLoading,
+        groupedMateri,
+        koreksian);
   }
 
   @override
@@ -1393,13 +1435,14 @@ class _$InitialImpl implements _Initial {
             String ayatAcuan,
             bool isPassed,
             String isLoading,
-            dynamic groupedMateri)?
+            dynamic groupedMateri,
+            List<String> koreksian)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
       return initial(quranData, quran, surat, materi, fetchDataProses, index,
-          ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri);
+          ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri, koreksian);
     }
     return orElse();
   }
@@ -1445,7 +1488,8 @@ abstract class _Initial implements MainState {
       final String ayatAcuan,
       final bool isPassed,
       final String isLoading,
-      final dynamic groupedMateri}) = _$InitialImpl;
+      final dynamic groupedMateri,
+      final List<String> koreksian}) = _$InitialImpl;
 
   @override
   dynamic get quranData;
@@ -1469,6 +1513,8 @@ abstract class _Initial implements MainState {
   String get isLoading;
   @override
   dynamic get groupedMateri;
+  @override
+  List<String> get koreksian;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

@@ -14,6 +14,10 @@ class MainState with _$MainState {
     @Default(false) bool isPassed,
     @Default('') String isLoading,
     @Default([])  groupedMateri,
+    @Default([]) List<String> koreksian,
+
+    // @Default([])  koreksi,
+
 
 
   }) = _Initial;

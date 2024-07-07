@@ -84,11 +84,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           lastWords,
         );
           log('================================================================');
-          //  message
+          //message
         StringBuffer koreksi = StringBuffer();
-        koreksi.writeln('Pada ayat terkait yaitu:');
-        koreksi.writeln('Ayat yang sesuai: ${ayatItem.teksArab},');
-        koreksi.writeln('Bacaanmu adalah: $lastWords.');
+        // koreksi.writeln('Pada ayat terkait yaitu:');
+        // koreksi.writeln('Ayat yang sesuai: ${ayatItem.teksArab},');
+        // koreksi.writeln('Bacaanmu adalah: $lastWords.');
 
         for (var diff in differences) {
           if (diff.operation == DIFF_INSERT) {
@@ -102,8 +102,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         log(koreksi.toString());
           log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat}');
           emit(
-              state.copyWith(ayatIndex: aa += 1, ayatAcuan: ayatItem.teksArab));
-          print('ayat terkait : ${ayatItem.teksArab}\n ayat dilafalkan ${lastWords} ');
+              state.copyWith(ayatIndex: aa += 1, ayatAcuan: ayatItem.teksArab, koreksian: koreksi.toString().split('\n')));
+          print('ayat terkait : ${ayatItem.teksArab}\n ayat dilafalkan ${lastWords}');
           int index = mutabablelis.indexOf(ayatItem);
           if (index != -1) {
             mutabablelis[index] = mutabablelis[index].copyWith(terbaca: true);
