@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:quranku_pintar/common/extensions/font_weight.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/core/error/utils/status.dart';
@@ -219,21 +220,35 @@ class _MainViewState extends State<MainView> {
 
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = "https://3c8b-103-191-218-249.ngrok-free.app";
+    var apiUrl = "https://80be-140-213-47-231.ngrok-free.app";
     log('mau ke tartil $filePath');
-    File file = File(filePath);
-    List<int> fileBytes = await file.readAsBytes();
+    // ubah
+    // File file = File(filePath);
+    // List<int> fileBytes = await file.readAsBytes();
+
+    // var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+    // request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
+    //     filename: filePath.split("/").last));
+    ByteData bytes = await rootBundle.load('assets/audios/middun.m4a');
+    Uint8List buffer = bytes.buffer.asUint8List();
+
+    // Simpan sementara di direktori aplikasi
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = '${tempDir.path}/middun.m4a';
+    File tempFile = File(tempPath);
+    await tempFile.writeAsBytes(buffer);
 
     var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-    request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
-        filename: filePath.split("/").last));
+    request.files.add(await http.MultipartFile.fromPath('file', tempFile.path));
+
+    var response = await request.send();
 
     try {
-      var streamedResponse = await request.send();
-      if (streamedResponse.statusCode == 200) {
-        var response = await http.Response.fromStream(streamedResponse);
+      // var streamedResponse = await request.send();
+      if (response.statusCode == 200) {
+          var responseData = await response.stream.bytesToString();
 
-        var jsonResponse = jsonDecode(response.body);
+        var jsonResponse = jsonDecode(responseData);
 
         // Mengambil nilai teks dari kunci 'text'
         var text = jsonResponse['text'];
@@ -706,7 +721,8 @@ class _MainViewState extends State<MainView> {
                                           if (isRecord == true) {
                                             stopRecord();
                                           } else {
-                                            startRecord();
+                                            // startRecord();
+                                            uploadtoPy('filePath');
                                             pp = '';
                                             statusText = '';
                                           }
@@ -726,6 +742,9 @@ class _MainViewState extends State<MainView> {
                                               const CircularProgressIndicator(
                                                 color: Colors.white,
                                               )
+                                            else 
+                                              const Icon(Icons.mic)
+                                              
                                           ],
                                         )),
                                     const SizedBox(height: 16),
@@ -761,12 +780,12 @@ class _MainViewState extends State<MainView> {
                                                       isRecord == true
                                                           ? ''
                                                           : state.ayatAcuan,
-                                                  teksRekognisiText:
-                                                      statusText ==
-                                                              'Mengecek Audio' ||    statusText ==
+                                                  teksRekognisiText: statusText ==
+                                                              'Mengecek Audio' ||
+                                                          statusText ==
                                                               'Inisialisasi Audio'
-                                                          ? ''
-                                                          : statusText);
+                                                      ? ''
+                                                      : statusText);
                                             }
                                             return const SizedBox();
                                           })
@@ -776,7 +795,7 @@ class _MainViewState extends State<MainView> {
                                         onTap: () {
                                           print(statusText);
                                         },
-                                        child: Text('cek'))
+                                        child: const Text('cek'))
                                   ],
                                 ),
                               ));

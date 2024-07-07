@@ -59,7 +59,8 @@ class _DetailViewState extends State<DetailView> {
   @override
   void initState() {
     super.initState();
-    isPlay = List.filled(widget.i.length, false);
+    isPlay = List.filled(widget.i.length +1, false);
+    log(isPlay.toString());
     _initSpeech();
   }
 
@@ -86,7 +87,7 @@ class _DetailViewState extends State<DetailView> {
 
   Future<void> _initAudioPlayer() async {
     await _player.setUrl(
-        'https://3518-103-191-218-249.ngrok-free.app/get_audio/output_file.mp3'); // Mengatur URL audio untuk diputar
+        'https://ef93-140-213-104-45.ngrok-free.app/get_audio/output_file.mp3'); // Mengatur URL audio untuk diputar
     await _player.setLoopMode(
         ja.LoopMode.off); // Opsional: Mengatur mode pengulangan audio
     _player.play(); // Memulai pemutaran audio
@@ -110,7 +111,7 @@ class _DetailViewState extends State<DetailView> {
   String cntoh = '';
   Future<void> playRecord(String url, int index) async {
     try {
-    var uri = 'https://3518-103-191-218-249.ngrok-free.app/get_audio/$url';
+    var uri = 'https://ef93-140-213-104-45.ngrok-free.app/get_audio/$url';
       // Source urlS = UrlSource(
       //     'https://3518-103-191-218-249.ngrok-free.app/get_audio/output_file.mp3');
 
@@ -260,7 +261,7 @@ class _DetailViewState extends State<DetailView> {
 
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = "https://3518-103-191-218-249.ngrok-free.app";
+    var apiUrl = "https://ef93-140-213-104-45.ngrok-free.app";
     log('mau ke tartil $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
