@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
+import 'package:diff_match_patch/diff_match_patch.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quranku_pintar/core/error/utils/status.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/materi.dart';
@@ -78,12 +79,31 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         for (var ayatItem in hasilPencarian) {
           var a = StringSimilarity.compareTwoStrings(
               removeDiacritics(ayatItem.teksArab), lastWords); // → 0.8
+ List<Diff> differences = computeDiffAyatAcuanRekaman(
+          removeDiacritics(ayatItem.teksArab),
+          lastWords,
+        );
+          log('================================================================');
+          //  message
+        StringBuffer koreksi = StringBuffer();
+        koreksi.writeln('Pada ayat terkait yaitu:');
+        koreksi.writeln('Ayat yang sesuai: ${ayatItem.teksArab},');
+        koreksi.writeln('Bacaanmu adalah: $lastWords.');
 
-          log('');
+        for (var diff in differences) {
+          if (diff.operation == DIFF_INSERT) {
+            koreksi.writeln('Tambahan yang tidak ada pada ayat: ${diff.text}');
+          } else if (diff.operation == DIFF_DELETE) {
+            koreksi.writeln('Bagian yang hilang dari bacaan: ${diff.text}');
+          }
+        }
+
+        log('Differences: $differences');
+        log(koreksi.toString());
           log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat}');
           emit(
               state.copyWith(ayatIndex: aa += 1, ayatAcuan: ayatItem.teksArab));
-          print('ayat acuan : ${ayatItem.teksArab}');
+          print('ayat terkait : ${ayatItem.teksArab}\n ayat dilafalkan ${lastWords} ');
           int index = mutabablelis.indexOf(ayatItem);
           if (index != -1) {
             mutabablelis[index] = mutabablelis[index].copyWith(terbaca: true);
@@ -265,7 +285,12 @@ void compareTexts(String text1, String text2) {
   }
 }
 
-
+List<Diff> computeDiffAyatAcuanRekaman(String ayatAcuan, String teksRekognisi) {
+  DiffMatchPatch dmp = DiffMatchPatch();
+  List<Diff> diffs = dmp.diff(ayatAcuan, teksRekognisi);
+  dmp.diffCleanupSemantic(diffs);
+  return diffs;
+}
 // sementara
 
 // class TokenizedAya {
