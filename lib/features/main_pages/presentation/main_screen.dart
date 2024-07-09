@@ -220,7 +220,7 @@ class _MainViewState extends State<MainView> {
 
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = "https://80be-140-213-47-231.ngrok-free.app";
+    var apiUrl = "https://0e10-103-191-218-249.ngrok-free.app";
     setState(() {
       statusText = 'Mengecek Audio';
     });

@@ -97,6 +97,10 @@ class WarningColor {
 }
 
 class SuccessColor {
+  final Color a = const Color(0xff7A8C68);
+  final Color b = const Color(0xff93a47a);
+  final Color c = const Color(0xffa2b088);
+  final Color d = const Color(0xffb0bc96);
   final Color scs01 = const Color(0xFFFCFDF5);
   final Color scs02 = const Color(0xFFFAFEEF);
   final Color scs03 = const Color(0xFFF5FDE5);
