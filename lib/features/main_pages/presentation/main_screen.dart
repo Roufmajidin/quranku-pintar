@@ -220,10 +220,7 @@ class _MainViewState extends State<MainView> {
 
   Future uploadtoPy(String filePath) async {
     // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = "https://0e10-103-191-218-249.ngrok-free.app";
-    setState(() {
-      statusText = 'Mengecek Audio';
-    });
+    var apiUrl = 'https://4ab7-103-145-202-78.ngrok-free.app';
     log('mau ke tartil $filePath');
     // ubah
     // File file = File(filePath);
@@ -232,12 +229,12 @@ class _MainViewState extends State<MainView> {
     // var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
     // request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
     //     filename: filePath.split("/").last));
-    ByteData bytes = await rootBundle.load('assets/audios/bismillah.m4a');
+    ByteData bytes = await rootBundle.load('assets/audios/middun.m4a');
     Uint8List buffer = bytes.buffer.asUint8List();
 
     // Simpan sementara di direktori aplikasi
     Directory tempDir = await getTemporaryDirectory();
-    String tempPath = '${tempDir.path}/bismillah.m4a';
+    String tempPath = '${tempDir.path}/middun.m4a';
     File tempFile = File(tempPath);
     await tempFile.writeAsBytes(buffer);
 
@@ -679,7 +676,7 @@ class _MainViewState extends State<MainView> {
                                     topRight: Radius.circular(20),
                                   ),
                                 ),
-                                // height: 500,
+                                height: 500,
                                 child: Column(
                                   children: [
                                     Row(
@@ -718,7 +715,11 @@ class _MainViewState extends State<MainView> {
                                       ],
                                     ),
                                     const SizedBox(height: 10),
-                                    FloatingActionButton(
+                               statusText != '' ||
+                                                statusText ==
+                                                    'Inisialisasi Audio' || statusText == 'Mengecek Audio' ?
+                                                     const SizedBox()
+                                                    :    FloatingActionButton(
                                         backgroundColor: Colors.green,
                                         onPressed: () async {
                                           if (isRecord == true) {
@@ -745,8 +746,6 @@ class _MainViewState extends State<MainView> {
                                               const CircularProgressIndicator(
                                                 color: Colors.white,
                                               )
-                                            // else 
-                                            //   const Icon(Icons.mic)
                                               
                                           ],
                                         )),
@@ -764,8 +763,11 @@ class _MainViewState extends State<MainView> {
                                     Text(
                                       statusText == ''
                                           ? "Tekan untuk memulai"
-                                          : 'Result Is',
-                                      style: AppTextStyle.body3.setRegular(),
+                                          : 'Result is',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
                                     ),
                                     // Text(statusText),
                                     selesai == true
@@ -814,6 +816,7 @@ class _MainViewState extends State<MainView> {
                                             );
                                           },)),
                                     )
+                                    
                                   ],
                                 ),
                               ));
