@@ -10,6 +10,7 @@ import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 
 class QuranDatasources {
+ var uri = 'https://b9e7-103-145-202-78.ngrok-free.app';
   Future<Either<Failure, QuranModels>> getDetailSurat(int surat) async {
     const String apiUrl = 'https://equran.id/api/v2/surat';
     final response = await http.get(Uri.parse('$apiUrl/$surat'));
@@ -59,8 +60,8 @@ class QuranDatasources {
 
   
   Future<Either<Failure, List<Materi>>> getMateri() async {
-    const String apiUrl = 'https://0e10-103-191-218-249.ngrok-free.app/getmateri';
-    final response = await http.get(Uri.parse(apiUrl));
+    // const String apiUrl = 'https://0e10-103-191-218-249.ngrok-free.app/getmateri';
+    final response = await http.get(Uri.parse('https://2f8b-103-145-202-78.ngrok-free.app/getmateri'));
     log('dt s : ${response.statusCode}');
     if (response.statusCode == 200) {
            final List<dynamic> jsonData = jsonDecode(response.body);

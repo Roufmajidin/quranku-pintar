@@ -9,6 +9,7 @@ import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 import 'package:quranku_pintar/features/main_pages/data/tajwid/tajwid_helper/tajweed.dart';
 import 'package:quranku_pintar/features/main_pages/data/usecases/quran_usecase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:string_similarity/string_similarity.dart';
 part 'main_event.dart';
 part 'main_state.dart';
@@ -79,31 +80,35 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         for (var ayatItem in hasilPencarian) {
           var a = StringSimilarity.compareTwoStrings(
               removeDiacritics(ayatItem.teksArab), lastWords); // → 0.8
- List<Diff> differences = computeDiffAyatAcuanRekaman(
-          removeDiacritics(ayatItem.teksArab),
-          lastWords,
-        );
+          List<Diff> differences = computeDiffAyatAcuanRekaman(
+            removeDiacritics(ayatItem.teksArab),
+            lastWords,
+          );
           log('================================================================');
           //message
-        StringBuffer koreksi = StringBuffer();
-        // koreksi.writeln('Pada ayat terkait yaitu:');
-        // koreksi.writeln('Ayat yang sesuai: ${ayatItem.teksArab},');
-        // koreksi.writeln('Bacaanmu adalah: $lastWords.');
+          StringBuffer koreksi = StringBuffer();
+          // koreksi.writeln('Pada ayat terkait yaitu:');
+          // koreksi.writeln('Ayat yang sesuai: ${ayatItem.teksArab},');
+          // koreksi.writeln('Bacaanmu adalah: $lastWords.');
 
-        for (var diff in differences) {
-          if (diff.operation == DIFF_INSERT) {
-            koreksi.writeln('Tambahan yang tidak ada pada ayat: ${diff.text}');
-          } else if (diff.operation == DIFF_DELETE) {
-            koreksi.writeln('Bagian yang hilang dari bacaan: ${diff.text}');
+          for (var diff in differences) {
+            if (diff.operation == DIFF_INSERT) {
+              koreksi
+                  .writeln('Tambahan yang tidak ada pada ayat: ${diff.text}');
+            } else if (diff.operation == DIFF_DELETE) {
+              koreksi.writeln('Bagian yang hilang dari bacaan: ${diff.text}');
+            }
           }
-        }
 
-        log('Differences: $differences');
-        log(koreksi.toString());
+          log('Differences: $differences');
+          log(koreksi.toString());
           log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat}');
-          emit(
-              state.copyWith(ayatIndex: aa += 1, ayatAcuan: ayatItem.teksArab, koreksian: koreksi.toString().split('\n')));
-          print('ayat terkait : ${ayatItem.teksArab}\n ayat dilafalkan ${lastWords}');
+          emit(state.copyWith(
+              ayatIndex: aa += 1,
+              ayatAcuan: ayatItem.teksArab,
+              koreksian: koreksi.toString().split('\n')));
+          print(
+              'ayat terkait : ${ayatItem.teksArab}\n ayat dilafalkan ${lastWords}');
           int index = mutabablelis.indexOf(ayatItem);
           if (index != -1) {
             mutabablelis[index] = mutabablelis[index].copyWith(terbaca: true);
@@ -229,7 +234,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     });
   }
 
-  void groupByJenisKuis(List<Materi> materiList) {
+  Future<void> groupByJenisKuis(List<Materi> materiList) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, Map<String, List<Materi>>> groupedByJenisKuisAndKategori = {};
 
     for (var materi in materiList) {
@@ -245,12 +251,32 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         }
         groupedByJenisKuisAndKategori[jenisKuis]![kategori]!.add(materi);
       }
+      log('kategori kuis : ${groupedByJenisKuisAndKategori.length}');
       emit(state.copyWith(
         fetchDataProses: FetchStatus.success,
         groupedMateri: groupedByJenisKuisAndKategori,
       ));
     }
-    print(groupedByJenisKuisAndKategori);
+    // Set preferences based on the length of groupedByJenisKuisAndKategori
+    List<int> preferenceList =
+        List.generate(groupedByJenisKuisAndKategori.length, (index) => 0);
+    await prefs.setStringList(
+        'groupPreferences', preferenceList.map((e) => e.toString()).toList());
+
+    // print(groupedByJenisKuisAndKategori);
+    // Check preferences and lock groups with value 0
+    List<String>? storedPreferences = prefs.getStringList('groupPreferences');
+    if (storedPreferences != null) {
+      List<int> storedPrefList =
+          storedPreferences.map((e) => int.parse(e)).toList();
+      int index = 0;
+      for (var entry in groupedByJenisKuisAndKategori.entries) {
+        if (storedPrefList[index] == 0) {
+          entry.value.clear(); // Lock the group by clearing its value
+        }
+        index++;
+      }
+    }
   }
 
   String removeDiacritics(String text) {
