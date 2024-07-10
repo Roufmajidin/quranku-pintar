@@ -8,6 +8,7 @@ import 'package:quranku_pintar/core/error/utils/status.dart';
 import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/materi.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/materi_belajar/detail/detail_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widget/list_component.dart';
 
@@ -112,6 +113,8 @@ class _MbViewState extends State<MbView> {
 
                                   return GestureDetector(
                                     onTap: () {
+                                      var a = getPreferenceIndexes;
+                                      print(a);
                                       log(items.toString());
                                       Navigator.push(
                                         context,
@@ -146,4 +149,13 @@ class _MbViewState extends State<MbView> {
           )),
     );
   }
+  Future<List<int>> getPreferenceIndexes() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String>? storedPreferences = prefs.getStringList('groupPreferences');
+  if (storedPreferences != null) {
+    return storedPreferences.map((e) => int.parse(e)).toList();
+  } else {
+    return [];
+  }
+}
 }
