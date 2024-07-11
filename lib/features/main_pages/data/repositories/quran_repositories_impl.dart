@@ -43,4 +43,34 @@ class QuranRepositoryImpl {
       return const Left(Failure.parsingFailure());
     }
   }
+  Future<Either<Failure, String>> postDevice(String d) async {
+
+    try {
+      final res = await rds.postDevice(d);
+      // log('repo $res');
+      return res;
+    } catch (e) {
+      return const Left(Failure.parsingFailure());
+    }
+  }
+  Future<Either<Failure, List<Pengguna>>> getMateriPengguna(String d) async {
+
+    try {
+      final res = await rds.getMateriPengguna(d);
+      // log('repo $res');
+      return res;
+    } catch (e) {
+      return const Left(Failure.parsingFailure());
+    }
+  }
+   Future<Either<Failure, String>> postLearn(int d, int nilai) async {
+
+    try {
+      final res = await rds.postLear(d, nilai);
+      // log('repo $res');
+      return res;
+    } catch (e) {
+      return const Left(Failure.parsingFailure());
+    }
+  }
 }

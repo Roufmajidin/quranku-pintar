@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quranku_pintar/common/extensions/extensions.dart';
@@ -24,6 +25,16 @@ class _MbViewState extends State<MbView> {
   panggilMateri() {
     setState(() {
       context.read<MainBloc>().add(const GetMateri());
+      
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getDeviceName();
+    setState(() {
+      
     });
   }
 
@@ -31,6 +42,29 @@ class _MbViewState extends State<MbView> {
   void initState() {
     super.initState();
     panggilMateri();
+    didChangeDependencies();
+    // getDeviceName();
+    setState(() {
+      
+    });
+  }
+
+  Future<void> getDeviceName() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+    try {
+      if (Theme.of(context).platform == 'ios') {
+      } else {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        // ignore: use_build_context_synchronously
+         context.read<MainBloc>().add(PostDevice(androidInfo.model));
+         context.read<MainBloc>().add(GetMateriPengguna(androidInfo.model));
+        print('xxx ${androidInfo.model}');
+         
+      }
+    } catch (e) {
+      print('Gagal mendapatkan informasi perangkat: $e');
+    }
   }
 
   @override
@@ -82,8 +116,7 @@ class _MbViewState extends State<MbView> {
                       ),
                     );
                   }
-                 var groupedData =
-                      state.groupedMateri;
+                  var groupedData = state.groupedMateri;
 
                   return SizedBox(
                     height: sizeList,
@@ -113,14 +146,14 @@ class _MbViewState extends State<MbView> {
 
                                   return GestureDetector(
                                     onTap: () {
-                                      var a = getPreferenceIndexes;
-                                      print(a);
-                                      log(items.toString());
+                                      // log(jenisKuisKey.toString());
+                                      // var a = getPreferenceIndexes;
+                                      // log(items.toString());
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              DetailPage(i: items),
+                                              DetailPage(i: items, k:jenisKuisKey),
                                         ),
                                       );
                                     },
@@ -149,13 +182,14 @@ class _MbViewState extends State<MbView> {
           )),
     );
   }
+
   Future<List<int>> getPreferenceIndexes() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  List<String>? storedPreferences = prefs.getStringList('groupPreferences');
-  if (storedPreferences != null) {
-    return storedPreferences.map((e) => int.parse(e)).toList();
-  } else {
-    return [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? storedPreferences = prefs.getStringList('groupPreferences');
+    if (storedPreferences != null) {
+      return storedPreferences.map((e) => int.parse(e)).toList();
+    } else {
+      return [];
+    }
   }
-}
 }

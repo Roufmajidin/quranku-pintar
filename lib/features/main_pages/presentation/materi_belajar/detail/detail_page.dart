@@ -7,11 +7,12 @@ import 'package:quranku_pintar/features/main_pages/data/usecases/quran_usecase.d
 import 'package:quranku_pintar/features/main_pages/presentation/materi_belajar/detail/detail_screen.dart';
 
 class DetailPage extends StatefulWidget {
-   DetailPage({super.key, required this.i});
+   DetailPage({super.key, required this.i, required this.k});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
 final  List<Materi> i;
+final String k;
 }
 
 class _DetailPageState extends State<DetailPage> {
@@ -19,7 +20,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainBloc(quranUsecase: sl<QuranUsecase>()),
-      child:   DetailView(i: widget.i),
+      child:   DetailView(i: widget.i, k:widget.k),
     );
     }
 }

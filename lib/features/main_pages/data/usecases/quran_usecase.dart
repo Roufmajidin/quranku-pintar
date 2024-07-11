@@ -23,4 +23,16 @@ class QuranUsecase {
 
     return await rri.getMateri();
   }
+   Future<Either<Failure,String>> postDevice(String d) async {
+
+    return await rri.postDevice(d);
+  }
+  Future<Either<Failure,List<Pengguna>>> getMateriPengguna(String d) async {
+
+    return await rri.getMateriPengguna(d);
+  }
+  Future<Either<Failure,String>> postLearn(int d, int nilai) async {
+
+    return await rri.postLearn(d, nilai);
+  }
 }

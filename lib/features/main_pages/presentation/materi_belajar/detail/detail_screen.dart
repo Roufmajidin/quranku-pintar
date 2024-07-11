@@ -2,44 +2,34 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:hive/hive.dart';
 
 import 'package:quranku_pintar/common/extensions/extensions.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/core/error/utils/status.dart';
 import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/materi.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quranku_pintar/common/extensions/font_weight.dart';
-import 'package:quranku_pintar/common/themes/themes.dart';
-import 'package:quranku_pintar/core/error/utils/status.dart';
-import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
-import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
-import 'package:quranku_pintar/features/main_pages/data/models/token.dart';
-import 'package:quranku_pintar/features/main_pages/data/tajwid/helper.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/pe.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:fancy_snackbar/fancy_snackbar.dart';
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart' as ja;
 
 class DetailView extends StatefulWidget {
-  DetailView({super.key, required this.i});
+  DetailView({super.key, required this.i, required this.k});
 
   @override
   State<DetailView> createState() => _DetailViewState();
   final List<Materi> i;
+  final String k;
 }
 // var
 
@@ -59,18 +49,28 @@ class _DetailViewState extends State<DetailView> {
   @override
   void initState() {
     super.initState();
-    isPlay = List.filled(widget.i.length +1, false);
+    isPlay = List.filled(widget.i.length + 1, false);
     log(isPlay.toString());
     _initSpeech();
+
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getDeviceName();
+
   }
 
   // func
   // audio rec & pl
   final SpeechToText _speechToText = SpeechToText();
-
+  Map<String, dynamic> groupedMateri = {};
   bool _speechEnabled = false;
   String _lastWords = '';
   String r = '';
+  int isId = 0;
+  String contohSoal = '';
   bool _ditemukan = false;
   late Record audioRecord;
   late ja.AudioPlayer _player;
@@ -111,21 +111,20 @@ class _DetailViewState extends State<DetailView> {
   String cntoh = '';
   Future<void> playRecord(String url, int index) async {
     try {
-    var uri = 'https://ef93-140-213-104-45.ngrok-free.app/get_audio/$url';
+      var uri = 'https://ef93-140-213-104-45.ngrok-free.app/get_audio/$url';
       // Source urlS = UrlSource(
       //     'https://3518-103-191-218-249.ngrok-free.app/get_audio/output_file.mp3');
 
-      await _player.setUrl(
-          uri);
+      await _player.setFilePath(audioPath);
       _player.play();
 
       _player.playerStateStream.listen((state) {
         if (state.processingState == ja.ProcessingState.completed) {
           print('selesai');
-            setState(() {
-              isPlay[index] = false;
-            });
-         
+          setState(() {
+            isPlay[index] = false;
+          });
+
           _player.stop();
         }
       });
@@ -158,8 +157,7 @@ class _DetailViewState extends State<DetailView> {
   cekpas(String t) async {
     // String response = await uploadFile('assets/audios/satu.mp3');
 
-    // ignore: use_build_context_synchronously
-    context.read<MainBloc>().add(CheckPassed(t));
+    context.read<MainBloc>().add(CheckPassMateri(ayat: t,acuan: contohSoal, id : isId));
   }
 
   void _startListening() async {
@@ -205,6 +203,22 @@ class _DetailViewState extends State<DetailView> {
         RegExp(
             r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D3-\u08E1\u08E3-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFC]'),
         '');
+  }
+
+  Future<void> getDeviceName() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+    try {
+      if (Theme.of(context).platform == 'ios') {
+      } else {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        // ignore: use_build_context_synchronously
+        context.read<MainBloc>().add(PostDevice(androidInfo.model));
+        context.read<MainBloc>().add(GetMateriPengguna(androidInfo.model));
+      }
+    } catch (e) {
+      print('Gagal mendapatkan informasi perangkat: $e');
+    }
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
@@ -260,8 +274,7 @@ class _DetailViewState extends State<DetailView> {
   }
 
   Future uploadtoPy(String filePath) async {
-    // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = "https://ef93-140-213-104-45.ngrok-free.app";
+    var apiUrl = "https://1429-103-191-218-249.ngrok-free.app";
     log('mau ke tartil $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
@@ -303,6 +316,15 @@ class _DetailViewState extends State<DetailView> {
               onTap: () {
                 // panggilMateri();
                 print('length ${widget.i.length}');
+                // getDeviceName();
+                setState(() {
+                  context
+                      .read<MainBloc>()
+                      .add(const GetMateriPengguna('sdk_gphone_x86'));
+                  context
+                      .read<MainBloc>()
+                      .add(const PostDevice('sdk_gphone_x86'));
+                });
               },
               child: Container(
                   height: 180,
@@ -315,13 +337,13 @@ class _DetailViewState extends State<DetailView> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Detail",
-                            style: AppTextStyle.body3
-                                .copyWith(color: AppColors.neutral.ne01)),
                         Text(widget.i[0].kategori.toString(),
                             style: AppTextStyle.body1
                                 .copyWith(color: AppColors.neutral.ne01)
                                 .setSemiBold()),
+                        Text(widget.k,
+                            style: AppTextStyle.body3
+                                .copyWith(color: AppColors.neutral.ne01)),
                       ],
                     ),
                   )),
@@ -350,15 +372,14 @@ class _DetailViewState extends State<DetailView> {
                             itemBuilder: (context, index) {
                               var d = widget.i[index];
                               var no = index += 1;
+
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: Container(
                                   // height: 120,
                                   width: size.width,
                                   decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                              255, 24, 197, 154)
-                                          .withOpacity(0.8),
+                                      color: const Color(0xFF18C59A),
                                       borderRadius: BorderRadius.circular(8)),
                                   child: Row(
                                     children: [
@@ -382,9 +403,11 @@ class _DetailViewState extends State<DetailView> {
                                                       width: 50,
                                                       height: 50,
                                                       decoration: BoxDecoration(
-                                                          color: const Color
-                                                              .fromARGB(255, 24,
-                                                              197, 154),
+                                                          color: d.is_learn == 0
+                                                              ? const Color
+                                                                  .fromARGB(255,
+                                                                  24, 197, 154)
+                                                              : Colors.amber,
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(8)),
@@ -448,6 +471,7 @@ class _DetailViewState extends State<DetailView> {
                                                       children: [
                                                         GestureDetector(
                                                           onTap: () {
+                                                            // print('p ${}');
                                                             setState(() {
                                                               if (isPlay[
                                                                   index]) {
@@ -509,12 +533,21 @@ class _DetailViewState extends State<DetailView> {
                                                     GestureDetector(
                                                       onTap: () {
                                                         setState(() {
+                                                          // context
+                                                          //     .read<MainBloc>()
+                                                          //     .add(PostLearn(
+                                                          //         id: d.id!,
+                                                          //         nilai: 100));
+
+                                                          print(
+                                                              'ini adalah ${d.id}');
+                                                          contohSoal = d.contoh_soal!;
+                                                          isId = d.id!;
                                                           isDialog == false
                                                               ? isDialog = true
                                                               : isDialog =
                                                                   false;
                                                         });
-                                                        log(d.toString());
                                                       },
                                                       child: Align(
                                                         alignment: Alignment
@@ -561,7 +594,6 @@ class _DetailViewState extends State<DetailView> {
                 ),
                 isDialog == true
                     ?
-
                     // dialog
                     BlocBuilder<MainBloc, MainState>(builder: (context, state) {
                         return Positioned(
@@ -599,6 +631,9 @@ class _DetailViewState extends State<DetailView> {
                                         elevation: 0.0,
                                         onPressed: () {
                                           setState(() {
+                                            // close
+                                                          contohSoal = '';
+
                                             isDialog = false;
                                             statusText = '';
                                             isListening = false;
@@ -618,10 +653,15 @@ class _DetailViewState extends State<DetailView> {
                                   FloatingActionButton(
                                       backgroundColor: Colors.green,
                                       onPressed: () async {
+
                                         if (isRecord == true) {
                                           stopRecord();
                                         } else {
+                                          // record bre
                                           startRecord();
+                                            print('mulai');
+
+
                                           pp = '';
                                           statusText = '';
                                         }
@@ -646,23 +686,17 @@ class _DetailViewState extends State<DetailView> {
                                   const SizedBox(height: 16),
                                   // pe
                                   // statusText == ''
-                                  //     ? Text('Ucapkan ayat ke- ${state.ayatIndex+1}')
-                                  //     : TextComparison(
-                                  //         ayatAcuanText:
-                                  //            pp,
-                                  //         teksRekognisiText:
-                                  //             "بسم الله  الرحيم",
-                                  //       ),
+                                      
 
                                   Text(
                                     statusText == ''
                                         ? "Tekan untuk memulai"
                                         : 'Result is',
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
+                                    style: AppTextStyle.body3
                                   ),
+                                  const SizedBox(height: 8),
+                                  Text('Ucapkan salah satu dari : ${contohSoal}', style:AppTextStyle.body3,),
+
                                   // Text(statusText),
                                   selesai == true
                                       ? BlocBuilder<MainBloc, MainState>(
