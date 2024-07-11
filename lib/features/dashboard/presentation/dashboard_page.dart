@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:quranku_pintar/common/extensions/extensions.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
@@ -9,8 +10,11 @@ class DashboardPage extends StatefulWidget {
   State<DashboardPage> createState() => _DashboardPageState();
 }
 
+
+
 class _DashboardPageState extends State<DashboardPage> {
-  @override
+  
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -152,4 +156,5 @@ class ExtraMenu extends StatelessWidget {
               borderRadius: BorderRadius.circular(12))),
     );
   }
+  
 }
