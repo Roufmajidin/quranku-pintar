@@ -23,7 +23,14 @@ mixin _$MainEvent {
     required TResult Function() getAll,
     required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
     required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -33,7 +40,13 @@ mixin _$MainEvent {
     TResult? Function()? getAll,
     TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
     TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -43,7 +56,13 @@ mixin _$MainEvent {
     TResult Function()? getAll,
     TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
     TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -54,7 +73,13 @@ mixin _$MainEvent {
     required TResult Function(GetAllSurah value) getAll,
     required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
     required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,7 +89,13 @@ mixin _$MainEvent {
     TResult? Function(GetAllSurah value)? getAll,
     TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
     TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -74,7 +105,13 @@ mixin _$MainEvent {
     TResult Function(GetAllSurah value)? getAll,
     TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
     TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -140,7 +177,14 @@ class _$StartedImpl implements _Started {
     required TResult Function() getAll,
     required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
     required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
   }) {
     return started();
   }
@@ -153,7 +197,13 @@ class _$StartedImpl implements _Started {
     TResult? Function()? getAll,
     TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
     TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
   }) {
     return started?.call();
   }
@@ -166,7 +216,13 @@ class _$StartedImpl implements _Started {
     TResult Function()? getAll,
     TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
     TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -183,7 +239,13 @@ class _$StartedImpl implements _Started {
     required TResult Function(GetAllSurah value) getAll,
     required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
     required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
   }) {
     return started(this);
   }
@@ -196,7 +258,13 @@ class _$StartedImpl implements _Started {
     TResult? Function(GetAllSurah value)? getAll,
     TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
     TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
   }) {
     return started?.call(this);
   }
@@ -209,7 +277,13 @@ class _$StartedImpl implements _Started {
     TResult Function(GetAllSurah value)? getAll,
     TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
     TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -293,7 +367,14 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     required TResult Function() getAll,
     required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
     required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
   }) {
     return getSurat(surat);
   }
@@ -306,7 +387,13 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult? Function()? getAll,
     TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
     TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
   }) {
     return getSurat?.call(surat);
   }
@@ -319,7 +406,13 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult Function()? getAll,
     TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
     TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
     required TResult orElse(),
   }) {
     if (getSurat != null) {
@@ -336,7 +429,13 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     required TResult Function(GetAllSurah value) getAll,
     required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
     required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
   }) {
     return getSurat(this);
   }
@@ -349,7 +448,13 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult? Function(GetAllSurah value)? getAll,
     TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
     TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
   }) {
     return getSurat?.call(this);
   }
@@ -362,7 +467,13 @@ class _$GetDetailSuratImpl implements GetDetailSurat {
     TResult Function(GetAllSurah value)? getAll,
     TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
     TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
     required TResult orElse(),
   }) {
     if (getSurat != null) {
@@ -424,7 +535,14 @@ class _$GetAllSurahImpl implements GetAllSurah {
     required TResult Function() getAll,
     required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
     required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
   }) {
     return getAll();
   }
@@ -437,7 +555,13 @@ class _$GetAllSurahImpl implements GetAllSurah {
     TResult? Function()? getAll,
     TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
     TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
   }) {
     return getAll?.call();
   }
@@ -450,7 +574,13 @@ class _$GetAllSurahImpl implements GetAllSurah {
     TResult Function()? getAll,
     TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
     TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
     required TResult orElse(),
   }) {
     if (getAll != null) {
@@ -467,7 +597,13 @@ class _$GetAllSurahImpl implements GetAllSurah {
     required TResult Function(GetAllSurah value) getAll,
     required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
     required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
   }) {
     return getAll(this);
   }
@@ -480,7 +616,13 @@ class _$GetAllSurahImpl implements GetAllSurah {
     TResult? Function(GetAllSurah value)? getAll,
     TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
     TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
   }) {
     return getAll?.call(this);
   }
@@ -493,7 +635,13 @@ class _$GetAllSurahImpl implements GetAllSurah {
     TResult Function(GetAllSurah value)? getAll,
     TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
     TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
     required TResult orElse(),
   }) {
     if (getAll != null) {
@@ -550,7 +698,14 @@ class _$GetMateriImpl implements GetMateri {
     required TResult Function() getAll,
     required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
     required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
   }) {
     return getMateri();
   }
@@ -563,7 +718,13 @@ class _$GetMateriImpl implements GetMateri {
     TResult? Function()? getAll,
     TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
     TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
   }) {
     return getMateri?.call();
   }
@@ -576,7 +737,13 @@ class _$GetMateriImpl implements GetMateri {
     TResult Function()? getAll,
     TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
     TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
     required TResult orElse(),
   }) {
     if (getMateri != null) {
@@ -593,7 +760,13 @@ class _$GetMateriImpl implements GetMateri {
     required TResult Function(GetAllSurah value) getAll,
     required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
     required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
   }) {
     return getMateri(this);
   }
@@ -606,7 +779,13 @@ class _$GetMateriImpl implements GetMateri {
     TResult? Function(GetAllSurah value)? getAll,
     TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
     TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
   }) {
     return getMateri?.call(this);
   }
@@ -619,7 +798,13 @@ class _$GetMateriImpl implements GetMateri {
     TResult Function(GetAllSurah value)? getAll,
     TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
     TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
     required TResult orElse(),
   }) {
     if (getMateri != null) {
@@ -702,7 +887,14 @@ class _$CheckPassedImpl implements CheckPassed {
     required TResult Function() getAll,
     required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
     required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
   }) {
     return checkPassed(ayat);
   }
@@ -715,7 +907,13 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult? Function()? getAll,
     TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
     TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
   }) {
     return checkPassed?.call(ayat);
   }
@@ -728,7 +926,13 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult Function()? getAll,
     TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
     TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
     required TResult orElse(),
   }) {
     if (checkPassed != null) {
@@ -745,7 +949,13 @@ class _$CheckPassedImpl implements CheckPassed {
     required TResult Function(GetAllSurah value) getAll,
     required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
     required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
   }) {
     return checkPassed(this);
   }
@@ -758,7 +968,13 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult? Function(GetAllSurah value)? getAll,
     TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
     TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
   }) {
     return checkPassed?.call(this);
   }
@@ -771,7 +987,13 @@ class _$CheckPassedImpl implements CheckPassed {
     TResult Function(GetAllSurah value)? getAll,
     TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
     TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
     required TResult orElse(),
   }) {
     if (checkPassed != null) {
@@ -787,6 +1009,613 @@ abstract class CheckPassed implements MainEvent {
   String get ayat;
   @JsonKey(ignore: true)
   _$$CheckPassedImplCopyWith<_$CheckPassedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CheckPassMateriImplCopyWith<$Res> {
+  factory _$$CheckPassMateriImplCopyWith(_$CheckPassMateriImpl value,
+          $Res Function(_$CheckPassMateriImpl) then) =
+      __$$CheckPassMateriImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String ayat, String acuan, int id});
+}
+
+/// @nodoc
+class __$$CheckPassMateriImplCopyWithImpl<$Res>
+    extends _$MainEventCopyWithImpl<$Res, _$CheckPassMateriImpl>
+    implements _$$CheckPassMateriImplCopyWith<$Res> {
+  __$$CheckPassMateriImplCopyWithImpl(
+      _$CheckPassMateriImpl _value, $Res Function(_$CheckPassMateriImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ayat = null,
+    Object? acuan = null,
+    Object? id = null,
+  }) {
+    return _then(_$CheckPassMateriImpl(
+      ayat: null == ayat
+          ? _value.ayat
+          : ayat // ignore: cast_nullable_to_non_nullable
+              as String,
+      acuan: null == acuan
+          ? _value.acuan
+          : acuan // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CheckPassMateriImpl implements CheckPassMateri {
+  const _$CheckPassMateriImpl(
+      {required this.ayat, required this.acuan, required this.id});
+
+  @override
+  final String ayat;
+  @override
+  final String acuan;
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'MainEvent.checkpassMateri(ayat: $ayat, acuan: $acuan, id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CheckPassMateriImpl &&
+            (identical(other.ayat, ayat) || other.ayat == ayat) &&
+            (identical(other.acuan, acuan) || other.acuan == acuan) &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, ayat, acuan, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CheckPassMateriImplCopyWith<_$CheckPassMateriImpl> get copyWith =>
+      __$$CheckPassMateriImplCopyWithImpl<_$CheckPassMateriImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int surat) getSurat,
+    required TResult Function() getAll,
+    required TResult Function() getMateri,
+    required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
+    required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
+  }) {
+    return checkpassMateri(ayat, acuan, id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int surat)? getSurat,
+    TResult? Function()? getAll,
+    TResult? Function()? getMateri,
+    TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
+    TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
+  }) {
+    return checkpassMateri?.call(ayat, acuan, id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int surat)? getSurat,
+    TResult Function()? getAll,
+    TResult Function()? getMateri,
+    TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
+    TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (checkpassMateri != null) {
+      return checkpassMateri(ayat, acuan, id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(GetDetailSurat value) getSurat,
+    required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
+    required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
+    required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
+  }) {
+    return checkpassMateri(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(GetDetailSurat value)? getSurat,
+    TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
+    TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
+    TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
+  }) {
+    return checkpassMateri?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(GetDetailSurat value)? getSurat,
+    TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
+    TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
+    TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (checkpassMateri != null) {
+      return checkpassMateri(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CheckPassMateri implements MainEvent {
+  const factory CheckPassMateri(
+      {required final String ayat,
+      required final String acuan,
+      required final int id}) = _$CheckPassMateriImpl;
+
+  String get ayat;
+  String get acuan;
+  int get id;
+  @JsonKey(ignore: true)
+  _$$CheckPassMateriImplCopyWith<_$CheckPassMateriImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DevInfoImplCopyWith<$Res> {
+  factory _$$DevInfoImplCopyWith(
+          _$DevInfoImpl value, $Res Function(_$DevInfoImpl) then) =
+      __$$DevInfoImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String deviceInfo});
+}
+
+/// @nodoc
+class __$$DevInfoImplCopyWithImpl<$Res>
+    extends _$MainEventCopyWithImpl<$Res, _$DevInfoImpl>
+    implements _$$DevInfoImplCopyWith<$Res> {
+  __$$DevInfoImplCopyWithImpl(
+      _$DevInfoImpl _value, $Res Function(_$DevInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? deviceInfo = null,
+  }) {
+    return _then(_$DevInfoImpl(
+      null == deviceInfo
+          ? _value.deviceInfo
+          : deviceInfo // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DevInfoImpl implements DevInfo {
+  const _$DevInfoImpl(this.deviceInfo);
+
+  @override
+  final String deviceInfo;
+
+  @override
+  String toString() {
+    return 'MainEvent.deviceInfo(deviceInfo: $deviceInfo)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DevInfoImpl &&
+            (identical(other.deviceInfo, deviceInfo) ||
+                other.deviceInfo == deviceInfo));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, deviceInfo);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DevInfoImplCopyWith<_$DevInfoImpl> get copyWith =>
+      __$$DevInfoImplCopyWithImpl<_$DevInfoImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int surat) getSurat,
+    required TResult Function() getAll,
+    required TResult Function() getMateri,
+    required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
+    required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
+  }) {
+    return deviceInfo(this.deviceInfo);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int surat)? getSurat,
+    TResult? Function()? getAll,
+    TResult? Function()? getMateri,
+    TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
+    TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
+  }) {
+    return deviceInfo?.call(this.deviceInfo);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int surat)? getSurat,
+    TResult Function()? getAll,
+    TResult Function()? getMateri,
+    TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
+    TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (deviceInfo != null) {
+      return deviceInfo(this.deviceInfo);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(GetDetailSurat value) getSurat,
+    required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
+    required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
+    required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
+  }) {
+    return deviceInfo(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(GetDetailSurat value)? getSurat,
+    TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
+    TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
+    TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
+  }) {
+    return deviceInfo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(GetDetailSurat value)? getSurat,
+    TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
+    TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
+    TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (deviceInfo != null) {
+      return deviceInfo(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DevInfo implements MainEvent {
+  const factory DevInfo(final String deviceInfo) = _$DevInfoImpl;
+
+  String get deviceInfo;
+  @JsonKey(ignore: true)
+  _$$DevInfoImplCopyWith<_$DevInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$PostDeviceImplCopyWith<$Res> {
+  factory _$$PostDeviceImplCopyWith(
+          _$PostDeviceImpl value, $Res Function(_$PostDeviceImpl) then) =
+      __$$PostDeviceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String deviceInfo});
+}
+
+/// @nodoc
+class __$$PostDeviceImplCopyWithImpl<$Res>
+    extends _$MainEventCopyWithImpl<$Res, _$PostDeviceImpl>
+    implements _$$PostDeviceImplCopyWith<$Res> {
+  __$$PostDeviceImplCopyWithImpl(
+      _$PostDeviceImpl _value, $Res Function(_$PostDeviceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? deviceInfo = null,
+  }) {
+    return _then(_$PostDeviceImpl(
+      null == deviceInfo
+          ? _value.deviceInfo
+          : deviceInfo // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$PostDeviceImpl implements PostDevice {
+  const _$PostDeviceImpl(this.deviceInfo);
+
+  @override
+  final String deviceInfo;
+
+  @override
+  String toString() {
+    return 'MainEvent.postDev(deviceInfo: $deviceInfo)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PostDeviceImpl &&
+            (identical(other.deviceInfo, deviceInfo) ||
+                other.deviceInfo == deviceInfo));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, deviceInfo);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PostDeviceImplCopyWith<_$PostDeviceImpl> get copyWith =>
+      __$$PostDeviceImplCopyWithImpl<_$PostDeviceImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int surat) getSurat,
+    required TResult Function() getAll,
+    required TResult Function() getMateri,
+    required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
+    required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
+  }) {
+    return postDev(this.deviceInfo);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int surat)? getSurat,
+    TResult? Function()? getAll,
+    TResult? Function()? getMateri,
+    TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
+    TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
+  }) {
+    return postDev?.call(this.deviceInfo);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int surat)? getSurat,
+    TResult Function()? getAll,
+    TResult Function()? getMateri,
+    TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
+    TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (postDev != null) {
+      return postDev(this.deviceInfo);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(GetDetailSurat value) getSurat,
+    required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
+    required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
+    required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
+  }) {
+    return postDev(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(GetDetailSurat value)? getSurat,
+    TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
+    TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
+    TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
+  }) {
+    return postDev?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(GetDetailSurat value)? getSurat,
+    TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
+    TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
+    TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (postDev != null) {
+      return postDev(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class PostDevice implements MainEvent {
+  const factory PostDevice(final String deviceInfo) = _$PostDeviceImpl;
+
+  String get deviceInfo;
+  @JsonKey(ignore: true)
+  _$$PostDeviceImplCopyWith<_$PostDeviceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -859,7 +1688,14 @@ class _$LoadingActiveImpl implements LoadingActive {
     required TResult Function() getAll,
     required TResult Function() getMateri,
     required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
     required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
   }) {
     return loadingActive(loading);
   }
@@ -872,7 +1708,13 @@ class _$LoadingActiveImpl implements LoadingActive {
     TResult? Function()? getAll,
     TResult? Function()? getMateri,
     TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
     TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
   }) {
     return loadingActive?.call(loading);
   }
@@ -885,7 +1727,13 @@ class _$LoadingActiveImpl implements LoadingActive {
     TResult Function()? getAll,
     TResult Function()? getMateri,
     TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
     TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
     required TResult orElse(),
   }) {
     if (loadingActive != null) {
@@ -902,7 +1750,13 @@ class _$LoadingActiveImpl implements LoadingActive {
     required TResult Function(GetAllSurah value) getAll,
     required TResult Function(GetMateri value) getMateri,
     required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
     required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
   }) {
     return loadingActive(this);
   }
@@ -915,7 +1769,13 @@ class _$LoadingActiveImpl implements LoadingActive {
     TResult? Function(GetAllSurah value)? getAll,
     TResult? Function(GetMateri value)? getMateri,
     TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
     TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
   }) {
     return loadingActive?.call(this);
   }
@@ -928,7 +1788,13 @@ class _$LoadingActiveImpl implements LoadingActive {
     TResult Function(GetAllSurah value)? getAll,
     TResult Function(GetMateri value)? getMateri,
     TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
     TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
     required TResult orElse(),
   }) {
     if (loadingActive != null) {
@@ -948,6 +1814,569 @@ abstract class LoadingActive implements MainEvent {
 }
 
 /// @nodoc
+abstract class _$$GetStatusImplCopyWith<$Res> {
+  factory _$$GetStatusImplCopyWith(
+          _$GetStatusImpl value, $Res Function(_$GetStatusImpl) then) =
+      __$$GetStatusImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetStatusImplCopyWithImpl<$Res>
+    extends _$MainEventCopyWithImpl<$Res, _$GetStatusImpl>
+    implements _$$GetStatusImplCopyWith<$Res> {
+  __$$GetStatusImplCopyWithImpl(
+      _$GetStatusImpl _value, $Res Function(_$GetStatusImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$GetStatusImpl implements GetStatus {
+  const _$GetStatusImpl();
+
+  @override
+  String toString() {
+    return 'MainEvent.getStatus()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$GetStatusImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int surat) getSurat,
+    required TResult Function() getAll,
+    required TResult Function() getMateri,
+    required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
+    required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
+  }) {
+    return getStatus();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int surat)? getSurat,
+    TResult? Function()? getAll,
+    TResult? Function()? getMateri,
+    TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
+    TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
+  }) {
+    return getStatus?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int surat)? getSurat,
+    TResult Function()? getAll,
+    TResult Function()? getMateri,
+    TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
+    TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (getStatus != null) {
+      return getStatus();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(GetDetailSurat value) getSurat,
+    required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
+    required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
+    required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
+  }) {
+    return getStatus(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(GetDetailSurat value)? getSurat,
+    TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
+    TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
+    TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
+  }) {
+    return getStatus?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(GetDetailSurat value)? getSurat,
+    TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
+    TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
+    TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (getStatus != null) {
+      return getStatus(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetStatus implements MainEvent {
+  const factory GetStatus() = _$GetStatusImpl;
+}
+
+/// @nodoc
+abstract class _$$GetMateriPenggunaImplCopyWith<$Res> {
+  factory _$$GetMateriPenggunaImplCopyWith(_$GetMateriPenggunaImpl value,
+          $Res Function(_$GetMateriPenggunaImpl) then) =
+      __$$GetMateriPenggunaImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String device});
+}
+
+/// @nodoc
+class __$$GetMateriPenggunaImplCopyWithImpl<$Res>
+    extends _$MainEventCopyWithImpl<$Res, _$GetMateriPenggunaImpl>
+    implements _$$GetMateriPenggunaImplCopyWith<$Res> {
+  __$$GetMateriPenggunaImplCopyWithImpl(_$GetMateriPenggunaImpl _value,
+      $Res Function(_$GetMateriPenggunaImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? device = null,
+  }) {
+    return _then(_$GetMateriPenggunaImpl(
+      null == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetMateriPenggunaImpl implements GetMateriPengguna {
+  const _$GetMateriPenggunaImpl(this.device);
+
+  @override
+  final String device;
+
+  @override
+  String toString() {
+    return 'MainEvent.getMateriPengguna(device: $device)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetMateriPenggunaImpl &&
+            (identical(other.device, device) || other.device == device));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, device);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetMateriPenggunaImplCopyWith<_$GetMateriPenggunaImpl> get copyWith =>
+      __$$GetMateriPenggunaImplCopyWithImpl<_$GetMateriPenggunaImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int surat) getSurat,
+    required TResult Function() getAll,
+    required TResult Function() getMateri,
+    required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
+    required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
+  }) {
+    return getMateriPengguna(device);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int surat)? getSurat,
+    TResult? Function()? getAll,
+    TResult? Function()? getMateri,
+    TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
+    TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
+  }) {
+    return getMateriPengguna?.call(device);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int surat)? getSurat,
+    TResult Function()? getAll,
+    TResult Function()? getMateri,
+    TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
+    TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (getMateriPengguna != null) {
+      return getMateriPengguna(device);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(GetDetailSurat value) getSurat,
+    required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
+    required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
+    required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
+  }) {
+    return getMateriPengguna(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(GetDetailSurat value)? getSurat,
+    TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
+    TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
+    TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
+  }) {
+    return getMateriPengguna?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(GetDetailSurat value)? getSurat,
+    TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
+    TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
+    TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (getMateriPengguna != null) {
+      return getMateriPengguna(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetMateriPengguna implements MainEvent {
+  const factory GetMateriPengguna(final String device) =
+      _$GetMateriPenggunaImpl;
+
+  String get device;
+  @JsonKey(ignore: true)
+  _$$GetMateriPenggunaImplCopyWith<_$GetMateriPenggunaImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$PostLearnImplCopyWith<$Res> {
+  factory _$$PostLearnImplCopyWith(
+          _$PostLearnImpl value, $Res Function(_$PostLearnImpl) then) =
+      __$$PostLearnImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int id, int nilai});
+}
+
+/// @nodoc
+class __$$PostLearnImplCopyWithImpl<$Res>
+    extends _$MainEventCopyWithImpl<$Res, _$PostLearnImpl>
+    implements _$$PostLearnImplCopyWith<$Res> {
+  __$$PostLearnImplCopyWithImpl(
+      _$PostLearnImpl _value, $Res Function(_$PostLearnImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? nilai = null,
+  }) {
+    return _then(_$PostLearnImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      nilai: null == nilai
+          ? _value.nilai
+          : nilai // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$PostLearnImpl implements PostLearn {
+  const _$PostLearnImpl({required this.id, required this.nilai});
+
+  @override
+  final int id;
+  @override
+  final int nilai;
+
+  @override
+  String toString() {
+    return 'MainEvent.postLearn(id: $id, nilai: $nilai)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PostLearnImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.nilai, nilai) || other.nilai == nilai));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, nilai);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PostLearnImplCopyWith<_$PostLearnImpl> get copyWith =>
+      __$$PostLearnImplCopyWithImpl<_$PostLearnImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int surat) getSurat,
+    required TResult Function() getAll,
+    required TResult Function() getMateri,
+    required TResult Function(String ayat) checkPassed,
+    required TResult Function(String ayat, String acuan, int id)
+        checkpassMateri,
+    required TResult Function(String deviceInfo) deviceInfo,
+    required TResult Function(String deviceInfo) postDev,
+    required TResult Function(String loading) loadingActive,
+    required TResult Function() getStatus,
+    required TResult Function(String device) getMateriPengguna,
+    required TResult Function(int id, int nilai) postLearn,
+  }) {
+    return postLearn(id, nilai);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int surat)? getSurat,
+    TResult? Function()? getAll,
+    TResult? Function()? getMateri,
+    TResult? Function(String ayat)? checkPassed,
+    TResult? Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult? Function(String deviceInfo)? deviceInfo,
+    TResult? Function(String deviceInfo)? postDev,
+    TResult? Function(String loading)? loadingActive,
+    TResult? Function()? getStatus,
+    TResult? Function(String device)? getMateriPengguna,
+    TResult? Function(int id, int nilai)? postLearn,
+  }) {
+    return postLearn?.call(id, nilai);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int surat)? getSurat,
+    TResult Function()? getAll,
+    TResult Function()? getMateri,
+    TResult Function(String ayat)? checkPassed,
+    TResult Function(String ayat, String acuan, int id)? checkpassMateri,
+    TResult Function(String deviceInfo)? deviceInfo,
+    TResult Function(String deviceInfo)? postDev,
+    TResult Function(String loading)? loadingActive,
+    TResult Function()? getStatus,
+    TResult Function(String device)? getMateriPengguna,
+    TResult Function(int id, int nilai)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (postLearn != null) {
+      return postLearn(id, nilai);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(GetDetailSurat value) getSurat,
+    required TResult Function(GetAllSurah value) getAll,
+    required TResult Function(GetMateri value) getMateri,
+    required TResult Function(CheckPassed value) checkPassed,
+    required TResult Function(CheckPassMateri value) checkpassMateri,
+    required TResult Function(DevInfo value) deviceInfo,
+    required TResult Function(PostDevice value) postDev,
+    required TResult Function(LoadingActive value) loadingActive,
+    required TResult Function(GetStatus value) getStatus,
+    required TResult Function(GetMateriPengguna value) getMateriPengguna,
+    required TResult Function(PostLearn value) postLearn,
+  }) {
+    return postLearn(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(GetDetailSurat value)? getSurat,
+    TResult? Function(GetAllSurah value)? getAll,
+    TResult? Function(GetMateri value)? getMateri,
+    TResult? Function(CheckPassed value)? checkPassed,
+    TResult? Function(CheckPassMateri value)? checkpassMateri,
+    TResult? Function(DevInfo value)? deviceInfo,
+    TResult? Function(PostDevice value)? postDev,
+    TResult? Function(LoadingActive value)? loadingActive,
+    TResult? Function(GetStatus value)? getStatus,
+    TResult? Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult? Function(PostLearn value)? postLearn,
+  }) {
+    return postLearn?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(GetDetailSurat value)? getSurat,
+    TResult Function(GetAllSurah value)? getAll,
+    TResult Function(GetMateri value)? getMateri,
+    TResult Function(CheckPassed value)? checkPassed,
+    TResult Function(CheckPassMateri value)? checkpassMateri,
+    TResult Function(DevInfo value)? deviceInfo,
+    TResult Function(PostDevice value)? postDev,
+    TResult Function(LoadingActive value)? loadingActive,
+    TResult Function(GetStatus value)? getStatus,
+    TResult Function(GetMateriPengguna value)? getMateriPengguna,
+    TResult Function(PostLearn value)? postLearn,
+    required TResult orElse(),
+  }) {
+    if (postLearn != null) {
+      return postLearn(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class PostLearn implements MainEvent {
+  const factory PostLearn({required final int id, required final int nilai}) =
+      _$PostLearnImpl;
+
+  int get id;
+  int get nilai;
+  @JsonKey(ignore: true)
+  _$$PostLearnImplCopyWith<_$PostLearnImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$MainState {
   dynamic get quranData => throw _privateConstructorUsedError;
   List<QuranData> get quran => throw _privateConstructorUsedError;
@@ -957,10 +2386,14 @@ mixin _$MainState {
   int get index => throw _privateConstructorUsedError;
   int get ayatIndex => throw _privateConstructorUsedError;
   String get ayatAcuan => throw _privateConstructorUsedError;
+  String get deviceInfo => throw _privateConstructorUsedError;
   bool get isPassed => throw _privateConstructorUsedError;
   String get isLoading => throw _privateConstructorUsedError;
   dynamic get groupedMateri => throw _privateConstructorUsedError;
   List<String> get koreksian => throw _privateConstructorUsedError;
+  Map<String, Map<String, List<Materi>>> get statusData =>
+      throw _privateConstructorUsedError;
+  List<Pengguna> get pengguna => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -972,10 +2405,13 @@ mixin _$MainState {
             int index,
             int ayatIndex,
             String ayatAcuan,
+            String deviceInfo,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri,
-            List<String> koreksian)
+            List<String> koreksian,
+            Map<String, Map<String, List<Materi>>> statusData,
+            List<Pengguna> pengguna)
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -990,10 +2426,13 @@ mixin _$MainState {
             int index,
             int ayatIndex,
             String ayatAcuan,
+            String deviceInfo,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri,
-            List<String> koreksian)?
+            List<String> koreksian,
+            Map<String, Map<String, List<Materi>>> statusData,
+            List<Pengguna> pengguna)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -1008,10 +2447,13 @@ mixin _$MainState {
             int index,
             int ayatIndex,
             String ayatAcuan,
+            String deviceInfo,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri,
-            List<String> koreksian)?
+            List<String> koreksian,
+            Map<String, Map<String, List<Materi>>> statusData,
+            List<Pengguna> pengguna)?
         initial,
     required TResult orElse(),
   }) =>
@@ -1052,10 +2494,13 @@ abstract class $MainStateCopyWith<$Res> {
       int index,
       int ayatIndex,
       String ayatAcuan,
+      String deviceInfo,
       bool isPassed,
       String isLoading,
       dynamic groupedMateri,
-      List<String> koreksian});
+      List<String> koreksian,
+      Map<String, Map<String, List<Materi>>> statusData,
+      List<Pengguna> pengguna});
 }
 
 /// @nodoc
@@ -1079,10 +2524,13 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
     Object? index = null,
     Object? ayatIndex = null,
     Object? ayatAcuan = null,
+    Object? deviceInfo = null,
     Object? isPassed = null,
     Object? isLoading = null,
     Object? groupedMateri = freezed,
     Object? koreksian = null,
+    Object? statusData = null,
+    Object? pengguna = null,
   }) {
     return _then(_value.copyWith(
       quranData: freezed == quranData
@@ -1117,6 +2565,10 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.ayatAcuan
           : ayatAcuan // ignore: cast_nullable_to_non_nullable
               as String,
+      deviceInfo: null == deviceInfo
+          ? _value.deviceInfo
+          : deviceInfo // ignore: cast_nullable_to_non_nullable
+              as String,
       isPassed: null == isPassed
           ? _value.isPassed
           : isPassed // ignore: cast_nullable_to_non_nullable
@@ -1133,6 +2585,14 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.koreksian
           : koreksian // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      statusData: null == statusData
+          ? _value.statusData
+          : statusData // ignore: cast_nullable_to_non_nullable
+              as Map<String, Map<String, List<Materi>>>,
+      pengguna: null == pengguna
+          ? _value.pengguna
+          : pengguna // ignore: cast_nullable_to_non_nullable
+              as List<Pengguna>,
     ) as $Val);
   }
 }
@@ -1154,10 +2614,13 @@ abstract class _$$InitialImplCopyWith<$Res>
       int index,
       int ayatIndex,
       String ayatAcuan,
+      String deviceInfo,
       bool isPassed,
       String isLoading,
       dynamic groupedMateri,
-      List<String> koreksian});
+      List<String> koreksian,
+      Map<String, Map<String, List<Materi>>> statusData,
+      List<Pengguna> pengguna});
 }
 
 /// @nodoc
@@ -1179,10 +2642,13 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? index = null,
     Object? ayatIndex = null,
     Object? ayatAcuan = null,
+    Object? deviceInfo = null,
     Object? isPassed = null,
     Object? isLoading = null,
     Object? groupedMateri = freezed,
     Object? koreksian = null,
+    Object? statusData = null,
+    Object? pengguna = null,
   }) {
     return _then(_$InitialImpl(
       quranData: freezed == quranData ? _value.quranData! : quranData,
@@ -1214,6 +2680,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.ayatAcuan
           : ayatAcuan // ignore: cast_nullable_to_non_nullable
               as String,
+      deviceInfo: null == deviceInfo
+          ? _value.deviceInfo
+          : deviceInfo // ignore: cast_nullable_to_non_nullable
+              as String,
       isPassed: null == isPassed
           ? _value.isPassed
           : isPassed // ignore: cast_nullable_to_non_nullable
@@ -1228,6 +2698,14 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._koreksian
           : koreksian // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      statusData: null == statusData
+          ? _value._statusData
+          : statusData // ignore: cast_nullable_to_non_nullable
+              as Map<String, Map<String, List<Materi>>>,
+      pengguna: null == pengguna
+          ? _value._pengguna
+          : pengguna // ignore: cast_nullable_to_non_nullable
+              as List<Pengguna>,
     ));
   }
 }
@@ -1244,14 +2722,19 @@ class _$InitialImpl implements _Initial {
       this.index = 0,
       this.ayatIndex = 0,
       this.ayatAcuan = '',
+      this.deviceInfo = '',
       this.isPassed = false,
       this.isLoading = '',
       this.groupedMateri = const [],
-      final List<String> koreksian = const []})
+      final List<String> koreksian = const [],
+      final Map<String, Map<String, List<Materi>>> statusData = const {},
+      final List<Pengguna> pengguna = const <Pengguna>[]})
       : _quran = quran,
         _surat = surat,
         _materi = materi,
-        _koreksian = koreksian;
+        _koreksian = koreksian,
+        _statusData = statusData,
+        _pengguna = pengguna;
 
   @override
   @JsonKey()
@@ -1297,6 +2780,9 @@ class _$InitialImpl implements _Initial {
   final String ayatAcuan;
   @override
   @JsonKey()
+  final String deviceInfo;
+  @override
+  @JsonKey()
   final bool isPassed;
   @override
   @JsonKey()
@@ -1313,9 +2799,27 @@ class _$InitialImpl implements _Initial {
     return EqualUnmodifiableListView(_koreksian);
   }
 
+  final Map<String, Map<String, List<Materi>>> _statusData;
+  @override
+  @JsonKey()
+  Map<String, Map<String, List<Materi>>> get statusData {
+    if (_statusData is EqualUnmodifiableMapView) return _statusData;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_statusData);
+  }
+
+  final List<Pengguna> _pengguna;
+  @override
+  @JsonKey()
+  List<Pengguna> get pengguna {
+    if (_pengguna is EqualUnmodifiableListView) return _pengguna;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_pengguna);
+  }
+
   @override
   String toString() {
-    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, materi: $materi, fetchDataProses: $fetchDataProses, index: $index, ayatIndex: $ayatIndex, ayatAcuan: $ayatAcuan, isPassed: $isPassed, isLoading: $isLoading, groupedMateri: $groupedMateri, koreksian: $koreksian)';
+    return 'MainState.initial(quranData: $quranData, quran: $quran, surat: $surat, materi: $materi, fetchDataProses: $fetchDataProses, index: $index, ayatIndex: $ayatIndex, ayatAcuan: $ayatAcuan, deviceInfo: $deviceInfo, isPassed: $isPassed, isLoading: $isLoading, groupedMateri: $groupedMateri, koreksian: $koreksian, statusData: $statusData, pengguna: $pengguna)';
   }
 
   @override
@@ -1334,6 +2838,8 @@ class _$InitialImpl implements _Initial {
                 other.ayatIndex == ayatIndex) &&
             (identical(other.ayatAcuan, ayatAcuan) ||
                 other.ayatAcuan == ayatAcuan) &&
+            (identical(other.deviceInfo, deviceInfo) ||
+                other.deviceInfo == deviceInfo) &&
             (identical(other.isPassed, isPassed) ||
                 other.isPassed == isPassed) &&
             (identical(other.isLoading, isLoading) ||
@@ -1341,7 +2847,10 @@ class _$InitialImpl implements _Initial {
             const DeepCollectionEquality()
                 .equals(other.groupedMateri, groupedMateri) &&
             const DeepCollectionEquality()
-                .equals(other._koreksian, _koreksian));
+                .equals(other._koreksian, _koreksian) &&
+            const DeepCollectionEquality()
+                .equals(other._statusData, _statusData) &&
+            const DeepCollectionEquality().equals(other._pengguna, _pengguna));
   }
 
   @override
@@ -1355,10 +2864,13 @@ class _$InitialImpl implements _Initial {
       index,
       ayatIndex,
       ayatAcuan,
+      deviceInfo,
       isPassed,
       isLoading,
       const DeepCollectionEquality().hash(groupedMateri),
-      const DeepCollectionEquality().hash(_koreksian));
+      const DeepCollectionEquality().hash(_koreksian),
+      const DeepCollectionEquality().hash(_statusData),
+      const DeepCollectionEquality().hash(_pengguna));
 
   @JsonKey(ignore: true)
   @override
@@ -1378,14 +2890,31 @@ class _$InitialImpl implements _Initial {
             int index,
             int ayatIndex,
             String ayatAcuan,
+            String deviceInfo,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri,
-            List<String> koreksian)
+            List<String> koreksian,
+            Map<String, Map<String, List<Materi>>> statusData,
+            List<Pengguna> pengguna)
         initial,
   }) {
-    return initial(quranData, quran, surat, materi, fetchDataProses, index,
-        ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri, koreksian);
+    return initial(
+        quranData,
+        quran,
+        surat,
+        materi,
+        fetchDataProses,
+        index,
+        ayatIndex,
+        ayatAcuan,
+        deviceInfo,
+        isPassed,
+        isLoading,
+        groupedMateri,
+        koreksian,
+        statusData,
+        pengguna);
   }
 
   @override
@@ -1400,10 +2929,13 @@ class _$InitialImpl implements _Initial {
             int index,
             int ayatIndex,
             String ayatAcuan,
+            String deviceInfo,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri,
-            List<String> koreksian)?
+            List<String> koreksian,
+            Map<String, Map<String, List<Materi>>> statusData,
+            List<Pengguna> pengguna)?
         initial,
   }) {
     return initial?.call(
@@ -1415,10 +2947,13 @@ class _$InitialImpl implements _Initial {
         index,
         ayatIndex,
         ayatAcuan,
+        deviceInfo,
         isPassed,
         isLoading,
         groupedMateri,
-        koreksian);
+        koreksian,
+        statusData,
+        pengguna);
   }
 
   @override
@@ -1433,16 +2968,33 @@ class _$InitialImpl implements _Initial {
             int index,
             int ayatIndex,
             String ayatAcuan,
+            String deviceInfo,
             bool isPassed,
             String isLoading,
             dynamic groupedMateri,
-            List<String> koreksian)?
+            List<String> koreksian,
+            Map<String, Map<String, List<Materi>>> statusData,
+            List<Pengguna> pengguna)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(quranData, quran, surat, materi, fetchDataProses, index,
-          ayatIndex, ayatAcuan, isPassed, isLoading, groupedMateri, koreksian);
+      return initial(
+          quranData,
+          quran,
+          surat,
+          materi,
+          fetchDataProses,
+          index,
+          ayatIndex,
+          ayatAcuan,
+          deviceInfo,
+          isPassed,
+          isLoading,
+          groupedMateri,
+          koreksian,
+          statusData,
+          pengguna);
     }
     return orElse();
   }
@@ -1486,10 +3038,13 @@ abstract class _Initial implements MainState {
       final int index,
       final int ayatIndex,
       final String ayatAcuan,
+      final String deviceInfo,
       final bool isPassed,
       final String isLoading,
       final dynamic groupedMateri,
-      final List<String> koreksian}) = _$InitialImpl;
+      final List<String> koreksian,
+      final Map<String, Map<String, List<Materi>>> statusData,
+      final List<Pengguna> pengguna}) = _$InitialImpl;
 
   @override
   dynamic get quranData;
@@ -1508,6 +3063,8 @@ abstract class _Initial implements MainState {
   @override
   String get ayatAcuan;
   @override
+  String get deviceInfo;
+  @override
   bool get isPassed;
   @override
   String get isLoading;
@@ -1515,6 +3072,10 @@ abstract class _Initial implements MainState {
   dynamic get groupedMateri;
   @override
   List<String> get koreksian;
+  @override
+  Map<String, Map<String, List<Materi>>> get statusData;
+  @override
+  List<Pengguna> get pengguna;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

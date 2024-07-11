@@ -18,12 +18,16 @@ part 'main_bloc.freezed.dart';
 class MainBloc extends Bloc<MainEvent, MainState> {
   final QuranUsecase quranUsecase;
 
-  MainBloc({required this.quranUsecase}) : super(_Initial()) {
+  MainBloc({required this.quranUsecase}) : super(const _Initial()) {
     on<GetDetailSurat>(_getDetailSurat);
     on<GetAllSurah>(_getAllSurat);
     on<CheckPassed>(_checkPassed);
     on<LoadingActive>(_loader);
     on<GetMateri>(_getMateri);
+    on<PostDevice>(_postDevice);
+    on<GetMateriPengguna>(_getMateriPengguna);
+    on<PostLearn>(_postLearn);
+    on<CheckPassMateri>(_checkPassedMateri);
   }
   // functionality
   Future<void> _loader(MainEvent event, Emitter<MainState> emit) async {
@@ -35,8 +39,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       log('state ${state.isLoading}');
     }
   }
-  // check passed
 
+  // check passed
   Future<void> _checkPassed(MainEvent event, Emitter<MainState> emit) async {
     String lastWords = removeDiacritics((event as CheckPassed).ayat);
     emit(state.copyWith(isLoading: lastWords));
@@ -132,26 +136,67 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     }
   }
 
+  // TODO cekpass materi
+  // check passed
+  Future<void> _checkPassedMateri(
+      MainEvent event, Emitter<MainState> emit) async {
+    String lastWords = ((event as CheckPassMateri).ayat);
+    String acuan = removeDiacritics((event).acuan);
+    int id = ((event).id);
+
+    acuan = acuan.replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '');
+    List<String> huruf = acuan.split(',');
+
+    // Mencari indeks dari huruf acuan dalam daftar dengan similarity tertinggi
+    double highestSimilarity = 0.0;
+    int bestMatchIndex = -1;
+
+    for (int i = 0; i < huruf.length; i++) {
+      double similarity =
+          StringSimilarity.compareTwoStrings(lastWords, huruf[i]);
+      if (similarity > highestSimilarity) {
+        highestSimilarity = similarity;
+        bestMatchIndex = i;
+      }
+    }
+
+
+    if (bestMatchIndex != -1) {
+      print(
+          'Indeks dari elemen yang paling mirip dengan $lastWords adalah $bestMatchIndex');
+      print('Nilai similarity: $highestSimilarity');
+      final a = await quranUsecase.postLearn(id, highestSimilarity.toInt());
+    a.fold((l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)),
+        (r) {
+      groupByJenisKuis(state.materi);
+      emit(state.copyWith(
+        fetchDataProses: FetchStatus.success,
+      ));
+    });
+    } else {
+      print('$lastWords tidak ditemukan dalam daftar');
+    }
+    
+  }
+
   Future<void> _getDetailSurat(MainEvent event, Emitter<MainState> emit) async {
-    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
     log('fetch Surat');
-    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+      emit(state.copyWith(fetchDataProses: FetchStatus.loading));
 
     int surat = (event as GetDetailSurat).surat;
     // get userid
     // log('surat nomor : $surat');
 
     final getDetail = await quranUsecase.getDetailSurat(surat: surat);
+
     getDetail.fold(
-        // ignore: void_checks
         (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)), (r) {
       var quranData = r;
       log('quranData ${quranData.toJson()}');
-      // log('===');
+  
 
-      emit(state.copyWith(fetchDataProses: FetchStatus.success, quranData: r));
-      // log('hallo  ${r}');
-      //  hah
+      emit(state.copyWith(quranData: r));
+     
 
       final ayatList = state.quranData;
       final result = <QuranAyat>[];
@@ -159,7 +204,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       final ayas = r.data?.ayat.length;
       final loadOnly = ayas;
       if (ayatList != null) {
+
         for (final ayatItem in r.data!.ayat) {
+          
           final tokens = Tajweed.tokenize(ayatItem.teksArab, 2, loaded + 1);
           result.add(QuranAyat(
             nomorAyat: ayatItem.nomorAyat,
@@ -170,9 +217,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
             audio: ayatItem.audio,
             toke: tokens,
           ));
+
           if (++loaded >= loadOnly!) {
+
             break;
           }
+    emit(state.copyWith(fetchDataProses: FetchStatus.success));
         }
       }
 
@@ -204,7 +254,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           fetchDataProses: FetchStatus.success, surat: allsurat));
       log(state.surat.length.toString());
 
-      // log(ayas.toString());
+     
     });
   }
 
@@ -219,7 +269,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
     final a = await quranUsecase.getMateri();
     a.fold(
-        // ignore: void_checks
         (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)), (r) {
       List<Materi> materi = r;
       groupByJenisKuis(materi);
@@ -234,10 +283,41 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     });
   }
 
+  //ganti kesini
+  Future<void> _getMateriPengguna(
+      MainEvent event, Emitter<MainState> emit) async {
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+    String d = (event as GetMateriPengguna).device;
+
+    final a = await quranUsecase.getMateriPengguna(d);
+    a.fold(
+        // ignore: void_checks
+        (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)), (r) {
+      List<Materi> materiList = [];
+
+
+      for (var pengguna in r) {
+        if (pengguna.materi_detail != null) {
+          materiList.add(pengguna.materi_detail!);
+        }
+        emit(state.copyWith(materi: materiList));
+      }
+
+      emit(state.copyWith(
+        fetchDataProses: FetchStatus.success,
+        materi: materiList,
+        pengguna: r,
+        deviceInfo: d,
+      ));
+      log('pengguna adalah ${state.pengguna.length}');
+      groupByJenisKuis(state.materi);
+    });
+  }
+
   Future<void> groupByJenisKuis(List<Materi> materiList) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, Map<String, List<Materi>>> groupedByJenisKuisAndKategori = {};
 
+    // Proses pengelompokan data
     for (var materi in materiList) {
       String? jenisKuis = materi.jenis_kuis;
       String? kategori = materi.kategori;
@@ -251,32 +331,48 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         }
         groupedByJenisKuisAndKategori[jenisKuis]![kategori]!.add(materi);
       }
-      log('kategori kuis : ${groupedByJenisKuisAndKategori.length}');
       emit(state.copyWith(
         fetchDataProses: FetchStatus.success,
         groupedMateri: groupedByJenisKuisAndKategori,
       ));
     }
-    // Set preferences based on the length of groupedByJenisKuisAndKategori
-    List<int> preferenceList =
-        List.generate(groupedByJenisKuisAndKategori.length, (index) => 0);
-    await prefs.setStringList(
-        'groupPreferences', preferenceList.map((e) => e.toString()).toList());
 
-    // print(groupedByJenisKuisAndKategori);
-    // Check preferences and lock groups with value 0
-    List<String>? storedPreferences = prefs.getStringList('groupPreferences');
-    if (storedPreferences != null) {
-      List<int> storedPrefList =
-          storedPreferences.map((e) => int.parse(e)).toList();
-      int index = 0;
-      for (var entry in groupedByJenisKuisAndKategori.entries) {
-        if (storedPrefList[index] == 0) {
-          entry.value.clear(); // Lock the group by clearing its value
-        }
-        index++;
-      }
-    }
+    // Simpan ke SharedPreferences setelah proses selesai
+  }
+
+  Future<void> _postDevice(MainEvent event, Emitter<MainState> emit) async {
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+    log('post Device ');
+    String deviceName = ((event as PostDevice).deviceInfo);
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+    log('deviice $deviceName');
+
+    final a = await quranUsecase.postDevice(deviceName);
+    a.fold((l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)),
+        (r) {
+      emit(state.copyWith(
+        fetchDataProses: FetchStatus.success,
+        deviceInfo: deviceName,
+      ));
+    });
+  }
+
+  Future<void> _postLearn(MainEvent event, Emitter<MainState> emit) async {
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+    log('post Learn ');
+    int id = (event as PostLearn).id;
+    int nilai = (event).nilai;
+    print('$nilai, $id');
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+
+    final a = await quranUsecase.postLearn(id, nilai);
+    a.fold((l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)),
+        (r) {
+      groupByJenisKuis(state.materi);
+      emit(state.copyWith(
+        fetchDataProses: FetchStatus.success,
+      ));
+    });
   }
 
   String removeDiacritics(String text) {

@@ -11,10 +11,13 @@ class MainState with _$MainState {
     @Default(0) int index,
     @Default(0) int ayatIndex,
     @Default('') String ayatAcuan,
+    @Default('') String deviceInfo,
     @Default(false) bool isPassed,
     @Default('') String isLoading,
     @Default([])  groupedMateri,
     @Default([]) List<String> koreksian,
+    @Default({}) Map<String, Map<String, List<Materi>>> statusData,
+    @Default(<Pengguna>[]) List<Pengguna> pengguna,   
 
     // @Default([])  koreksi,
 

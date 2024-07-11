@@ -10,7 +10,7 @@ import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 
 class QuranDatasources {
- var uri = 'https://b9e7-103-145-202-78.ngrok-free.app';
+  var uri = 'https://1429-103-191-218-249.ngrok-free.app';
   Future<Either<Failure, QuranModels>> getDetailSurat(int surat) async {
     const String apiUrl = 'https://equran.id/api/v2/surat';
     final response = await http.get(Uri.parse('$apiUrl/$surat'));
@@ -56,26 +56,95 @@ class QuranDatasources {
       throw ServerException();
     }
   }
-  // get materi 
+  // get materi
 
-  
   Future<Either<Failure, List<Materi>>> getMateri() async {
     // const String apiUrl = 'https://0e10-103-191-218-249.ngrok-free.app/getmateri';
-    final response = await http.get(Uri.parse('https://2f8b-103-145-202-78.ngrok-free.app/getmateri'));
+    final response = await http.get(Uri.parse('$uri/getmateri'));
     log('dt s : ${response.statusCode}');
     if (response.statusCode == 200) {
-           final List<dynamic> jsonData = jsonDecode(response.body);
+      final List<dynamic> jsonData = jsonDecode(response.body);
 
       //  List<Surat> s = [];
       List<Materi> materiList = jsonData.map((data) {
         return Materi.fromJson(data);
       }).toList();
 
-     
       print(materiList);
       return Right(materiList);
     } else {
       throw ServerException();
+    }
+  }
+
+  Future<Either<Failure, List<Pengguna>>> getMateriPengguna(String d) async {
+    final response =
+        await http.get(Uri.parse('$uri/get_materi_by_device_pengguna/$d'));
+    log('Hallo s : ${response.statusCode}');
+   if (response.statusCode == 200) {
+      final List<dynamic> jsonData = jsonDecode(response.body);
+    log('Hallo s : ${jsonData}');
+
+      List<Pengguna> penggunaList = jsonData.map((json) => Pengguna.fromJson(json)).toList();
+      return Right(penggunaList);
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<Either<Failure, String>> postDevice(String devicePengguna) async {
+    // final String uri = 'store_pengguna';
+
+    try {
+      final response = await http.post(
+        Uri.parse('$uri/store_pengguna'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'device_pengguna': devicePengguna,
+        }),
+      );
+
+      log('dt s : ${response.body}');
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        final String message = jsonData['message'];
+        return Right(message);
+      } else {
+        return Left(Failure.parsingFailure());
+      }
+    } catch (e) {
+      return Left(Failure.parsingFailure());
+    }
+  }
+
+// post by id
+  Future<Either<Failure, String>> postLear(int id, int nilai) async {
+    // final String uri = 'store_pengguna';
+
+    try {
+      final response = await http.post(
+        Uri.parse('$uri/update_materi_pengguna/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "is_learn": true,
+          "persentase": nilai,
+        }),
+      );
+
+      log('dt s : ${response.body}');
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        final String message = jsonData['message'];
+        return Right(message);
+      } else {
+        return Left(Failure.parsingFailure());
+      }
+    } catch (e) {
+      return Left(Failure.parsingFailure());
     }
   }
 }
