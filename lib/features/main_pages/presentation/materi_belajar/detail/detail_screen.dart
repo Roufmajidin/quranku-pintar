@@ -309,6 +309,7 @@ class _DetailViewState extends State<DetailView> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: AppColors.neutral.ne01,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -329,7 +330,7 @@ class _DetailViewState extends State<DetailView> {
               child: Container(
                   height: 180,
                   width: size.width,
-                  color: const Color(0xff189474),
+                  color: AppColors.bg.bg02.withOpacity(0.8),
                   child: Padding(
                     padding: const EdgeInsets.only(
                         top: 80, left: 16, right: 16, bottom: 16),
@@ -356,8 +357,8 @@ class _DetailViewState extends State<DetailView> {
                     if (state.fetchDataProses == FetchStatus.loading) {
                       return SizedBox(
                         height: sizeList,
-                        child: const Center(
-                          child: CircularProgressIndicator(color: Colors.green),
+                        child:  Center(
+                          child: CircularProgressIndicator(color: AppColors.bg.bg01),
                         ),
                       );
                     }
@@ -379,7 +380,7 @@ class _DetailViewState extends State<DetailView> {
                                   // height: 120,
                                   width: size.width,
                                   decoration: BoxDecoration(
-                                      color: const Color(0xFF18C59A),
+                                      color: AppColors.bg.bg01,
                                       borderRadius: BorderRadius.circular(8)),
                                   child: Row(
                                     children: [
@@ -404,10 +405,8 @@ class _DetailViewState extends State<DetailView> {
                                                       height: 50,
                                                       decoration: BoxDecoration(
                                                           color: d.is_learn == 0
-                                                              ? const Color
-                                                                  .fromARGB(255,
-                                                                  24, 197, 154)
-                                                              : Colors.amber,
+                                                              ? AppColors.bg.bg02.withOpacity(0.6)
+                                                              : AppColors.bg.bg02.withOpacity(0.8),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(8)),
@@ -558,12 +557,7 @@ class _DetailViewState extends State<DetailView> {
                                                             width: 50,
                                                             height: 50,
                                                             decoration: BoxDecoration(
-                                                                color: const Color
-                                                                    .fromARGB(
-                                                                    255,
-                                                                    24,
-                                                                    197,
-                                                                    154),
+                                                                color: AppColors.bg.bg02.withOpacity(0.8),
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
@@ -623,7 +617,7 @@ class _DetailViewState extends State<DetailView> {
                                           height: 5,
                                           width: 50,
                                           decoration: BoxDecoration(
-                                              color: Colors.green,
+                                              color: AppColors.bg.bg02,
                                               borderRadius:
                                                   BorderRadius.circular(12))),
                                       FloatingActionButton(
@@ -651,7 +645,7 @@ class _DetailViewState extends State<DetailView> {
                                   ),
                                   const SizedBox(height: 10),
                                   FloatingActionButton(
-                                      backgroundColor: Colors.green,
+                                      backgroundColor: AppColors.bg.bg02.withOpacity(0.8),
                                       onPressed: () async {
 
                                         if (isRecord == true) {

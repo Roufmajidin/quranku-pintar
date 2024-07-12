@@ -71,6 +71,7 @@ class _MbViewState extends State<MbView> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: AppColors.neutral.ne01,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Column(
@@ -84,7 +85,7 @@ class _MbViewState extends State<MbView> {
                 child: Container(
                     height: 180,
                     width: size.width,
-                    color: const Color(0xff189474),
+                    color: AppColors.bg.bg01,
                     child: Padding(
                       padding: const EdgeInsets.only(
                           top: 80, left: 16, right: 16, bottom: 16),
@@ -111,8 +112,8 @@ class _MbViewState extends State<MbView> {
                   if (state.fetchDataProses == FetchStatus.loading) {
                     return SizedBox(
                       height: sizeList,
-                      child: const Center(
-                        child: CircularProgressIndicator(color: Colors.green),
+                      child:  Center(
+                        child: CircularProgressIndicator(color: AppColors.bg.bg02.withOpacity(0.8),),
                       ),
                     );
                   }
