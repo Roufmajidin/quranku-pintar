@@ -8,6 +8,14 @@ abstract final class AppColors {
   static final SuccessColor success = SuccessColor();
   static final DangerColor danger = DangerColor();
   static final NeutralColor neutral = NeutralColor();
+  static final BgColor bg = BgColor();
+}
+
+class BgColor {
+ 
+  // final Color bg01 = const Color(0xff004f70);
+  final Color bg01 = const Color(0xff0C5DAC);
+  final Color bg02 = const Color(0xff5a7a8a);
 }
 
 class PrimaryColor {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/features/dashboard/presentation/dashboard_page.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/materi_belajar/mb_page.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/mengaji/mengaji_page.dart';
@@ -26,22 +27,22 @@ class _NavigationState extends State<Navigation> {
     return Scaffold(
   bottomNavigationBar: NavigationBar(
         backgroundColor: Colors.white,
-        destinations: const [
+        destinations:  [
           NavigationDestination(
-            icon: Icon(Icons.home),
+            icon: const Icon(Icons.home),
             label: 'Beranda',
-            selectedIcon:Icon(Icons.home, color: Colors.green,)
+            selectedIcon:Icon(Icons.home, color: AppColors.bg.bg01,)
           ),
           NavigationDestination(
-            icon: Icon(Icons.book_outlined),
+            icon: const Icon(Icons.book_outlined),
             label: 'Mengaji',
-            selectedIcon:Icon(Icons.book_rounded, color: Colors.green,)
+            selectedIcon:Icon(Icons.book_rounded, color: AppColors.bg.bg01,)
           ),
            
            NavigationDestination(
-            icon: Icon(Icons.book_outlined),
+            icon: const Icon(Icons.book_outlined),
             label: 'Belajar',
-            selectedIcon:Icon(Icons.book_rounded, color: Colors.green,)
+            selectedIcon:Icon(Icons.book_rounded, color: AppColors.bg.bg01,)
           ),
         ],
         selectedIndex: currentPageIndex,
