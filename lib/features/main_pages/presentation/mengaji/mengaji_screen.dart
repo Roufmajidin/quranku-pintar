@@ -37,7 +37,9 @@ class _MengajiiewState extends State<Mengajiiew> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: AppColors.neutral.ne01,
       body: SingleChildScrollView(
+
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
@@ -45,7 +47,7 @@ class _MengajiiewState extends State<Mengajiiew> {
             Container(
                 height: 160,
                 width: size.width,
-                color: const Color(0xff189474),
+                color: AppColors.bg.bg01,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 80, left: 16, right: 16),
                   child: GestureDetector(
@@ -75,8 +77,8 @@ class _MengajiiewState extends State<Mengajiiew> {
                 if (state.fetchDataProses == FetchStatus.loading) {
                   return SizedBox(
                     height: sizeList,
-                    child: const Center(
-                      child: CircularProgressIndicator(color: Colors.green),
+                    child:  Center(
+                      child: CircularProgressIndicator(color: AppColors.bg.bg01),
                     ),
                   );
                 }
