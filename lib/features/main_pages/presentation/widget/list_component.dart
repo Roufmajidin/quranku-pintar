@@ -28,50 +28,60 @@ class _MainComponentState extends State<MainComponent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Container(
-        height: widget.isMateri == false ? 80 : 120,
-        width: widget.size.width,
-        decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 24, 197, 154),
-            borderRadius: BorderRadius.circular(8)),
-        child: Row(
-          children: [
-            Container(
-              alignment: Alignment.center,
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                  color: const Color(0xff189474),
-                  borderRadius: BorderRadius.circular(8)),
-              child: widget.icon == true ?  const Icon(Icons.lock, color: Colors.white,) : Text(widget.urutan, style: AppTextStyle.body3.copyWith(color: Colors.white),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: SizedBox(
-                width: widget.size.width * 0.60,
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
-                  children: [
-                    Text(
-                     widget.title,
-                      style: AppTextStyle.body2
-                          .setBold()
-                          .copyWith(color: Colors.white),
-                    ),
-                     Text(
-                      widget.subtitle,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ],
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Stack(
+        children: [
+          Container(
+            height: widget.isMateri == false ? 80 : 120,
+            width: widget.size.width,
+            decoration: BoxDecoration(
+                color: AppColors.bg.bg01,
+                borderRadius: BorderRadius.circular(8)),
+            child: Row(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: widget.icon == true ?  const Icon(Icons.lock, color: Colors.white,) : Text(widget.urutan, style: AppTextStyle.body3.copyWith(color: Colors.white),),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: SizedBox(
+                    width: widget.size.width * 0.60,
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      mainAxisAlignment:
+                          MainAxisAlignment.center,
+                      children: [
+                        Text(
+                         widget.title,
+                          style: AppTextStyle.body2
+                              .setBold()
+                              .copyWith(color: Colors.white),
+                        ),
+                         Text(
+                          widget.subtitle,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        Image.asset(
+              'assets/images/fly.png',
+              fit: BoxFit.contain,
+              width: widget.size.width,
+              color: Colors.white,
+            )
+        ],
       ),
     );
   }
