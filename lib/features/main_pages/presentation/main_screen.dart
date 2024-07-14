@@ -219,36 +219,21 @@ class _MainViewState extends State<MainView> {
   }
 
   Future uploadtoPy(String filePath) async {
-    // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-    var apiUrl = 'https://4ab7-103-145-202-78.ngrok-free.app';
+    var apiUrl = "https://tarteel.tribber.me";
     log('mau ke tartil $filePath');
-    // ubah
-    // File file = File(filePath);
-    // List<int> fileBytes = await file.readAsBytes();
-
-    // var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-    // request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
-    //     filename: filePath.split("/").last));
-    ByteData bytes = await rootBundle.load('assets/audios/middun.m4a');
-    Uint8List buffer = bytes.buffer.asUint8List();
-
-    // Simpan sementara di direktori aplikasi
-    Directory tempDir = await getTemporaryDirectory();
-    String tempPath = '${tempDir.path}/middun.m4a';
-    File tempFile = File(tempPath);
-    await tempFile.writeAsBytes(buffer);
+    File file = File(filePath);
+    List<int> fileBytes = await file.readAsBytes();
 
     var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-    request.files.add(await http.MultipartFile.fromPath('file', tempFile.path));
-
-    var response = await request.send();
+    request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
+        filename: filePath.split("/").last));
 
     try {
-      // var streamedResponse = await request.send();
-      if (response.statusCode == 200) {
-          var responseData = await response.stream.bytesToString();
+      var streamedResponse = await request.send();
+      if (streamedResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(streamedResponse);
 
-        var jsonResponse = jsonDecode(responseData);
+        var jsonResponse = jsonDecode(response.body);
 
         // Mengambil nilai teks dari kunci 'text'
         var text = jsonResponse['text'];
@@ -265,42 +250,6 @@ class _MainViewState extends State<MainView> {
     // return statusText;
   }
 
-  // py server python m4a dart convert ke mp3, (karena api gabisa m4a)
-  // Future<void> uploadtoPy(String filePath) async {
-  //   // var apiUrl = "https://4460-103-191-218-82.ngrok-free.app/convert";
-  //   var apiUrl = "https://0ea0-103-191-218-82.ngrok-free.app";
-  //   log('mau ke py $filePath');
-  //   File file = File(filePath);
-  //   List<int> fileBytes = await file.readAsBytes();
-
-  //   var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-  //   request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
-  //       filename: filePath.split("/").last));
-
-  //   try {
-  //     var streamedResponse = await request.send();
-  //     if (streamedResponse.statusCode == 200) {
-  //       var response = await http.Response.fromStream(streamedResponse);
-
-  //       var tempDir = await getTemporaryDirectory();
-  //       var outputFile = File('${tempDir.path}/output.mp3');
-  //       await outputFile.writeAsBytes(response.bodyBytes);
-  //       print('File MP3 berhasil disimpan: ${outputFile.path}');
-  //       // setState(() {
-  //       // pathConvert = outputFile.path;
-  //       // });
-  //       log('cekfile ke EP 2');
-  //       // await uploadFile(outputFile.path);
-  //       // uploadtotartil(outputFile.path);
-  //       log(response.body.toString());
-  //     } else {
-  //       print(
-  //           'Gagal mengunggah file. Status code: ${streamedResponse.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     print('Terjadi kesalahan: $e');
-  //   }
-  // }
 
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
@@ -413,9 +362,9 @@ class _MainViewState extends State<MainView> {
               }
 
               return Container(
-                  height: 160,
+                  height: 200,
                   width: MediaQuery.of(context).size.width,
-                  color: const Color(0xff189474),
+                  color: AppColors.bg.bg01,
                   child: Padding(
                     padding:
                         const EdgeInsets.only(top: 80, left: 16, right: 16),
@@ -456,9 +405,9 @@ class _MainViewState extends State<MainView> {
                               scrollTo(state.index);
                             }
                             if (state.fetchDataProses == FetchStatus.loading) {
-                              return const Center(
+                              return  Center(
                                 child: CircularProgressIndicator(
-                                    color: Colors.green),
+                                    color: AppColors.bg.bg01),
                               );
                             }
                             if (state.quranData is QuranModels) {
@@ -518,8 +467,7 @@ class _MainViewState extends State<MainView> {
                                                   decoration:
                                                       ayatItem.terbaca == true
                                                           ? BoxDecoration(
-                                                              color: const Color(
-                                                                  0xff189474),
+                                                              color: AppColors.bg.bg01,
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -528,8 +476,7 @@ class _MainViewState extends State<MainView> {
                                                           : BoxDecoration(
                                                               border:
                                                                   Border.all(
-                                                                color: const Color(
-                                                                    0xff189474),
+                                                                color: AppColors.bg.bg01,
                                                                 width: 2,
                                                               ),
                                                               borderRadius:
@@ -715,40 +662,40 @@ class _MainViewState extends State<MainView> {
                                       ],
                                     ),
                                     const SizedBox(height: 10),
-                               statusText != '' ||
-                                                statusText ==
-                                                    'Inisialisasi Audio' || statusText == 'Mengecek Audio' ?
-                                                     const SizedBox()
-                                                    :    FloatingActionButton(
-                                        backgroundColor: Colors.green,
-                                        onPressed: () async {
-                                          if (isRecord == true) {
-                                            stopRecord();
-                                          } else {
-                                            // startRecord();
-                                            uploadtoPy('filePath');
-                                            pp = '';
-                                            statusText = '';
-                                          }
-                                        },
-                                        child: Stack(
-                                          children: [
-                                            if (statusText == '' ||
-                                                statusText ==
-                                                    'Inisialisasi Audio')
-                                              Icon(
-                                                _speechEnabled == false
-                                                    ? Icons.mic_none
-                                                    : Icons.mic,
-                                                color: Colors.white,
-                                              ),
-                                            if (statusText == 'Mengecek Audio')
-                                              const CircularProgressIndicator(
-                                                color: Colors.white,
-                                              )
-                                              
-                                          ],
-                                        )),
+                                     FloatingActionButton(
+                                      backgroundColor: AppColors.bg.bg02.withOpacity(0.8),
+                                      onPressed: () async {
+
+                                        if (isRecord == true) {
+                                          stopRecord();
+                                        } else {
+                                          // record bre
+                                          startRecord();
+                                            print('mulai');
+
+
+                                          pp = '';
+                                          statusText = '';
+                                        }
+                                      },
+                                      child: Stack(
+                                        children: [
+                                          if (statusText == '' ||
+                                              statusText ==
+                                                  'Inisialisasi Audio')
+                                            Icon(
+                                              _speechEnabled == false
+                                                  ? Icons.mic_none
+                                                  : Icons.mic,
+                                              color: Colors.white,
+                                            ),
+                                          if (statusText == 'Mengecek Audio')
+                                            const CircularProgressIndicator(
+                                              color: Colors.white,
+                                            )
+                                        ],
+                                      )),
+                                
                                     const SizedBox(height: 16),
                                     // pe
                                     // statusText == ''
@@ -794,29 +741,42 @@ class _MainViewState extends State<MainView> {
                                         : const SizedBox(),
                                     const SizedBox(height: 15),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal:30),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 30),
                                       child: GestureDetector(
-                                          onTap: () {
-                                            print(statusText);
-                                          },
-                                          // koreksi
-                                          child:  ListView.builder(
-                                            padding: const EdgeInsets.only(bottom: 40),
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            physics: const ScrollPhysics(),
-                                            itemCount: state.koreksian.length-1,
-                                            itemBuilder: (context, index) {
+                                        onTap: () {
+                                          print(statusText);
+                                        },
+                                        // koreksi
+                                        child: ListView.builder(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 40),
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          physics: const ScrollPhysics(),
+                                          itemCount: state.koreksian.length,
+                                          itemBuilder: (context, index) {
                                             return Row(
                                               children: [
-                                                const Icon(Icons.circle, size: 6,),
+                                                const Icon(
+                                                  Icons.circle,
+                                                  size: 6,
+                                                ),
                                                 const SizedBox(width: 6),
-                                                Text(state.koreksian[index], style: AppTextStyle.body3.setRegular().copyWith(overflow: TextOverflow.ellipsis),),
+                                                Text(
+                                                  state.koreksian[index],
+                                                  style: AppTextStyle.body3
+                                                      .setRegular()
+                                                      .copyWith(
+                                                          overflow: TextOverflow
+                                                              .ellipsis),
+                                                ),
                                               ],
                                             );
-                                          },)),
+                                          },
+                                        ),
+                                      ),
                                     )
-                                    
                                   ],
                                 ),
                               ));

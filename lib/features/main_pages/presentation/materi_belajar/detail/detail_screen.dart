@@ -111,7 +111,7 @@ class _DetailViewState extends State<DetailView> {
   String cntoh = '';
   Future<void> playRecord(String url, int index) async {
     try {
-      var uri = 'https://ef93-140-213-104-45.ngrok-free.app/get_audio/$url';
+      var uri = 'https://tarteel.tribber.me/get_audio/$url';
       // Source urlS = UrlSource(
       //     'https://3518-103-191-218-249.ngrok-free.app/get_audio/output_file.mp3');
 
@@ -274,7 +274,7 @@ class _DetailViewState extends State<DetailView> {
   }
 
   Future uploadtoPy(String filePath) async {
-    var apiUrl = "https://1429-103-191-218-249.ngrok-free.app";
+    var apiUrl = "https://tarteel.tribber.me";
     log('mau ke tartil $filePath');
     File file = File(filePath);
     List<int> fileBytes = await file.readAsBytes();
@@ -330,7 +330,7 @@ class _DetailViewState extends State<DetailView> {
               child: Container(
                   height: 180,
                   width: size.width,
-                  color: AppColors.bg.bg02.withOpacity(0.8),
+                  color: AppColors.bg.bg01,
                   child: Padding(
                     padding: const EdgeInsets.only(
                         top: 80, left: 16, right: 16, bottom: 16),
@@ -376,209 +376,219 @@ class _DetailViewState extends State<DetailView> {
 
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
-                                child: Container(
-                                  // height: 120,
-                                  width: size.width,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.bg.bg01,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 0),
-                                        child: SizedBox(
-                                          width: size.width * 0.9,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      width: 50,
-                                                      height: 50,
-                                                      decoration: BoxDecoration(
-                                                          color: d.is_learn == 0
-                                                              ? AppColors.bg.bg02.withOpacity(0.6)
-                                                              : AppColors.bg.bg02.withOpacity(0.8),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8)),
-                                                      child: Text(
-                                                        no.toString(),
-                                                        style: AppTextStyle
-                                                            .body2
-                                                            .setBold()
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .white),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 16),
-                                                      child: Text(
-                                                        d.judul.toString(),
-                                                        style: AppTextStyle
-                                                            .body2
-                                                            .setSemiBold()
-                                                            .copyWith(
-                                                                fontFamily:
-                                                                    'Popins',
-                                                                color: Colors
-                                                                    .white),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 8),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      d.materi.toString(),
-                                                      style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontStyle:
-                                                              FontStyle.italic),
-                                                    ),
-                                                    const SizedBox(height: 8),
-                                                    Text(
-                                                      'Contoh Soal : ${d.contoh_soal.toString()}',
-                                                      style: AppTextStyle.body3
-                                                          .setSemiBold()
-                                                          .copyWith(
-                                                              fontFamily:
-                                                                  'Popins',
-                                                              color:
-                                                                  Colors.white),
-                                                    ),
-                                                    const SizedBox(height: 8),
-                                                    Row(
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      // height: 120,
+                                      width: size.width,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.bg.bg01,
+                                          borderRadius: BorderRadius.circular(8)),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 0),
+                                            child: SizedBox(
+                                              width: size.width * 0.9,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Row(
                                                       children: [
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            // print('p ${}');
-                                                            setState(() {
-                                                              if (isPlay[
-                                                                  index]) {
-                                                                isPlay[index] =
-                                                                    false;
-                                                              } else {
-                                                                for (int i = 0;
-                                                                    i <
-                                                                        isPlay
-                                                                            .length;
-                                                                    i++) {
-                                                                  isPlay[i] =
-                                                                      false;
-                                                                }
-                                                                isPlay[index] =
-                                                                    true;
-                                                                playRecord(
-                                                                    d.audio
-                                                                        .toString(),
-                                                                    index);
-                                                              }
-                                                              // isPlay[index] =
-                                                              //     true;
-                                                            });
-                                                            log(isPlay
-                                                                .toString());
-                                                          },
-                                                          child: Icon(
-                                                              !isPlay[index]
-                                                                  ? Icons
-                                                                      .play_arrow_rounded
-                                                                  : Icons.pause,
-                                                              color:
-                                                                  Colors.white),
+                                                        Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: 50,
+                                                          height: 50,
+                                                          decoration: BoxDecoration(
+                                                              color: d.is_learn == 0
+                                                                  ? AppColors.bg.bg02.withOpacity(0.6)
+                                                                  : AppColors.bg.bg02.withOpacity(0.8),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(8)),
+                                                          child: Text(
+                                                            no.toString(),
+                                                            style: AppTextStyle
+                                                                .body2
+                                                                .setBold()
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .white),
+                                                          ),
                                                         ),
-                                                        Text(
-                                                          isPlay[index]
-                                                              ? 'Playying...'
-                                                              : 'Audio Bacaan',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .italic),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets.only(
+                                                                  left: 16),
+                                                          child: Text(
+                                                            d.judul.toString(),
+                                                            style: AppTextStyle
+                                                                .body2
+                                                                .setSemiBold()
+                                                                .copyWith(
+                                                                    fontFamily:
+                                                                        'Popins',
+                                                                    color: Colors
+                                                                        .white),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(height: 8),
-                                                    const SizedBox(height: 8),
-                                                    const Text(
-                                                      'Latihan : Lafalkan salah satu huruf yang ada pada contoh!',
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontStyle:
-                                                              FontStyle.italic),
-                                                    ),
-                                                    const SizedBox(height: 8),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          // context
-                                                          //     .read<MainBloc>()
-                                                          //     .add(PostLearn(
-                                                          //         id: d.id!,
-                                                          //         nilai: 100));
-
-                                                          print(
-                                                              'ini adalah ${d.id}');
-                                                          contohSoal = d.contoh_soal!;
-                                                          isId = d.id!;
-                                                          isDialog == false
-                                                              ? isDialog = true
-                                                              : isDialog =
-                                                                  false;
-                                                        });
-                                                      },
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .bottomRight,
-                                                        child: Container(
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 8),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          d.materi.toString(),
+                                                          style: const TextStyle(
+                                                              color: Colors.white,
+                                                              fontStyle:
+                                                                  FontStyle.italic),
+                                                        ),
+                                                        const SizedBox(height: 8),
+                                                        Text(
+                                                          'Contoh Soal : ${d.contoh_soal.toString()}',
+                                                          style: AppTextStyle.body3
+                                                              .setSemiBold()
+                                                              .copyWith(
+                                                                  fontFamily:
+                                                                      'Popins',
+                                                                  color:
+                                                                      Colors.white),
+                                                        ),
+                                                        const SizedBox(height: 8),
+                                                        Row(
+                                                          children: [
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                // print('p ${}');
+                                                                setState(() {
+                                                                  if (isPlay[
+                                                                      index]) {
+                                                                    isPlay[index] =
+                                                                        false;
+                                                                  } else {
+                                                                    for (int i = 0;
+                                                                        i <
+                                                                            isPlay
+                                                                                .length;
+                                                                        i++) {
+                                                                      isPlay[i] =
+                                                                          false;
+                                                                    }
+                                                                    isPlay[index] =
+                                                                        true;
+                                                                    playRecord(
+                                                                        d.audio
+                                                                            .toString(),
+                                                                        index);
+                                                                  }
+                                                                  // isPlay[index] =
+                                                                  //     true;
+                                                                });
+                                                                log(isPlay
+                                                                    .toString());
+                                                              },
+                                                              child: Icon(
+                                                                  !isPlay[index]
+                                                                      ? Icons
+                                                                          .play_arrow_rounded
+                                                                      : Icons.pause,
+                                                                  color:
+                                                                      Colors.white),
+                                                            ),
+                                                            Text(
+                                                              isPlay[index]
+                                                                  ? 'Playying...'
+                                                                  : 'Audio Bacaan',
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      Colors.white,
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .italic),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(height: 8),
+                                                        const SizedBox(height: 8),
+                                                        const Text(
+                                                          'Latihan : Lafalkan salah satu huruf yang ada pada contoh!',
+                                                          style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontStyle:
+                                                                  FontStyle.italic),
+                                                        ),
+                                                        const SizedBox(height: 8),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              // context
+                                                              //     .read<MainBloc>()
+                                                              //     .add(PostLearn(
+                                                              //         id: d.id!,
+                                                              //         nilai: 100));
+                                    
+                                                              print(
+                                                                  'ini adalah ${d.id}');
+                                                              contohSoal = d.contoh_soal!;
+                                                              isId = d.id!;
+                                                              isDialog == false
+                                                                  ? isDialog = true
+                                                                  : isDialog =
+                                                                      false;
+                                                            });
+                                                          },
+                                                          child: Align(
                                                             alignment: Alignment
-                                                                .center,
-                                                            width: 50,
-                                                            height: 50,
-                                                            decoration: BoxDecoration(
-                                                                color: AppColors.bg.bg02.withOpacity(0.8),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8)),
-                                                            child: const Icon(
-                                                              Icons.mic,
-                                                              color:
-                                                                  Colors.white,
-                                                            )),
-                                                      ),
+                                                                .bottomRight,
+                                                            child: Container(
+                                                                alignment: Alignment
+                                                                    .center,
+                                                                width: 50,
+                                                                height: 50,
+                                                                decoration: BoxDecoration(
+                                                                    color: AppColors.bg.bg02.withOpacity(0.8),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                8)),
+                                                                child: const Icon(
+                                                                  Icons.mic,
+                                                                  color:
+                                                                      Colors.white,
+                                                                )),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(height: 8),
+                                                      ],
                                                     ),
-                                                    const SizedBox(height: 8),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  Image.asset(
+              'assets/images/fly.png',
+              fit: BoxFit.contain,
+              width: size.width,
+              color: Colors.white,
+            )
+                                  ],
                                 ),
                               );
                             },
