@@ -10,7 +10,7 @@ import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 
 class QuranDatasources {
-  var uri = 'https://1429-103-191-218-249.ngrok-free.app';
+  var uri = 'https://tarteel.tribber.me';
   Future<Either<Failure, QuranModels>> getDetailSurat(int surat) async {
     const String apiUrl = 'https://equran.id/api/v2/surat';
     final response = await http.get(Uri.parse('$apiUrl/$surat'));
