@@ -28,6 +28,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     on<PostLearn>(_postLearn);
     on<CheckPassMateri>(_checkPassedMateri);
     on<CariSurat>(_cariSurat);
+    on<UpdateIndex>(_updateIndex);
+    on<HapusSemuaVariabel>(_hapusSemuaVariabel);
   }
   // functionality
   Future<void> _loader(MainEvent event, Emitter<MainState> emit) async {
@@ -39,136 +41,114 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       log('state ${state.isLoading}');
     }
   }
-
- Future<void> _cariSurat(MainEvent event, Emitter<MainState> emit) async {
-  String query = (event as CariSurat).query;
-  List<Surat> allSurat = state.surat;
-  log('Searching for: ${allSurat.length}');
-
-  emit(state.copyWith(fetchDataProses: FetchStatus.loading));
-
-  List<Surat> filteredSurat = allSurat.where((surat) {
-    String suratName = removetandabaca(surat.namaLatin ?? '');
-    String queryNormalized = removetandabaca(query);
-
-    // Create a regex that allows for extra characters
-    String regexPattern = queryNormalized.split('').map((char) => '$char.*?').join('');
-
-    return RegExp(regexPattern, caseSensitive: false).hasMatch(suratName);
-  }).toList();
-
-  log('Filtered surat count: ${filteredSurat.length}');
-
-  if (filteredSurat.isEmpty) {
-    log('No matching surat found for query: $query');
-    emit(state.copyWith(
-      fetchDataProses: FetchStatus.failure, // Change to noResults for clarity
-      pencarian: [],
-      queryPencarian: query, // Keep the query for display purposes
-    ));
-  } else {
-    emit(state.copyWith(
-      fetchDataProses: FetchStatus.success,
-      pencarian: filteredSurat,
-      queryPencarian: query,
-    ));
+ Future<void> _hapusSemuaVariabel(MainEvent event, Emitter<MainState> emit) async {
+    log('Rebase data variabel');
+   
+    emit(state.copyWith(ayatIndex: 0, persentase: 0, index: 0, koreksian: [],isLoading: ''));
   }
-}
 
+  Future<void> _updateIndex(MainEvent event, Emitter<MainState> emit) async {
+    log('update index');
+    String ayatAcuan = (event as UpdateIndex).acuan;
+    int index = (event).index;
+    emit(state.copyWith(ayatAcuan: ayatAcuan, ayatIndex: index, isLoading: 'memulai ulang'));
+    log('terupdate ${state.ayatAcuan} index: ${state.index}', );
+  }
+
+  Future<void> _cariSurat(MainEvent event, Emitter<MainState> emit) async {
+    String query = (event as CariSurat).query;
+    List<Surat> allSurat = state.surat;
+    log('Searching for: ${allSurat.length}');
+
+    emit(state.copyWith(fetchDataProses: FetchStatus.loading));
+
+    List<Surat> filteredSurat = allSurat.where((surat) {
+      String suratName = removetandabaca(surat.namaLatin ?? '');
+      String queryNormalized = removetandabaca(query);
+
+      // Create a regex that allows for extra characters
+      String regexPattern =
+          queryNormalized.split('').map((char) => '$char.*?').join('');
+
+      return RegExp(regexPattern, caseSensitive: false).hasMatch(suratName);
+    }).toList();
+
+    log('Filtered surat count: ${filteredSurat.length}');
+
+    if (filteredSurat.isEmpty) {
+      log('No matching surat found for query: $query');
+      emit(state.copyWith(
+        fetchDataProses: FetchStatus.failure, // Change to noResults for clarity
+        pencarian: [],
+        queryPencarian: query, // Keep the query for display purposes
+      ));
+    } else {
+      emit(state.copyWith(
+        fetchDataProses: FetchStatus.success,
+        pencarian: filteredSurat,
+        queryPencarian: query,
+      ));
+    }
+  }
 
   // check passed
   Future<void> _checkPassed(MainEvent event, Emitter<MainState> emit) async {
     String lastWords = removeDiacritics((event as CheckPassed).ayat);
     emit(state.copyWith(isLoading: lastWords));
+    String ayatAcuan = removeDiacritics(state.ayatAcuan);
+    int indexAyat = state.index;
 
     QuranModels quranData = state.quranData;
+    if (indexAyat >= 0 && indexAyat < quranData.data!.ayat.length) {
+      QuranAyat ayatItem = quranData.data!.ayat[indexAyat];
 
-    if (state.quranData is QuranModels) {
-      var hasilPencarian = quranData.data!.ayat.where((ayatItem) {
-        String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
-        double similarity = lastWords.similarityTo(normalizedLatinText);
+      String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
+      double similarity = lastWords.similarityTo(normalizedLatinText);
 
-        return similarity > 0.6;
-      }).toList();
+      // if (similarity > 0.6) {
+      List<Diff> differences = computeDiffAyatAcuanRekaman(
+        removeDiacritics(ayatItem.teksArab),
+        lastWords,
+      );
+      int persentase =
+          (similarity * 100).toInt(); // Mengonversi similarity ke persentase
+      log('Similarity: $similarity');
+      log('Persentase: $persentase%');
 
-      if (hasilPencarian.isNotEmpty) {
-        // cekcoba
-        List<String> hurufArab = separateArabicLetters(
-            removeDiacritics('بِسْمِ اللَّهِ الرَّحْمَنِ'));
-        log(hurufArab.toString());
-
-//         String hurufLengkap =removeDiacritics('بِسْمِ اللَّهِ الرَّحْنِ');
-//         List<String> hurufKurang = hurufLengkap.split('');
-//         log(hurufKurang.toString());
-//       hurufKurang.forEach((huruf) {
-//         if (!hurufArab.contains(huruf.runes.map((rune) => String.fromCharCode(rune)).join(''))) {
-//           print('Huruf yang kurang: $huruf');
-//         }
-// }
-// );
-        // hurufArab.forEach((huruf) {
-        //   if (!hurufLengkap.contains(huruf)) {
-        //     print('Huruf yang tidak ada dalam kalimat: $huruf');
-        //   }
-        // });
-        //
-
-        int aa = 0;
-
-        List<QuranAyat> mutabablelis = List.from(quranData.data!.ayat);
-
-        for (var ayatItem in hasilPencarian) {
-          var a = StringSimilarity.compareTwoStrings(
-              removeDiacritics(ayatItem.teksArab), lastWords); // → 0.8
-          List<Diff> differences = computeDiffAyatAcuanRekaman(
-            removeDiacritics(ayatItem.teksArab),
-            lastWords,
-          );
-          log('================================================================');
-          //message
-          StringBuffer koreksi = StringBuffer();
-          // koreksi.writeln('Pada ayat terkait yaitu:');
-          // koreksi.writeln('Ayat yang sesuai: ${ayatItem.teksArab},');
-          // koreksi.writeln('Bacaanmu adalah: $lastWords.');
-
-          for (var diff in differences) {
-            if (diff.operation == DIFF_INSERT) {
-              koreksi
-                  .writeln('Tambahan yang tidak ada pada ayat: ${diff.text}');
-            } else if (diff.operation == DIFF_DELETE) {
-              koreksi.writeln('Bagian yang hilang dari bacaan: ${diff.text}');
-            }
-          }
-
-          log('Differences: $differences');
-          log(koreksi.toString());
-          log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat}');
-          emit(state.copyWith(
-              ayatIndex: aa += 1,
-              ayatAcuan: ayatItem.teksArab,
-              koreksian: koreksi.toString().split('\n')));
-          print(
-              'ayat terkait : ${ayatItem.teksArab}\n ayat dilafalkan ${lastWords}');
-          int index = mutabablelis.indexOf(ayatItem);
-          if (index != -1) {
-            mutabablelis[index] = mutabablelis[index].copyWith(terbaca: true);
-            log('Terbaca: ${index.toString()}');
-            emit(state.copyWith(index: index, isPassed: true));
-          } else {
-            emit(state.copyWith(isPassed: false));
-          }
-          log('Status: ${state.isPassed}');
+      StringBuffer koreksi = StringBuffer();
+      for (var diff in differences) {
+        if (diff.operation == DIFF_INSERT) {
+          koreksi.writeln('Tambahan yang tidak ada pada ayat: ${diff.text}');
+        } else if (diff.operation == DIFF_DELETE) {
+          koreksi.writeln('Bagian yang hilang dari bacaan: ${diff.text}');
         }
+      }
+      List<QuranAyat> mutableAyatList = List.from(quranData.data!.ayat);
+      // mutableAyatList[indexAyat] = mutableAyatList[indexAyat].copyWith(terbaca: true); --bener
+      mutableAyatList[indexAyat] = mutableAyatList[indexAyat];
 
-        quranData = quranData.copyWith(
-            data: quranData.data!.copyWith(ayat: mutabablelis));
-        emit(state.copyWith(
+      quranData = quranData.copyWith(
+        data: quranData.data!.copyWith(ayat: mutableAyatList),
+      );
+
+      emit(state.copyWith(
+          ayatIndex: indexAyat,
+          ayatAcuan: ayatItem.teksArab,
+          koreksian: koreksi.toString().split('\n'),
+          index: indexAyat,
+          isPassed: true,
           fetchDataProses: FetchStatus.success,
           quranData: quranData,
-        ));
-      }
+          isLoading: 'memulai ulang',
+          persentase: persentase));
+
+      log('Differences: $differences');
+      log(koreksi.toString());
+      log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat} simmi : $similarity');
+      log('Status: ${state.isPassed}');
     } else {
-      log('Error: QuranData bukan merupakan instance dari QuranModels');
+      emit(state.copyWith(isPassed: false));
+      log('Tidak ditemukan ayat yang mirip dengan cukup.');
     }
   }
 
@@ -179,6 +159,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     String lastWords = ((event as CheckPassMateri).ayat);
     String acuan = removeDiacritics((event).acuan);
     int id = ((event).id);
+    log('ini ${lastWords}');
 
     acuan = acuan.replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '');
     List<String> huruf = acuan.split(',');
@@ -192,22 +173,45 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       if (similarity > highestSimilarity) {
         highestSimilarity = similarity;
         bestMatchIndex = i;
+       
+      }
+    }
+    print('Indeks dari elemen yang paling mirip dengan $lastWords adalah $bestMatchIndex');
+    print('Nilai similarity: $highestSimilarity');
+     if (bestMatchIndex != -1) {
+
+    // Compute differences using DiffMatchPatch
+    List<Diff> differences = computeDiffAyatAcuanRekaman(
+      removeDiacritics(huruf[bestMatchIndex]),
+      lastWords,
+    );
+
+    StringBuffer koreksi = StringBuffer();
+    for (var diff in differences) {
+      if (diff.operation == DIFF_INSERT) {
+        koreksi.writeln('Tambahan yang tidak ada: ${diff.text}');
+      } else if (diff.operation == DIFF_DELETE) {
+        koreksi.writeln('Bagian yang hilang: ${diff.text}');
       }
     }
 
-    if (bestMatchIndex != -1) {
-      print(
-          'Indeks dari elemen yang paling mirip dengan $lastWords adalah $bestMatchIndex');
-      print('Nilai similarity: $highestSimilarity');
-      final a = await quranUsecase.postLearn(id, highestSimilarity.toInt());
-      a.fold((l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)),
-          (r) {
+    print('Differences: $differences');
+    print('Koreksi: ${koreksi.toString()}');
+
+    final a = await quranUsecase.postLearn(id, highestSimilarity.toInt());
+    a.fold(
+      (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)),
+      (r) {
         groupByJenisKuis(state.materi);
         emit(state.copyWith(
           fetchDataProses: FetchStatus.success,
+          koreksian: koreksi.toString().split('\n'), // Store corrections in state
         ));
-      });
-    } else {
+      },
+    );
+  } 
+
+    else {
       print('$lastWords tidak ditemukan dalam daftar');
     }
   }
