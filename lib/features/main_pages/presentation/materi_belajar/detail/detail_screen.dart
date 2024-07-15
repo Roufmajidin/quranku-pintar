@@ -152,9 +152,10 @@ class _DetailViewState extends State<DetailView> {
     }
   }
 
+  
   cekpas(String t) async {
     // String response = await uploadFile('assets/audios/satu.mp3');
-
+// log('cek pas $t');
     context
         .read<MainBloc>()
         .add(CheckPassMateri(ayat: t, acuan: contohSoal, id: isId));
@@ -181,13 +182,8 @@ class _DetailViewState extends State<DetailView> {
     await _speechToText.stop();
     log('sesi stop');
 
-    // await Future.delayed(const Duration(seconds: 109));
-    setState(() {
-      _ditemukan = false;
-      r = remove();
-      _lastWords = '';
-    });
 
+ 
     log('normalisasi voice $_lastWords');
     log('compare ke $r');
     if (removeDiacritics(_lastWords) != r) {
@@ -228,7 +224,9 @@ class _DetailViewState extends State<DetailView> {
       // log('asli ${result.recognizedWords}');
       // var a = konversiKeBahasaArab(result.recognizedWords);
       // log('ini adalah $a');
-      cekpas(statusText);
+      
+      
+      cekpas(_lastWords);
 
       log('diucapkan ${result.recognizedWords}');
 
@@ -310,17 +308,22 @@ class _DetailViewState extends State<DetailView> {
         child: Column(
           children: [
             GestureDetector(
+              onDoubleTap: (){
+                  _stopListening();
+
+              },
               onTap: () {
                 // panggilMateri();
                 print('length ${widget.i.length}');
                 // getDeviceName();
                 setState(() {
-                  context
-                      .read<MainBloc>()
-                      .add(const GetMateriPengguna('sdk_gphone_x86'));
-                  context
-                      .read<MainBloc>()
-                      .add(const PostDevice('sdk_gphone_x86'));
+                  // context
+                  //     .read<MainBloc>()
+                  //     .add(const GetMateriPengguna('sdk_gphone_x86'));
+                  // context
+                  //     .read<MainBloc>()
+                  //     .add(const PostDevice('sdk_gphone_x86'));
+                  _startListening();
                 });
               },
               child: Container(
@@ -681,9 +684,12 @@ class _DetailViewState extends State<DetailView> {
                                       onPressed: () async {
                                         if (isRecord == true) {
                                           stopRecord();
+                                          _stopListening();
                                         } else {
                                           // record bre
-                                          startRecord();
+                                          // startRecord();
+                  _startListening();
+
                                           print('mulai');
 
                                           pp = '';

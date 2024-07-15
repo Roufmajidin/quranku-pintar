@@ -67,12 +67,12 @@ class _MainComponentState extends State<MainComponent> {
                   Text(
                    widget.title,
                     style: AppTextStyle.body2
-                        .setBold()
+                        .setSemiBold().copyWith(fontStyle: FontStyle.italic)
                         
                   ),
                    Text(
                     widget.subtitle,
-                  style: AppTextStyle.body2
+                  style: AppTextStyle.body3
                         .setRegular()
                         
                   ),
