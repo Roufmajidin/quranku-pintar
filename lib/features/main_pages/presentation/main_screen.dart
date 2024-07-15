@@ -36,6 +36,8 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  bool isDelete = false;
+
   @override
   void initState() {
     super.initState();
@@ -88,6 +90,7 @@ class _MainViewState extends State<MainView> {
         await audioRecord.start();
         setState(() {
           statusText = 'Inisialisasi Audio';
+          context.read<MainBloc>().add(const HapusSemuaVariabel());
 
           isRecord = true;
         });
@@ -250,7 +253,6 @@ class _MainViewState extends State<MainView> {
     // return statusText;
   }
 
-
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
@@ -360,7 +362,6 @@ class _MainViewState extends State<MainView> {
                   pp = quranData.ayat[0].teksArab;
                 }
               }
-             
 
               return Container(
                   height: 200,
@@ -406,7 +407,7 @@ class _MainViewState extends State<MainView> {
                               scrollTo(state.index);
                             }
                             if (state.fetchDataProses == FetchStatus.loading) {
-                              return  Center(
+                              return Center(
                                 child: CircularProgressIndicator(
                                     color: AppColors.bg.bg01),
                               );
@@ -436,8 +437,6 @@ class _MainViewState extends State<MainView> {
                                         hasAlifNunTasydid(ayatItem.teksArab);
                                     if (containsInnaKeyword ||
                                         hasAlifNunTasydidKeyword) {}
-                                    // log(' status : $containsInnaKeyword gunnah pada ayat ${ayatItem.teksArab}');
-
                                     return Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
@@ -465,26 +464,28 @@ class _MainViewState extends State<MainView> {
                                                   width: 30,
                                                   height: 30,
                                                   alignment: Alignment.center,
-                                                  decoration:
-                                                      ayatItem.terbaca == true
-                                                          ? BoxDecoration(
-                                                              color: AppColors.bg.bg01,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          100),
-                                                            )
-                                                          : BoxDecoration(
-                                                              border:
-                                                                  Border.all(
-                                                                color: AppColors.bg.bg01,
-                                                                width: 2,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          100),
-                                                            ),
+                                                  decoration: ayatItem
+                                                              .terbaca ==
+                                                          true
+                                                      ? BoxDecoration(
+                                                          color:
+                                                              AppColors.bg.bg01,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                        )
+                                                      : BoxDecoration(
+                                                          border: Border.all(
+                                                            color: AppColors
+                                                                .bg.bg01,
+                                                            width: 2,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                        ),
                                                   child: Text(
                                                     ayatItem.nomorAyat
                                                         .toString(),
@@ -514,24 +515,7 @@ class _MainViewState extends State<MainView> {
                                                           .antiAliasWithSaveLayer,
                                                       children: [
                                                         RichText(
-                                                          text:
-                                                              // TextSpan(
-                                                              //   // onEnter: ,
-
-                                                              //   style: TextStyle(
-                                                              //     fontSize: 18,
-                                                              //     color: ayatItem.terbaca ==
-                                                              //             true
-                                                              //         ? const Color(
-                                                              //             0xff189474)
-                                                              //         : const Color.fromARGB(
-                                                              //             255, 56, 56, 56),
-                                                              //   ),
-                                                              //   children: highlightInna(
-                                                              //       ayatItem.teksArab,
-                                                              //       ayatItem.terbaca),
-                                                              // ),
-                                                              TextSpan(
+                                                          text: TextSpan(
                                                             children: <TextSpan>[
                                                               for (final token
                                                                   in ayatItem
@@ -595,6 +579,48 @@ class _MainViewState extends State<MainView> {
                                                   // color: const Color(0xff189474),
                                                   color: Colors.black),
                                             ),
+                                            Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: SizedBox(
+                                                height: 40,
+                                                width: 40,
+                                                child: FloatingActionButton(
+                                                  heroTag: 'h1',
+                                                  foregroundColor:
+                                                      AppColors.neutral.ne01,
+                                                  backgroundColor:
+                                                      AppColors.bg.bg01,
+                                                  elevation: 0,
+                                                  onPressed: () {
+                                                    // _startListening();
+                                                    // update state index dan acua
+                                                    context
+                                                        .read<MainBloc>()
+                                                        .add(UpdateIndex(
+                                                            acuan: ayatItem
+                                                                .teksArab,
+                                                            index: index));
+
+                                                    if (isDialog == false) {
+                                                      setState(() {
+                                                        isDialog = true;
+                                                      });
+                                                    } else {
+                                                      setState(() {
+                                                        isDialog = false;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Icon(
+                                                    _speechEnabled == false
+                                                        ? Icons.mic_none
+                                                        : Icons.mic,
+                                                    color:
+                                                        AppColors.neutral.ne01,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -608,12 +634,15 @@ class _MainViewState extends State<MainView> {
                         ),
                       ),
 
-                      //2
+                      //2 dialog
                       if (isDialog == true)
                         BlocBuilder<MainBloc, MainState>(
                             builder: (context, state) {
+                          int fullStars = (state.persentase / 20).floor();
+                          bool hasHalfStar = (state.persentase % 20) >= 10;
+
                           return Positioned(
-                              top: 300,
+                              top: 200,
                               width: MediaQuery.of(context).size.width,
                               child: Container(
                                 // color: Colors.white,
@@ -647,12 +676,17 @@ class _MainViewState extends State<MainView> {
                                           elevation: 0.0,
                                           onPressed: () {
                                             setState(() {
+                                              isDelete = true;
                                               isDialog = false;
                                               statusText = '';
                                               isListening = false;
                                               isRecord = false;
                                               // pathConvert = ;
                                               selesai = false;
+                                              
+                                              context
+                                                  .read<MainBloc>()
+                                                  .add(HapusSemuaVariabel());
                                             });
                                           },
                                           child: const Padding(
@@ -663,89 +697,156 @@ class _MainViewState extends State<MainView> {
                                       ],
                                     ),
                                     const SizedBox(height: 10),
-                                     FloatingActionButton(
-                                      backgroundColor: AppColors.bg.bg01.withOpacity(0.8),
-                                      onPressed: () async {
+                                    FloatingActionButton(
+                                        backgroundColor:
+                                            AppColors.bg.bg01.withOpacity(0.8),
+                                        onPressed: () async {
+                                          if (isRecord == true) {
+                                            statusText = 'Mengecek Audio';
 
-                                        if (isRecord == true) {
-                                          stopRecord();
-                                        } else {
-                                          // record bre
-                                          startRecord();
-                                            print('mulai {}');
+                                            stopRecord();
+                                     selesai =true; 
+
+                                          } else {
+                                            // record bre
+
+                                            statusText = '';
+                                            startRecord();
+                                            selesai = false;
 
 
-                                          pp = '';
-                                          statusText = '';
-                                        }
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          if (statusText == '' ||
-                                              statusText ==
-                                                  'Inisialisasi Audio')
-                                            Icon(
-                                              _speechEnabled == false
-                                                  ? Icons.mic_none
-                                                  : Icons.mic,
-                                              color: Colors.white,
-                                            ),
-                                          if (statusText == 'Mengecek Audio')
-                                             CircularProgressIndicator(
-                                              color: AppColors.bg.bg01,
-                                            )
-                                        ],
-                                      )),
-                                
+                                            pp = '';
+                                          }
+                                        },
+                                        child: Stack(
+                                          children: [
+                                            if (statusText.isEmpty ||
+                                                statusText ==
+                                                    'Inisialisasi Audio')
+                                              Icon(
+                                                _speechEnabled
+                                                    ? Icons.mic
+                                                    : Icons.mic_none,
+                                                color: Colors.white,
+                                              ),
+                                            if (statusText == 'Mengecek Audio')
+                                              CircularProgressIndicator(
+                                                color: AppColors.neutral.ne01,
+                                              ),
+                                          ],
+                                        )),
+
                                     const SizedBox(height: 16),
                                     // pe
-                                    // statusText == ''
-                                    //     ? Text('Ucapkan ayat ke- ${state.ayatIndex+1}')
-                                    //     : TextComparison(
-                                    //         ayatAcuanText:
-                                    //            pp,
-                                    //         teksRekognisiText:
-                                    //             "بسم الله  الرحيم",
-                                    //       ),
-
-                                    Text(
-                                      statusText == ''
-                                          ? "Tekan untuk memulai"
-                                          : 'Result is',
-                                      style: AppTextStyle.body3,
-                                    ),
-                                    // Text(statusText),
-                                    selesai == true
+                                    if (statusText == '')
+                                      Text(
+                                        "Tekan untuk memulai",
+                                        style: AppTextStyle.body3,
+                                      ),
+                                    if (statusText == 'Mengecek Audio')
+                                      const Text(
+                                        "Loading ..",
+                                        style: AppTextStyle.body3,
+                                      ),
+                                    if (statusText == 'Inisialisasi Audio')
+                                      const Text(
+                                        "Merekam",
+                                        style: AppTextStyle.body3,
+                                      ),
+                                    if (selesai == true)
+                                      const Text(
+                                        "Hasil Rekognisi",
+                                        style: AppTextStyle.body3,
+                                      ),
+                                    // Text(statusText), true
+                                    selesai
                                         ? BlocBuilder<MainBloc, MainState>(
                                             builder: (context, state) {
-                                            if (statusText !=
-                                                    'Mengecek Audio' ||
-                                                statusText !=
-                                                    'Inisialisasi Audio') {
-                                              return TextComparison(
-                                                  ayatAcuanText:
-                                                      isRecord == true
-                                                          ? ''
-                                                          : state.ayatAcuan,
-                                                  teksRekognisiText: statusText ==
-                                                              'Mengecek Audio' ||
-                                                          statusText ==
-                                                              'Inisialisasi Audio'
+                                              if (statusText !=
+                                                      'Mengecek Audio' &&
+                                                  statusText !=
+                                                      'Inisialisasi Audio') {
+                                                return TextComparison(
+                                                  ayatAcuanText: isRecord
                                                       ? ''
-                                                      : statusText);
-                                            }
-                                            return const SizedBox();
-                                          })
+                                                      : state.ayatAcuan,
+                                                  teksRekognisiText: statusText,
+                                                );
+                                              }
+                                              return const SizedBox();
+                                            },
+                                          )
                                         : const SizedBox(),
                                     const SizedBox(height: 15),
+                                    selesai != true ||
+                                            state.isLoading != 'memulai ulang'
+                                        ? Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  "Ucapkan Ayat",
+                                                  style: AppTextStyle.body2
+                                                      .setRegular(),
+                                                ),
+                                                const SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Text(
+                                                  state.ayatAcuan,
+                                                  style: AppTextStyle.body2
+                                                      .setSemiBold(),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : const SizedBox(),
+
+                                    const SizedBox(height: 5),
+                                   
+                                     selesai == true 
+                                        ? Column(
+                                            children: [
+                                             Text(
+                                                "Persentase Bacaan",
+                                                style: AppTextStyle.body3
+                                                    .setRegular(),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children:
+                                                    List.generate(5, (index) {
+                                                  if (index < fullStars) {
+                                                    return Icon(
+                                                        Icons.star_rounded,
+                                                        color:
+                                                            AppColors.bg.bg01);
+                                                  } else if (index ==
+                                                          fullStars &&
+                                                      hasHalfStar) {
+                                                    return Icon(Icons.star_half,
+                                                        color:
+                                                            AppColors.bg.bg01);
+                                                  } else {
+                                                    return const Icon(
+                                                        Icons.star_border,
+                                                        color: Colors.grey);
+                                                  }
+                                                }),
+                                              ), 
+                                            ],
+                                          )
+                                        : const SizedBox(),
+
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 30),
                                       child: GestureDetector(
                                         onTap: () {
-                                          print(statusText);
+                                          // print(statusText);
                                         },
-                                        // koreksi
                                         child: ListView.builder(
                                           padding:
                                               const EdgeInsets.only(bottom: 40),
@@ -761,13 +862,20 @@ class _MainViewState extends State<MainView> {
                                                   size: 6,
                                                 ),
                                                 const SizedBox(width: 6),
-                                                Text(
-                                                  state.koreksian[index],
-                                                  style: AppTextStyle.body3
-                                                      .setRegular()
-                                                      .copyWith(
+                                                Expanded(
+                                                  child: Text(
+                                                    state.koreksian[index],
+                                                    style: AppTextStyle.body3
+                                                        .setRegular()
+                                                        .copyWith(
                                                           overflow: TextOverflow
-                                                              .ellipsis),
+                                                              .ellipsis,
+                                                        ),
+                                                    maxLines:
+                                                        2, // Batasi jumlah baris ke 1
+                                                    softWrap:
+                                                        false, // Tidak membungkus kata-kata
+                                                  ),
                                                 ),
                                               ],
                                             );
@@ -787,28 +895,6 @@ class _MainViewState extends State<MainView> {
           ],
         ),
       ),
-      floatingActionButton: isDialog == true
-          ? const SizedBox()
-          : _isShowSnackbar == false
-              ? FloatingActionButton(
-                  backgroundColor: AppColors.bg.bg01,
-                  onPressed: () {
-                    // _startListening();
-
-                    if (isDialog == false) {
-                      setState(() {
-                        isDialog = true;
-                      });
-                    } else {
-                      setState(() {
-                        isDialog = false;
-                      });
-                    }
-                  },
-                  child: Icon(
-                      _speechEnabled == false ? Icons.mic_none : Icons.mic, color: AppColors.neutral.ne01,),
-                )
-              : const SizedBox(),
     );
   }
 }
