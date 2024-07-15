@@ -127,11 +127,6 @@ bool containsInna(String textArabic) {
   String? converterArabJson(String jsonResponse) {
     // Parsing string JSON menjadi objek Dart
     Map<String, dynamic> jsonData = json.decode(jsonResponse);
-
-    // Mengambil nilai dari kunci "text"
-    if(jsonData == null ){
-      return 'error';
-    }
     String? arabicText = jsonData['text'];
 
     // Menghapus karakter yang tidak diperlukan

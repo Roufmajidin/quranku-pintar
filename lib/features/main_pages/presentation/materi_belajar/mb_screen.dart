@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +70,7 @@ class _MbViewState extends State<MbView> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColors.neutral.ne01,
+      backgroundColor: AppColors.neutral.ne02,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Column(
@@ -145,28 +144,31 @@ class _MbViewState extends State<MbView> {
                                   List<Materi> items =
                                       kategoriMap[kategoriKey]!;
 
-                                  return GestureDetector(
-                                    onTap: () {
-                                      // log(jenisKuisKey.toString());
-                                      // var a = getPreferenceIndexes;
-                                      // log(items.toString());
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              DetailPage(i: items, k:jenisKuisKey),
-                                        ),
-                                      );
-                                    },
-                                    child: MainComponent(
-                                      isMateri: true,
-                                      size: size,
-                                      title: jenisKuisKey,
-                                      subtitle:
-                                          kategoriKey, // Display the titles of the items
-                                      icon: true,
-                                      urutan: items.length
-                                          .toString(), // Display the count of items
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom:8.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        // log(jenisKuisKey.toString());
+                                        // var a = getPreferenceIndexes;
+                                        // log(items.toString());
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                DetailPage(i: items, k:jenisKuisKey),
+                                          ),
+                                        );
+                                      },
+                                      child: MainComponent(
+                                        isMateri: true,
+                                        size: size,
+                                        title: jenisKuisKey,
+                                        subtitle:
+                                            kategoriKey, // Display the titles of the items
+                                        icon: true,
+                                        urutan: items.length
+                                            .toString(), // Display the count of items
+                                      ),
                                     ),
                                   );
                                 },
@@ -187,10 +189,6 @@ class _MbViewState extends State<MbView> {
   Future<List<int>> getPreferenceIndexes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? storedPreferences = prefs.getStringList('groupPreferences');
-    if (storedPreferences != null) {
-      return storedPreferences.map((e) => int.parse(e)).toList();
-    } else {
-      return [];
+    return storedPreferences!.map((e) => int.parse(e)).toList();
     }
-  }
 }

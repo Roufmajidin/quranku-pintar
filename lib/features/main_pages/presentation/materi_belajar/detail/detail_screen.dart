@@ -52,14 +52,12 @@ class _DetailViewState extends State<DetailView> {
     isPlay = List.filled(widget.i.length + 1, false);
     log(isPlay.toString());
     _initSpeech();
-
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     getDeviceName();
-
   }
 
   // func
@@ -157,7 +155,9 @@ class _DetailViewState extends State<DetailView> {
   cekpas(String t) async {
     // String response = await uploadFile('assets/audios/satu.mp3');
 
-    context.read<MainBloc>().add(CheckPassMateri(ayat: t,acuan: contohSoal, id : isId));
+    context
+        .read<MainBloc>()
+        .add(CheckPassMateri(ayat: t, acuan: contohSoal, id: isId));
   }
 
   void _startListening() async {
@@ -261,10 +261,6 @@ class _DetailViewState extends State<DetailView> {
     var a = response.bodyBytes;
     var b = utf8.decode(a);
     Map<String, dynamic> jsonData = json.decode(b);
-
-    if (jsonData == null) {
-      return 'error';
-    }
     String arabicText = jsonData['text'];
     setState(() {
       statusText = arabicText;
@@ -309,7 +305,7 @@ class _DetailViewState extends State<DetailView> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: AppColors.neutral.ne01,
+      backgroundColor: AppColors.neutral.ne02,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -357,8 +353,9 @@ class _DetailViewState extends State<DetailView> {
                     if (state.fetchDataProses == FetchStatus.loading) {
                       return SizedBox(
                         height: sizeList,
-                        child:  Center(
-                          child: CircularProgressIndicator(color: AppColors.bg.bg01),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                              color: AppColors.bg.bg01),
                         ),
                       );
                     }
@@ -378,16 +375,23 @@ class _DetailViewState extends State<DetailView> {
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: Stack(
                                   children: [
+                                    Image.asset(
+                                      'assets/images/fly.png',
+                                      fit: BoxFit.contain,
+                                      width: size.width,
+                                    ),
                                     Container(
                                       // height: 120,
                                       width: size.width,
                                       decoration: BoxDecoration(
-                                          color: AppColors.bg.bg01,
-                                          borderRadius: BorderRadius.circular(8)),
+                                          color: AppColors.neutral.ne01,
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
                                       child: Row(
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 0),
+                                            padding:
+                                                const EdgeInsets.only(left: 0),
                                             child: SizedBox(
                                               width: size.width * 0.9,
                                               child: Column(
@@ -397,7 +401,8 @@ class _DetailViewState extends State<DetailView> {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Align(
-                                                    alignment: Alignment.topLeft,
+                                                    alignment:
+                                                        Alignment.topLeft,
                                                     child: Row(
                                                       children: [
                                                         Container(
@@ -406,25 +411,33 @@ class _DetailViewState extends State<DetailView> {
                                                           width: 50,
                                                           height: 50,
                                                           decoration: BoxDecoration(
-                                                              color: d.is_learn == 0
-                                                                  ? AppColors.bg.bg02.withOpacity(0.6)
-                                                                  : AppColors.bg.bg02.withOpacity(0.8),
+                                                              color: d.is_learn ==
+                                                                      0
+                                                                  ? AppColors
+                                                                      .bg.bg01
+                                                                      .withOpacity(
+                                                                          0.8)
+                                                                  : AppColors
+                                                                      .bg.bg01
+                                                                      .withOpacity(
+                                                                          0.8),
                                                               borderRadius:
                                                                   BorderRadius
-                                                                      .circular(8)),
+                                                                      .circular(
+                                                                          8)),
                                                           child: Text(
                                                             no.toString(),
                                                             style: AppTextStyle
                                                                 .body2
                                                                 .setBold()
                                                                 .copyWith(
-                                                                    color: Colors
-                                                                        .white),
+                                                                    color: AppColors.neutral.ne01),
                                                           ),
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                  .only(
                                                                   left: 16),
                                                           child: Text(
                                                             d.judul.toString(),
@@ -434,8 +447,7 @@ class _DetailViewState extends State<DetailView> {
                                                                 .copyWith(
                                                                     fontFamily:
                                                                         'Popins',
-                                                                    color: Colors
-                                                                        .white),
+                                                                    color:AppColors.neutral.ne09),
                                                           ),
                                                         ),
                                                       ],
@@ -443,31 +455,36 @@ class _DetailViewState extends State<DetailView> {
                                                   ),
                                                   const SizedBox(height: 8),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 8),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8),
                                                     child: Column(
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
                                                           d.materi.toString(),
-                                                          style: const TextStyle(
-                                                              color: Colors.white,
-                                                              fontStyle:
-                                                                  FontStyle.italic),
+                                                          style:
+                                                          AppTextStyle.body3.copyWith(color: AppColors.neutral.ne09,   fontStyle:
+                                                                  FontStyle
+                                                                      .italic)
+                                                           
                                                         ),
-                                                        const SizedBox(height: 8),
+                                                        const SizedBox(
+                                                            height: 8),
                                                         Text(
                                                           'Contoh Soal : ${d.contoh_soal.toString()}',
-                                                          style: AppTextStyle.body3
+                                                          style: AppTextStyle
+                                                              .body3
                                                               .setSemiBold()
                                                               .copyWith(
                                                                   fontFamily:
                                                                       'Popins',
-                                                                  color:
-                                                                      Colors.white),
+                                                                  color: AppColors.neutral.ne09),
                                                         ),
-                                                        const SizedBox(height: 8),
+                                                        const SizedBox(
+                                                            height: 8),
                                                         Row(
                                                           children: [
                                                             GestureDetector(
@@ -479,10 +496,9 @@ class _DetailViewState extends State<DetailView> {
                                                                     isPlay[index] =
                                                                         false;
                                                                   } else {
-                                                                    for (int i = 0;
-                                                                        i <
-                                                                            isPlay
-                                                                                .length;
+                                                                    for (int i =
+                                                                            0;
+                                                                        i < isPlay.length;
                                                                         i++) {
                                                                       isPlay[i] =
                                                                           false;
@@ -504,33 +520,37 @@ class _DetailViewState extends State<DetailView> {
                                                                   !isPlay[index]
                                                                       ? Icons
                                                                           .play_arrow_rounded
-                                                                      : Icons.pause,
-                                                                  color:
-                                                                      Colors.white),
+                                                                      : Icons
+                                                                          .pause,
+                                                                  color: AppColors.neutral.ne09),
                                                             ),
                                                             Text(
                                                               isPlay[index]
                                                                   ? 'Playying...'
                                                                   : 'Audio Bacaan',
                                                               style: TextStyle(
-                                                                  color:
-                                                                      Colors.white,
+                                                                  color:AppColors.neutral.ne09,
                                                                   fontStyle:
                                                                       FontStyle
                                                                           .italic),
                                                             ),
                                                           ],
                                                         ),
-                                                        const SizedBox(height: 8),
-                                                        const SizedBox(height: 8),
-                                                        const Text(
+                                                        const SizedBox(
+                                                            height: 8),
+                                                        const SizedBox(
+                                                            height: 8),
+                                                         Text(
                                                           'Latihan : Lafalkan salah satu huruf yang ada pada contoh!',
                                                           style: TextStyle(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  AppColors.neutral.ne09,
                                                               fontStyle:
-                                                                  FontStyle.italic),
+                                                                  FontStyle
+                                                                      .italic),
                                                         ),
-                                                        const SizedBox(height: 8),
+                                                        const SizedBox(
+                                                            height: 8),
                                                         GestureDetector(
                                                           onTap: () {
                                                             setState(() {
@@ -539,13 +559,15 @@ class _DetailViewState extends State<DetailView> {
                                                               //     .add(PostLearn(
                                                               //         id: d.id!,
                                                               //         nilai: 100));
-                                    
+
                                                               print(
                                                                   'ini adalah ${d.id}');
-                                                              contohSoal = d.contoh_soal!;
+                                                              contohSoal = d
+                                                                  .contoh_soal!;
                                                               isId = d.id!;
                                                               isDialog == false
-                                                                  ? isDialog = true
+                                                                  ? isDialog =
+                                                                      true
                                                                   : isDialog =
                                                                       false;
                                                             });
@@ -554,24 +576,29 @@ class _DetailViewState extends State<DetailView> {
                                                             alignment: Alignment
                                                                 .bottomRight,
                                                             child: Container(
-                                                                alignment: Alignment
-                                                                    .center,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
                                                                 width: 50,
                                                                 height: 50,
                                                                 decoration: BoxDecoration(
-                                                                    color: AppColors.bg.bg02.withOpacity(0.8),
+                                                                    color: AppColors
+                                                                        .bg.bg01
+                                                                        .withOpacity(
+                                                                            0.8),
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                8)),
-                                                                child: const Icon(
+                                                                        BorderRadius.circular(
+                                                                            8)),
+                                                                child:
+                                                                    const Icon(
                                                                   Icons.mic,
-                                                                  color:
-                                                                      Colors.white,
+                                                                  color: Colors
+                                                                      .white,
                                                                 )),
                                                           ),
                                                         ),
-                                                        const SizedBox(height: 8),
+                                                        const SizedBox(
+                                                            height: 8),
                                                       ],
                                                     ),
                                                   )
@@ -582,12 +609,6 @@ class _DetailViewState extends State<DetailView> {
                                         ],
                                       ),
                                     ),
-                                  Image.asset(
-              'assets/images/fly.png',
-              fit: BoxFit.contain,
-              width: size.width,
-              color: Colors.white,
-            )
                                   ],
                                 ),
                               );
@@ -605,8 +626,8 @@ class _DetailViewState extends State<DetailView> {
                             width: MediaQuery.of(context).size.width,
                             child: Container(
                               // color: Colors.white,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
+                              decoration: BoxDecoration(
+                                color: AppColors.neutral.ne01,
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(20),
                                   topRight: Radius.circular(20),
@@ -627,16 +648,16 @@ class _DetailViewState extends State<DetailView> {
                                           height: 5,
                                           width: 50,
                                           decoration: BoxDecoration(
-                                              color: AppColors.bg.bg02,
+                                              color: AppColors.bg.bg01,
                                               borderRadius:
                                                   BorderRadius.circular(12))),
                                       FloatingActionButton(
-                                        backgroundColor: Colors.white,
+                                        backgroundColor: AppColors.neutral.ne01,
                                         elevation: 0.0,
                                         onPressed: () {
                                           setState(() {
                                             // close
-                                                          contohSoal = '';
+                                            contohSoal = '';
 
                                             isDialog = false;
                                             statusText = '';
@@ -655,16 +676,15 @@ class _DetailViewState extends State<DetailView> {
                                   ),
                                   const SizedBox(height: 10),
                                   FloatingActionButton(
-                                      backgroundColor: AppColors.bg.bg02.withOpacity(0.8),
+                                      backgroundColor:
+                                          AppColors.bg.bg01.withOpacity(0.8),
                                       onPressed: () async {
-
                                         if (isRecord == true) {
                                           stopRecord();
                                         } else {
                                           // record bre
                                           startRecord();
-                                            print('mulai');
-
+                                          print('mulai');
 
                                           pp = '';
                                           statusText = '';
@@ -679,27 +699,28 @@ class _DetailViewState extends State<DetailView> {
                                               _speechEnabled == false
                                                   ? Icons.mic_none
                                                   : Icons.mic,
-                                              color: Colors.white,
+                                              color: AppColors.neutral.ne02,
                                             ),
                                           if (statusText == 'Mengecek Audio')
-                                            const CircularProgressIndicator(
-                                              color: Colors.white,
+                                             CircularProgressIndicator(
+                                              color: AppColors.bg.bg01,
                                             )
                                         ],
                                       )),
                                   const SizedBox(height: 16),
                                   // pe
                                   // statusText == ''
-                                      
 
                                   Text(
-                                    statusText == ''
-                                        ? "Tekan untuk memulai"
-                                        : 'Result is',
-                                    style: AppTextStyle.body3
-                                  ),
+                                      statusText == ''
+                                          ? "Tekan untuk memulai"
+                                          : 'Result is',
+                                      style: AppTextStyle.body3),
                                   const SizedBox(height: 8),
-                                  Text('Ucapkan salah satu dari : ${contohSoal}', style:AppTextStyle.body3,),
+                                  Text(
+                                    'Ucapkan salah satu dari : ${contohSoal}',
+                                    style: AppTextStyle.body3,
+                                  ),
 
                                   // Text(statusText),
                                   selesai == true

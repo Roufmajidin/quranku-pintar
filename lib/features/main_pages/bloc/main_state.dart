@@ -18,6 +18,10 @@ class MainState with _$MainState {
     @Default([]) List<String> koreksian,
     @Default({}) Map<String, Map<String, List<Materi>>> statusData,
     @Default(<Pengguna>[]) List<Pengguna> pengguna,   
+    @Default(<Surat>[]) List<Surat> pencarian,   
+    @Default('') String queryPencarian,
+
+
 
     // @Default([])  koreksi,
 

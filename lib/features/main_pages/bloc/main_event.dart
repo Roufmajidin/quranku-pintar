@@ -15,6 +15,7 @@ class MainEvent with _$MainEvent {
   const factory MainEvent.getStatus() = GetStatus;
   const factory MainEvent.getMateriPengguna(String device) = GetMateriPengguna;
   const factory MainEvent.postLearn({required int id, required int nilai}) = PostLearn;
+  const factory MainEvent.cariSurat(String query) = CariSurat;
 
   
 

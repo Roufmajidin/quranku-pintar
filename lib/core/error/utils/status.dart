@@ -5,4 +5,5 @@ extension ArticleStatusX on FetchStatus {
   bool get isLoading => this == FetchStatus.loading;
   bool get isSuccess => this == FetchStatus.success;
   bool get isFailure => this == FetchStatus.failure;
+  bool get gagalMencari => this == FetchStatus.failure;
 }

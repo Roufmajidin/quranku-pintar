@@ -360,6 +360,7 @@ class _MainViewState extends State<MainView> {
                   pp = quranData.ayat[0].teksArab;
                 }
               }
+             
 
               return Container(
                   height: 200,
@@ -663,7 +664,7 @@ class _MainViewState extends State<MainView> {
                                     ),
                                     const SizedBox(height: 10),
                                      FloatingActionButton(
-                                      backgroundColor: AppColors.bg.bg02.withOpacity(0.8),
+                                      backgroundColor: AppColors.bg.bg01.withOpacity(0.8),
                                       onPressed: () async {
 
                                         if (isRecord == true) {
@@ -671,7 +672,7 @@ class _MainViewState extends State<MainView> {
                                         } else {
                                           // record bre
                                           startRecord();
-                                            print('mulai');
+                                            print('mulai {}');
 
 
                                           pp = '';
@@ -690,8 +691,8 @@ class _MainViewState extends State<MainView> {
                                               color: Colors.white,
                                             ),
                                           if (statusText == 'Mengecek Audio')
-                                            const CircularProgressIndicator(
-                                              color: Colors.white,
+                                             CircularProgressIndicator(
+                                              color: AppColors.bg.bg01,
                                             )
                                         ],
                                       )),
@@ -711,10 +712,7 @@ class _MainViewState extends State<MainView> {
                                       statusText == ''
                                           ? "Tekan untuk memulai"
                                           : 'Result is',
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
+                                      style: AppTextStyle.body3,
                                     ),
                                     // Text(statusText),
                                     selesai == true
@@ -793,7 +791,7 @@ class _MainViewState extends State<MainView> {
           ? const SizedBox()
           : _isShowSnackbar == false
               ? FloatingActionButton(
-                  backgroundColor: Colors.green,
+                  backgroundColor: AppColors.bg.bg01,
                   onPressed: () {
                     // _startListening();
 
@@ -808,7 +806,7 @@ class _MainViewState extends State<MainView> {
                     }
                   },
                   child: Icon(
-                      _speechEnabled == false ? Icons.mic_none : Icons.mic),
+                      _speechEnabled == false ? Icons.mic_none : Icons.mic, color: AppColors.neutral.ne01,),
                 )
               : const SizedBox(),
     );
