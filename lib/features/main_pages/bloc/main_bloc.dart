@@ -8,7 +8,6 @@ import 'package:quranku_pintar/features/main_pages/data/models/quran.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 import 'package:quranku_pintar/features/main_pages/data/tajwid/tajwid_helper/tajweed.dart';
 import 'package:quranku_pintar/features/main_pages/data/usecases/quran_usecase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:string_similarity/string_similarity.dart';
 part 'main_event.dart';
 part 'main_state.dart';
@@ -30,6 +29,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     on<CariSurat>(_cariSurat);
     on<UpdateIndex>(_updateIndex);
     on<HapusSemuaVariabel>(_hapusSemuaVariabel);
+    on<MulaiRekam>(_mulaiRekam);
+    on<StopRekam>(_stopRekam);
   }
   // functionality
   Future<void> _loader(MainEvent event, Emitter<MainState> emit) async {
@@ -44,7 +45,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
  Future<void> _hapusSemuaVariabel(MainEvent event, Emitter<MainState> emit) async {
     log('Rebase data variabel');
    
-    emit(state.copyWith(ayatIndex: 0, persentase: 0, index: 0, koreksian: [],isLoading: ''));
+    emit(state.copyWith(persentase: 0, koreksian: [],isLoading: ''));
+  }
+  Future<void> _mulaiRekam(MainEvent event, Emitter<MainState> emit) async {
+    log('Rebase data variabel');
+   
+    emit(state.copyWith(isLoading: 'mulai', ayatAcuan: ''));
+  }
+   Future<void> _stopRekam(MainEvent event, Emitter<MainState> emit) async {
+   
+    emit(state.copyWith(isLoading: '', ayatAcuan: '', koreksian: [], persentase: 0));
   }
 
   Future<void> _updateIndex(MainEvent event, Emitter<MainState> emit) async {
@@ -52,7 +62,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     String ayatAcuan = (event as UpdateIndex).acuan;
     int index = (event).index;
     emit(state.copyWith(ayatAcuan: ayatAcuan, ayatIndex: index, isLoading: 'memulai ulang'));
-    log('terupdate ${state.ayatAcuan} index: ${state.index}', );
+    log('terupdate ${state.ayatAcuan} index: ${state.ayatIndex}', );
   }
 
   Future<void> _cariSurat(MainEvent event, Emitter<MainState> emit) async {
@@ -96,18 +106,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     String lastWords = removeDiacritics((event as CheckPassed).ayat);
     emit(state.copyWith(isLoading: lastWords));
     String ayatAcuan = removeDiacritics(state.ayatAcuan);
-    int indexAyat = state.index;
+    int indexAyat = state.ayatIndex;
 
-    QuranModels quranData = state.quranData;
-    if (indexAyat >= 0 && indexAyat < quranData.data!.ayat.length) {
-      QuranAyat ayatItem = quranData.data!.ayat[indexAyat];
+     QuranAyat ayatItem = state.quranData.data!.ayat[indexAyat];
 
       String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
       double similarity = lastWords.similarityTo(normalizedLatinText);
 
       // if (similarity > 0.6) {
       List<Diff> differences = computeDiffAyatAcuanRekaman(
-        removeDiacritics(ayatItem.teksArab),
+        removeDiacritics(ayatAcuan),
         lastWords,
       );
       int persentase =
@@ -116,6 +124,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       log('Persentase: $persentase%');
 
       StringBuffer koreksi = StringBuffer();
+      // if(similarity < 5)
       for (var diff in differences) {
         if (diff.operation == DIFF_INSERT) {
           koreksi.writeln('Tambahan yang tidak ada pada ayat: ${diff.text}');
@@ -123,14 +132,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           koreksi.writeln('Bagian yang hilang dari bacaan: ${diff.text}');
         }
       }
-      List<QuranAyat> mutableAyatList = List.from(quranData.data!.ayat);
-      // mutableAyatList[indexAyat] = mutableAyatList[indexAyat].copyWith(terbaca: true); --bener
-      mutableAyatList[indexAyat] = mutableAyatList[indexAyat];
-
-      quranData = quranData.copyWith(
-        data: quranData.data!.copyWith(ayat: mutableAyatList),
-      );
-
+    
       emit(state.copyWith(
           ayatIndex: indexAyat,
           ayatAcuan: ayatItem.teksArab,
@@ -138,7 +140,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           index: indexAyat,
           isPassed: true,
           fetchDataProses: FetchStatus.success,
-          quranData: quranData,
           isLoading: 'memulai ulang',
           persentase: persentase));
 
@@ -146,44 +147,33 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       log(koreksi.toString());
       log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat} simmi : $similarity');
       log('Status: ${state.isPassed}');
-    } else {
-      emit(state.copyWith(isPassed: false));
-      log('Tidak ditemukan ayat yang mirip dengan cukup.');
-    }
   }
 
   // TODO cekpass materi
   // check passed
   Future<void> _checkPassedMateri(
       MainEvent event, Emitter<MainState> emit) async {
+        emit(state.copyWith(isLoading: 'merekam'));
     String lastWords = ((event as CheckPassMateri).ayat);
     String acuan = removeDiacritics((event).acuan);
     int id = ((event).id);
     log('ini ${lastWords}');
 
-    acuan = acuan.replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '');
+    acuan = acuan.replaceAll('[', '').replaceAll(']', '').replaceAll('""', '');
     List<String> huruf = acuan.split(',');
 
-    double highestSimilarity = 0.0;
-    int bestMatchIndex = -1;
 
-    for (int i = 0; i < huruf.length; i++) {
-      double similarity =
-          StringSimilarity.compareTwoStrings(lastWords, huruf[i]);
-      if (similarity > highestSimilarity) {
-        highestSimilarity = similarity;
-        bestMatchIndex = i;
-       
-      }
-    }
-    print('Indeks dari elemen yang paling mirip dengan $lastWords adalah $bestMatchIndex');
-    print('Nilai similarity: $highestSimilarity');
-     if (bestMatchIndex != -1) {
-
-    // Compute differences using DiffMatchPatch
-    List<Diff> differences = computeDiffAyatAcuanRekaman(
-      removeDiacritics(huruf[bestMatchIndex]),
-      lastWords,
+    log('acuan ${acuan}');
+    double simmilarity = StringSimilarity.compareTwoStrings(lastWords, acuan);
+     int persentase =
+          (simmilarity * 100).toInt(); // Mengonversi similarity ke persentase
+      log('Similarity: $simmilarity');
+      log('Persentase: $persentase%');
+      log('sim $simmilarity');
+    print('Nilai similarity: $simmilarity');
+     List<Diff> differences = computeDiffAyatAcuanRekaman(
+      removeDiacritics(lastWords),
+     removeDiacritics(acuan) ,
     );
 
     StringBuffer koreksi = StringBuffer();
@@ -191,29 +181,28 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       if (diff.operation == DIFF_INSERT) {
         koreksi.writeln('Tambahan yang tidak ada: ${diff.text}');
       } else if (diff.operation == DIFF_DELETE) {
-        koreksi.writeln('Bagian yang hilang: ${diff.text}');
+        koreksi.writeln('Bagian yang harus hilang: ${diff.text}');
       }
     }
+    emit(state.copyWith(
+      isLoading :'selesai',
+      ayatAcuan: acuan, koreksian: koreksi.toString().split('\n'), persentase: persentase));
 
     print('Differences: $differences');
     print('Koreksi: ${koreksi.toString()}');
 
-    final a = await quranUsecase.postLearn(id, highestSimilarity.toInt());
-    a.fold(
-      (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)),
-      (r) {
-        groupByJenisKuis(state.materi);
-        emit(state.copyWith(
-          fetchDataProses: FetchStatus.success,
-          koreksian: koreksi.toString().split('\n'), // Store corrections in state
-        ));
-      },
-    );
-  } 
-
-    else {
-      print('$lastWords tidak ditemukan dalam daftar');
-    }
+    // final a = await quranUsecase.postLearn(id, simmilarity.toInt());
+    // a.fold(
+    //   (l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)),
+    //   (r) {
+    //     groupByJenisKuis(state.materi);
+    //     emit(state.copyWith(
+    //       fetchDataProses: FetchStatus.success,
+    //       koreksian: koreksi.toString().split('\n'), // Store corrections in state
+    //     ));
+    //   },
+    // );
+  
   }
 
   Future<void> _getDetailSurat(MainEvent event, Emitter<MainState> emit) async {
@@ -295,13 +284,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     emit(state.copyWith(fetchDataProses: FetchStatus.loading));
 
     // get userid
-    // log('surat nomor : $surat');
+    log('panggil Materi');
 
     final a = await quranUsecase.getMateri();
     a.fold((l) => emit(state.copyWith(fetchDataProses: FetchStatus.failure)),
         (r) {
       List<Materi> materi = r;
       groupByJenisKuis(materi);
+    log('Materi $materi');
+
 
       emit(state.copyWith(
         fetchDataProses: FetchStatus.success,

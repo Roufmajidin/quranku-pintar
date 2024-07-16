@@ -21,6 +21,7 @@ class MainState with _$MainState {
     @Default(<Surat>[]) List<Surat> pencarian,   
     @Default('') String queryPencarian,
     @Default(0) int persentase,
+    @Default(0) int p,
 
 
 

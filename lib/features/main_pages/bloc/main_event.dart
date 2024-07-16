@@ -18,6 +18,8 @@ class MainEvent with _$MainEvent {
   const factory MainEvent.cariSurat(String query) = CariSurat;
   const factory MainEvent.updateIndex({required int index, required String acuan}) = UpdateIndex;
   const factory MainEvent.hapusSemuaVariabel() = HapusSemuaVariabel;
+  const factory MainEvent.mulaiRekam() = MulaiRekam;
+  const factory MainEvent.stopRekam() = StopRekam;
 
   
 
