@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:quranku_pintar/common/extensions/font_weight.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/core/error/utils/status.dart';
@@ -91,6 +90,7 @@ class _MainViewState extends State<MainView> {
         setState(() {
           statusText = 'Inisialisasi Audio';
           context.read<MainBloc>().add(const HapusSemuaVariabel());
+          // context.read<MainBloc>().add(const UpdateIndex());
 
           isRecord = true;
         });
@@ -363,27 +363,35 @@ class _MainViewState extends State<MainView> {
                 }
               }
 
-              return Container(
-                  height: 200,
-                  width: MediaQuery.of(context).size.width,
-                  color: AppColors.bg.bg01,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 80, left: 16, right: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Detail Surat $ns',
-                            style: AppTextStyle.body1
-                                .copyWith(color: AppColors.neutral.ne01)
-                                .setSemiBold()),
-                        Text(
-                            "Mari Mengaji sebagai bentuk pengalaman nilai dan norma dalam berketuhanan !",
-                            style: AppTextStyle.body3
-                                .copyWith(color: AppColors.neutral.ne01)),
-                      ],
-                    ),
-                  ));
+              return Stack(
+                children: [
+                      Container(
+                        // alignment: Alignment.,
+                        padding: EdgeInsets.only(top:110, left:16,right: 16),
+                      height: 200,
+                      width: MediaQuery.of(context).size.width,
+                      color: AppColors.bg.bg01,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Detail Surat $ns',
+                              style: AppTextStyle.body1
+                                  .copyWith(color: AppColors.neutral.ne01)
+                                  .setSemiBold()),
+                          Text(
+                              "Mari Mengaji sebagai bentuk pengalaman nilai dan norma dalam berketuhanan !",
+                              style: AppTextStyle.body3
+                                  .copyWith(color: AppColors.neutral.ne01)),
+                        ],
+                      )),
+                           Image.asset(
+                    height: 240,
+                    'assets/images/fly2.png',
+                    fit: BoxFit.contain,
+                    width: MediaQuery.of(context).size.width,
+                  )
+                    ],
+              );
             }),
             SingleChildScrollView(
               physics: const NeverScrollableScrollPhysics(),
@@ -712,6 +720,7 @@ class _MainViewState extends State<MainView> {
 
                                             statusText = '';
                                             startRecord();
+                                            
                                             selesai = false;
 
 
@@ -809,7 +818,7 @@ class _MainViewState extends State<MainView> {
                                         ? Column(
                                             children: [
                                              Text(
-                                                "Persentase Bacaan",
+                                                "Persentase Bacaan kamu ${state.persentase}%",
                                                 style: AppTextStyle.body3
                                                     .setRegular(),
                                               ),
