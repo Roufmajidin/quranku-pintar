@@ -7,14 +7,16 @@ part of 'materi.dart';
 // **************************************************************************
 
 _$MateriImpl _$$MateriImplFromJson(Map<String, dynamic> json) => _$MateriImpl(
-      contoh_soal: json['contoh_soal'] as String?,
-      id: json['id'] as int?,
+      contoh_soal: (json['contoh_soal'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      id: (json['id'] as num?)?.toInt(),
       jenis_kuis: json['jenis_kuis'] as String?,
       judul: json['judul'] as String?,
       kategori: json['kategori'] as String?,
       materi: json['materi'] as String?,
       audio: json['audio'] as String?,
-      is_learn: json['is_learn'] as int?,
+      is_learn: (json['is_learn'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$MateriImplToJson(_$MateriImpl instance) =>
@@ -31,10 +33,10 @@ Map<String, dynamic> _$$MateriImplToJson(_$MateriImpl instance) =>
 
 _$PenggunaImpl _$$PenggunaImplFromJson(Map<String, dynamic> json) =>
     _$PenggunaImpl(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       device_pengguna: json['device_pengguna'] as String?,
-      materi_id: json['materi_id'] as int?,
-      is_learn: json['is_learn'] as int?,
+      materi_id: (json['materi_id'] as num?)?.toInt(),
+      is_learn: (json['is_learn'] as num?)?.toInt(),
       materi_detail: json['materi_detail'] == null
           ? null
           : Materi.fromJson(json['materi_detail'] as Map<String, dynamic>),

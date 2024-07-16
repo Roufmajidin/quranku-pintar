@@ -9,10 +9,10 @@ part of 'token.dart';
 TajweedToken _$TajweedTokenFromJson(Map<String, dynamic> json) => TajweedToken(
       $enumDecode(_$TajweedRuleEnumMap, json['rule']),
       $enumDecodeNullable(_$TajweedSubruleEnumMap, json['subrule']),
-      json['subruleSubindex'] as int?,
+      (json['subruleSubindex'] as num?)?.toInt(),
       json['text'] as String,
-      json['startIx'] as int,
-      json['endIx'] as int,
+      (json['startIx'] as num).toInt(),
+      (json['endIx'] as num).toInt(),
       json['matchGroup'] as String?,
     );
 

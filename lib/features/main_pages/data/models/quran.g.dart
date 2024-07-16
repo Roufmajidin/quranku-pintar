@@ -8,7 +8,7 @@ part of 'quran.dart';
 
 _$QuranModelsImpl _$$QuranModelsImplFromJson(Map<String, dynamic> json) =>
     _$QuranModelsImpl(
-      code: json['code'] as int?,
+      code: (json['code'] as num?)?.toInt(),
       message: json['message'] as String?,
       data: json['data'] == null
           ? null
@@ -24,10 +24,10 @@ Map<String, dynamic> _$$QuranModelsImplToJson(_$QuranModelsImpl instance) =>
 
 _$QuranDataImpl _$$QuranDataImplFromJson(Map<String, dynamic> json) =>
     _$QuranDataImpl(
-      nomor: json['nomor'] as int,
+      nomor: (json['nomor'] as num).toInt(),
       nama: json['nama'] as String,
       namaLatin: json['namaLatin'] as String,
-      jumlahAyat: json['jumlahAyat'] as int,
+      jumlahAyat: (json['jumlahAyat'] as num).toInt(),
       tempatTurun: json['tempatTurun'] as String,
       arti: json['arti'] as String,
       deskripsi: json['deskripsi'] as String,
@@ -57,7 +57,7 @@ Map<String, dynamic> _$$QuranDataImplToJson(_$QuranDataImpl instance) =>
 
 _$QuranAyatImpl _$$QuranAyatImplFromJson(Map<String, dynamic> json) =>
     _$QuranAyatImpl(
-      nomorAyat: json['nomorAyat'] as int,
+      nomorAyat: (json['nomorAyat'] as num).toInt(),
       teksArab: json['teksArab'] as String,
       teksLatin: json['teksLatin'] as String,
       teksIndonesia: json['teksIndonesia'] as String,
@@ -83,10 +83,10 @@ Map<String, dynamic> _$$QuranAyatImplToJson(_$QuranAyatImpl instance) =>
 
 _$SuratInfoImpl _$$SuratInfoImplFromJson(Map<String, dynamic> json) =>
     _$SuratInfoImpl(
-      nomor: json['nomor'] as int,
+      nomor: (json['nomor'] as num).toInt(),
       nama: json['nama'] as String,
       namaLatin: json['namaLatin'] as String,
-      jumlahAyat: json['jumlahAyat'] as int,
+      jumlahAyat: (json['jumlahAyat'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$SuratInfoImplToJson(_$SuratInfoImpl instance) =>

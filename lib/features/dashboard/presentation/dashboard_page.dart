@@ -1,12 +1,10 @@
 import 'dart:async';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:quranku_pintar/common/extensions/extensions.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/materi_belajar/mb_page.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/mengaji/mengaji_page.dart';
-import 'package:quranku_pintar/gen/assets.gen.dart';
 // import 'gen/assets.gen.dart';
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -151,7 +149,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           color: AppColors.bg.bg01,
                           borderRadius: BorderRadius.circular(12))),
                   Image.asset(
-                    'assets/images/fly.png',
+                    'assets/images/fly2.png',
                     fit: BoxFit.contain,
                     width: MediaQuery.of(context).size.width,
                   )
@@ -240,7 +238,7 @@ class _MainWidgetState extends State<MainWidget> {
               ),
             ),
             Image.asset(
-              'assets/images/fly.png',
+              'assets/images/fly2.png',
               fit: BoxFit.contain,
               width: 200,
               color: Colors.white,

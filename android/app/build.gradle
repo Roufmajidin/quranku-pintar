@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.quranku_pintar"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -48,8 +48,8 @@ android {
         // minSdkVersion flutter.minSdkVersion
         minSdkVersion 21
         // targetSdkVersion flutter.targetSdkVersion
-        targetSdkVersion 28
-        // targetSdkVersion 31
+        // targetSdkVersion 28
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

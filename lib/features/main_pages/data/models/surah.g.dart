@@ -7,10 +7,10 @@ part of 'surah.dart';
 // **************************************************************************
 
 _$SuratImpl _$$SuratImplFromJson(Map<String, dynamic> json) => _$SuratImpl(
-      nomor: json['nomor'] as int?,
+      nomor: (json['nomor'] as num?)?.toInt(),
       nama: json['nama'] as String?,
       namaLatin: json['namaLatin'] as String?,
-      jumlahAyat: json['jumlahAyat'] as int?,
+      jumlahAyat: (json['jumlahAyat'] as num?)?.toInt(),
       tempatTurun: json['tempatTurun'] as String?,
       arti: json['arti'] as String?,
       deskripsi: json['deskripsi'] as String?,
