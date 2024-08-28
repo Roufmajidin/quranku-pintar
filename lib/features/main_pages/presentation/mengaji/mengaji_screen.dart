@@ -8,7 +8,6 @@ import 'package:quranku_pintar/features/main_pages/bloc/main_bloc.dart';
 import 'package:quranku_pintar/features/main_pages/data/models/surah.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/main_page.dart';
 import 'package:quranku_pintar/features/main_pages/presentation/widget/list_component.dart';
-import 'package:quranku_pintar/features/main_pages/presentation/widget/search_widget.dart';
 
 import '../../../../common/themes/themes.dart';
 
@@ -68,7 +67,14 @@ class _MengajiiewState extends State<Mengajiiew> {
                 Container(
                     height: isHeight,
                     width: size.width,
-                    color: AppColors.bg.bg01,
+                    // color: AppColors.bg.bg01,
+                      decoration: BoxDecoration(
+                          // borderRadius: BorderRadius.circular(12),
+                          gradient: LinearGradient(
+                        colors: [AppColors.bg.bg01, AppColors.primary.pr04],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.topCenter,
+                      )),
                     child: Padding(
                       padding:
                           EdgeInsets.only(top: padding, left: 16, right: 16),
@@ -91,12 +97,12 @@ class _MengajiiewState extends State<Mengajiiew> {
                         ),
                       ),
                     )),
-                Image.asset(
-                  'assets/images/fly.png',
-                  fit: BoxFit.contain,
-                  width: size.width,
-                  color: Colors.white,
-                )
+                    Image.asset(
+                    height: 200,
+                    'assets/images/fly.png',
+                    fit: BoxFit.contain,
+                    width: size.width,
+                  )
               ],
             ),
             Padding(
@@ -241,7 +247,7 @@ class _MengajiiewState extends State<Mengajiiew> {
                                   urutan: surat[index].nomor.toString(),
                                 ),
                                 Image.asset(
-                                  'assets/images/fly.png',
+                                  'assets/images/fly2.png',
                                   fit: BoxFit.cover,
                                   width: size.width,
                                   height: 80,

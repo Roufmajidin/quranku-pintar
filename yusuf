@@ -1,0 +1,103 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "kuatkan hamba",
+    "collectionId": "fe9481a2-b316-47cb-a8c3-6047697d0301",
+    "dateExported": "2024-08-23T16:32:48.262Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "6b252f12-9958-4e9a-97ca-87c08c163ab6",
+            "colId": "fe9481a2-b316-47cb-a8c3-6047697d0301",
+            "containerId": "",
+            "name": "register",
+            "url": "{{yusuf}}/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-07-24T18:01:20.612Z",
+            "modified": "2024-07-31T12:29:07.217Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\" : \"test@mail.com\",\n  \"password\" : \"password\",\n  \"role\" : \"pengguna\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "cfcbb698-6969-40ef-a95c-ff6574a8b5f2",
+            "colId": "fe9481a2-b316-47cb-a8c3-6047697d0301",
+            "containerId": "",
+            "name": "login",
+            "url": "{{local}}/login",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-07-24T18:15:40.644Z",
+            "modified": "2024-08-01T02:54:59.610Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\" : \"test@mail.com\",\n  \"password\" : \"newpassword123\"\n\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "cc6a80f4-5081-4582-93a7-f295ed0a9f86",
+            "colId": "fe9481a2-b316-47cb-a8c3-6047697d0301",
+            "containerId": "",
+            "name": "get reservasi",
+            "url": "{{local}}/reservasi/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-07-28T21:27:58.444Z",
+            "modified": "2024-07-31T20:20:32.193Z",
+            "headers": []
+        },
+        {
+            "_id": "b4597779-2db5-4447-b71f-a4ee6dead6c6",
+            "colId": "fe9481a2-b316-47cb-a8c3-6047697d0301",
+            "containerId": "",
+            "name": "get userID",
+            "url": "{{local}}/user/1",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-07-31T19:17:36.699Z",
+            "modified": "2024-07-31T19:17:44.812Z",
+            "headers": []
+        },
+        {
+            "_id": "68adf13f-8db5-433f-bc30-47cdffd8a545",
+            "colId": "fe9481a2-b316-47cb-a8c3-6047697d0301",
+            "containerId": "",
+            "name": "store reservasi",
+            "url": "{{local}}/store_reservation",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-07-31T20:53:34.373Z",
+            "modified": "2024-07-31T22:40:37.806Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"user_id\": 1,\n  \"keluhan\": \"sering mati \",\n  \"jenis_kendaraan\": \"motor\",\n  \"alamat\": \"jl. gn mulya no 8 samping es buah naga nyembur\",\n  \"biaya_jasa\": 0\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "666b7e2f-6ca6-4950-b516-7c557b49eded",
+            "colId": "fe9481a2-b316-47cb-a8c3-6047697d0301",
+            "containerId": "",
+            "name": "edit profile",
+            "url": "{{local}}/edit_user",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-08-01T02:37:53.074Z",
+            "modified": "2024-08-01T03:33:21.848Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"user_id\": 1,\n    \"email\": \"test@mail.com\",\n    \"password\": \"anjing\",\n    \"role\": \"pengguna\",\n    \"alamat\": \"Address\"\n}\n",
+                "form": []
+            }
+        }
+    ],
+    "ref": "E-GYTkyrLLqxAni6sChbODlzLrTsySA_udCGU9P-jR5yqKLTFhoD66q1E_0QHAWy63X2NiBXgnkFpfjSZweMMw"
+}

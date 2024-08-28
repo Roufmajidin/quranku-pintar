@@ -20,7 +20,7 @@ Materi _$MateriFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Materi {
-  String? get contoh_soal => throw _privateConstructorUsedError;
+  List<String> get contoh_soal => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
   String? get jenis_kuis => throw _privateConstructorUsedError;
   String? get judul => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $MateriCopyWith<$Res> {
       _$MateriCopyWithImpl<$Res, Materi>;
   @useResult
   $Res call(
-      {String? contoh_soal,
+      {List<String> contoh_soal,
       int? id,
       String? jenis_kuis,
       String? judul,
@@ -63,7 +63,7 @@ class _$MateriCopyWithImpl<$Res, $Val extends Materi>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? contoh_soal = freezed,
+    Object? contoh_soal = null,
     Object? id = freezed,
     Object? jenis_kuis = freezed,
     Object? judul = freezed,
@@ -73,10 +73,10 @@ class _$MateriCopyWithImpl<$Res, $Val extends Materi>
     Object? is_learn = freezed,
   }) {
     return _then(_value.copyWith(
-      contoh_soal: freezed == contoh_soal
+      contoh_soal: null == contoh_soal
           ? _value.contoh_soal
           : contoh_soal // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -117,7 +117,7 @@ abstract class _$$MateriImplCopyWith<$Res> implements $MateriCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? contoh_soal,
+      {List<String> contoh_soal,
       int? id,
       String? jenis_kuis,
       String? judul,
@@ -138,7 +138,7 @@ class __$$MateriImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? contoh_soal = freezed,
+    Object? contoh_soal = null,
     Object? id = freezed,
     Object? jenis_kuis = freezed,
     Object? judul = freezed,
@@ -148,10 +148,10 @@ class __$$MateriImplCopyWithImpl<$Res>
     Object? is_learn = freezed,
   }) {
     return _then(_$MateriImpl(
-      contoh_soal: freezed == contoh_soal
-          ? _value.contoh_soal
+      contoh_soal: null == contoh_soal
+          ? _value._contoh_soal
           : contoh_soal // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -188,20 +188,27 @@ class __$$MateriImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MateriImpl implements _Materi {
   const _$MateriImpl(
-      {this.contoh_soal,
+      {required final List<String> contoh_soal,
       this.id,
       this.jenis_kuis,
       this.judul,
       this.kategori,
       this.materi,
       this.audio,
-      this.is_learn});
+      this.is_learn})
+      : _contoh_soal = contoh_soal;
 
   factory _$MateriImpl.fromJson(Map<String, dynamic> json) =>
       _$$MateriImplFromJson(json);
 
+  final List<String> _contoh_soal;
   @override
-  final String? contoh_soal;
+  List<String> get contoh_soal {
+    if (_contoh_soal is EqualUnmodifiableListView) return _contoh_soal;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_contoh_soal);
+  }
+
   @override
   final int? id;
   @override
@@ -227,8 +234,8 @@ class _$MateriImpl implements _Materi {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MateriImpl &&
-            (identical(other.contoh_soal, contoh_soal) ||
-                other.contoh_soal == contoh_soal) &&
+            const DeepCollectionEquality()
+                .equals(other._contoh_soal, _contoh_soal) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.jenis_kuis, jenis_kuis) ||
                 other.jenis_kuis == jenis_kuis) &&
@@ -243,8 +250,16 @@ class _$MateriImpl implements _Materi {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, contoh_soal, id, jenis_kuis,
-      judul, kategori, materi, audio, is_learn);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_contoh_soal),
+      id,
+      jenis_kuis,
+      judul,
+      kategori,
+      materi,
+      audio,
+      is_learn);
 
   @JsonKey(ignore: true)
   @override
@@ -262,7 +277,7 @@ class _$MateriImpl implements _Materi {
 
 abstract class _Materi implements Materi {
   const factory _Materi(
-      {final String? contoh_soal,
+      {required final List<String> contoh_soal,
       final int? id,
       final String? jenis_kuis,
       final String? judul,
@@ -274,7 +289,7 @@ abstract class _Materi implements Materi {
   factory _Materi.fromJson(Map<String, dynamic> json) = _$MateriImpl.fromJson;
 
   @override
-  String? get contoh_soal;
+  List<String> get contoh_soal;
   @override
   int? get id;
   @override

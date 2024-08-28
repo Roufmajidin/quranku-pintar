@@ -5,7 +5,7 @@ part 'materi.g.dart';
 @freezed
 class Materi with _$Materi {
   const factory Materi({
-     String? contoh_soal,
+     required List<String> contoh_soal,
      int? id,
      String? jenis_kuis,
      String? judul,

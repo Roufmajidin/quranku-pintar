@@ -14,73 +14,110 @@ class TextComparison extends StatefulWidget {
   @override
   State<TextComparison> createState() => _TextComparisonState();
 }
-// أَمِنَ لِلَّهِ رَبِّ الْعَالَمِينَ
 
 class _TextComparisonState extends State<TextComparison> {
-  Color textColor = Colors.black;
-  FontWeight fw = FontWeight.normal;
-  TextDecoration txd = TextDecoration.none;
-  bool showBackground = false;
-
   @override
   Widget build(BuildContext context) {
     List<Diff> differences = computeDiffAyatAcuanRekaman(
-      widget.ayatAcuanText,
       widget.teksRekognisiText,
+      widget.ayatAcuanText,
     );
+    List<Diff> deletedDiffs =
+        differences.where((diff) => diff.operation == DIFF_DELETE).toList();
+    return Column(
+      children: [
+        RichText(
+          text: TextSpan(
+            children: differences.map((diff) {
+              Color textColor;
+              Color backgroundColor;
+              bool showBackground;
 
-    return RichText(
-      text: TextSpan(
-        children: differences.map((diff) {
-          if (diff.operation == DIFF_EQUAL) {
-            textColor = Colors.black;
-            // txd = TextDecoration.none;
-            // fw = FontWeight.normal;
-            showBackground = false;
-          } else if (diff.operation == DIFF_INSERT) {
-            // ini salah
-            textColor = Colors.red;
-            fw = FontWeight.w500;
-            txd = TextDecoration.none;
-            showBackground = true;
-          } else if (diff.operation == DIFF_DELETE) {
-            textColor = Colors.green;
-            // fw = FontWeight.bold;
-            txd = TextDecoration.none;
-            showBackground = false;
-          }
-          GestureRecognizer recognizer = TapGestureRecognizer()
-            ..onTap = () {
-              if (diff.operation == DIFF_INSERT) {
-                showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                    title: Text('Kata tidak ada'),
-                    content: Text('tidak ada ${diff.text} harusnya'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('OK'),
-                      ),
-                    ],
-                  ),
-                );
+              if (diff.operation == DIFF_EQUAL) {
+                textColor = Colors.black;
+                backgroundColor = Colors.transparent;
+                showBackground = false;
+              } else if (diff.operation == DIFF_INSERT) {
+                textColor = Colors.green;
+                backgroundColor = Colors.green.withOpacity(0.2);
+                showBackground = true;
+              } else if (diff.operation == DIFF_DELETE) {
+                textColor = Colors.red;
+                backgroundColor = Colors.red.withOpacity(0.1);
+                showBackground = true;
+              } else {
+                textColor = Colors.black;
+                backgroundColor = Colors.transparent;
+                showBackground = false;
               }
-            };
-          return TextSpan(
-            recognizer: recognizer,
-            text: diff.text,
-            style: AppTextStyle.body1.setBold().copyWith(color: showBackground == true
-                    ? textColor.withOpacity(0.4)
-                    : textColor,
-                backgroundColor: showBackground == true
-                    ? Colors.amber.withOpacity(0.5)
-                    : Colors.white.withOpacity(0.2))
-          );
-        }).toList(),
-      ),
+
+              return TextSpan(
+                text: diff.text,
+                style: TextStyle(
+                  letterSpacing: 0.6,
+                  color: textColor,
+                  fontSize: 30,
+                  backgroundColor:
+                      showBackground ? backgroundColor : Colors.transparent,
+                  decoration: TextDecoration.none,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    if (diff.operation == DIFF_INSERT) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text('Koreksi Bacaan'),
+                          content: Text('Teks "${diff.text}" seharusnya ada'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    if (diff.operation == DIFF_DELETE) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          
+                          title: Text('Koreksi Bacaan'),
+                          content: Text('Hilangkan Bacaan ${diff.text}'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+              );
+            }).toList(),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        if (deletedDiffs != null) 
+          Container(
+            padding: EdgeInsets.all(6),
+            decoration: BoxDecoration(color: Colors.redAccent),
+            margin: EdgeInsets.only(bottom: 6),
+            child: Text(
+              'Hilangkan harakat bacaan yang ditandai warna merah!',
+              style: TextStyle(fontSize: 14),
+            ),
+          ),
+      ],
     );
   }
 

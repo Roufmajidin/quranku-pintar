@@ -5,8 +5,6 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:hive/hive.dart';
 
 import 'package:quranku_pintar/common/extensions/extensions.dart';
 import 'package:quranku_pintar/common/themes/themes.dart';
@@ -83,6 +81,7 @@ class _DetailViewState extends State<DetailView> {
     setState(() {});
   }
 
+  bool isP = false;
   Future<void> _initAudioPlayer() async {
     await _player.setUrl(
         'https://ef93-140-213-104-45.ngrok-free.app/get_audio/output_file.mp3'); // Mengatur URL audio untuk diputar
@@ -110,28 +109,38 @@ class _DetailViewState extends State<DetailView> {
   Future<void> playRecord(String url, int index) async {
     try {
       var uri = 'https://tarteel.tribber.me/get_audio/$url';
-      // Source urlS = UrlSource(
-      //     'https://3518-103-191-218-249.ngrok-free.app/get_audio/output_file.mp3');
 
-      await _player.setFilePath(audioPath);
-      _player.play();
+      if (_player.playing) {
+        await _player.stop();
+        setState(() {
+          isPlay[index] = false;
+        });
+      } else {
+        await _player.setUrl(uri);
+        await _player.play();
+        setState(() {
+          isPlay[index] = true;
+        });
+      }
 
       _player.playerStateStream.listen((state) {
         if (state.processingState == ja.ProcessingState.completed) {
-          print('selesai');
+          // When playback is complete
+          print('Playback completed');
           setState(() {
-            isPlay[index] = false;
+            isPlay[index] =
+                false; // Update the UI to reflect that playback is completed
+            _player.stop(); // Stop the player after completion
           });
-
-          _player.stop();
         }
       });
+
       setState(() {
         cntoh = uri.toString();
       });
-      log(cntoh.toString());
+      // log(cntoh.toString());
     } catch (e) {
-      print('error playy $e');
+      print('Error playing audio: $e');
     }
   }
 
@@ -154,7 +163,7 @@ class _DetailViewState extends State<DetailView> {
 
   cekpas(String t) async {
     // String response = await uploadFile('assets/audios/satu.mp3');
-
+// log('cek pas $t');
     context
         .read<MainBloc>()
         .add(CheckPassMateri(ayat: t, acuan: contohSoal, id: isId));
@@ -162,14 +171,20 @@ class _DetailViewState extends State<DetailView> {
 
   void _startListening() async {
     log('ok');
-    setState(() {
-      _lastWords = '';
-      _speechEnabled = true;
-    });
+    // setState(() {
+    _lastWords = '';
+    _speechEnabled = true;
+    // });
     await _speechToText.listen(
+      listenFor: Duration(seconds: 30), // Durasi maksimum untuk mendengarkan
+
+      // listenOptions: ,
+      // partialResults:true ,
+      listenMode: ListenMode.dictation,
+      sampleRate: 8000,
       localeId: 'Ar',
       onResult: _onSpeechResult,
-      // partialResults: false,
+      partialResults: true,
     );
   }
 
@@ -180,13 +195,7 @@ class _DetailViewState extends State<DetailView> {
   void _stopListening() async {
     await _speechToText.stop();
     log('sesi stop');
-
-    // await Future.delayed(const Duration(seconds: 109));
-    setState(() {
-      _ditemukan = false;
-      r = remove();
-      _lastWords = '';
-    });
+    isRecord = false;
 
     log('normalisasi voice $_lastWords');
     log('compare ke $r');
@@ -222,18 +231,18 @@ class _DetailViewState extends State<DetailView> {
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() async {
-      // _lastWords = removeDiacritics(result.recognizedWords);
-      _lastWords = result.recognizedWords;
-      // log('asli ${result.recognizedWords}');
-      // var a = konversiKeBahasaArab(result.recognizedWords);
-      // log('ini adalah $a');
-      cekpas(statusText);
+    // setState(() async {
+    // _lastWords = removeDiacritics(result.recognizedWords);
+    _lastWords = result.recognizedWords;
+    // log('asli ${result.recognizedWords}');
+    // var a = konversiKeBahasaArab(result.recognizedWords);
+    // log('ini adalah $a');
 
-      log('diucapkan ${result.recognizedWords}');
+    log('diucapkan ${result.recognizedWords}');
+    cekpas(_lastWords);
 
-      // scrollTo();
-    });
+    // scrollTo();
+    // });
   }
 
   void scrollTo(
@@ -310,40 +319,65 @@ class _DetailViewState extends State<DetailView> {
         child: Column(
           children: [
             GestureDetector(
+              onDoubleTap: () {
+                _stopListening();
+              },
               onTap: () {
                 // panggilMateri();
                 print('length ${widget.i.length}');
                 // getDeviceName();
                 setState(() {
-                  context
-                      .read<MainBloc>()
-                      .add(const GetMateriPengguna('sdk_gphone_x86'));
-                  context
-                      .read<MainBloc>()
-                      .add(const PostDevice('sdk_gphone_x86'));
+                  // context
+                  //     .read<MainBloc>()
+                  //     .add(const GetMateriPengguna('sdk_gphone_x86'));
+                  // context
+                  //     .read<MainBloc>()
+                  //     .add(const PostDevice('sdk_gphone_x86'));
+                  _startListening();
                 });
               },
-              child: Container(
-                  height: 180,
-                  width: size.width,
-                  color: AppColors.bg.bg01,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 80, left: 16, right: 16, bottom: 16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.i[0].kategori.toString(),
-                            style: AppTextStyle.body1
-                                .copyWith(color: AppColors.neutral.ne01)
-                                .setSemiBold()),
-                        Text(widget.k,
-                            style: AppTextStyle.body3
-                                .copyWith(color: AppColors.neutral.ne01)),
-                      ],
-                    ),
-                  )),
+              child: Stack(
+                children: [
+                  Container(
+                      height: 180,
+                      width: size.width,
+                      // color: AppColors.bg.bg01,
+                      decoration: BoxDecoration(
+                          // borderRadius: BorderRadius.circular(12),
+                          gradient: LinearGradient(
+                        colors: [AppColors.bg.bg01, AppColors.primary.pr04],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.topCenter,
+                      )),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 80, left: 16, right: 16, bottom: 16),
+                        child: Stack(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Level ${widget.i[0].kategori.toString()}',
+                                    style: AppTextStyle.body1
+                                        .copyWith(color: AppColors.neutral.ne01)
+                                        .setSemiBold()),
+                                Text('${widget.i[0].judul.toString()}',
+                                    style: AppTextStyle.body3.copyWith(
+                                        color: AppColors.neutral.ne01)),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )),
+                  Image.asset(
+                    height: 200,
+                    'assets/images/fly2.png',
+                    fit: BoxFit.contain,
+                    width: size.width,
+                  )
+                ],
+              ),
             ),
             // content
             Stack(
@@ -431,7 +465,9 @@ class _DetailViewState extends State<DetailView> {
                                                                 .body2
                                                                 .setBold()
                                                                 .copyWith(
-                                                                    color: AppColors.neutral.ne01),
+                                                                    color: AppColors
+                                                                        .neutral
+                                                                        .ne01),
                                                           ),
                                                         ),
                                                         Padding(
@@ -440,14 +476,16 @@ class _DetailViewState extends State<DetailView> {
                                                                   .only(
                                                                   left: 16),
                                                           child: Text(
-                                                            d.judul.toString(),
+                                                            d.jenis_kuis.toString(),
                                                             style: AppTextStyle
                                                                 .body2
                                                                 .setSemiBold()
                                                                 .copyWith(
                                                                     fontFamily:
                                                                         'Popins',
-                                                                    color:AppColors.neutral.ne09),
+                                                                    color: AppColors
+                                                                        .neutral
+                                                                        .ne09),
                                                           ),
                                                         ),
                                                       ],
@@ -464,75 +502,93 @@ class _DetailViewState extends State<DetailView> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          d.materi.toString(),
-                                                          style:
-                                                          AppTextStyle.body3.copyWith(color: AppColors.neutral.ne09,   fontStyle:
-                                                                  FontStyle
-                                                                      .italic)
-                                                           
-                                                        ),
+                                                            d.materi.toString(),
+                                                            style: AppTextStyle
+                                                                .body3
+                                                                .copyWith(
+                                                                    color: AppColors
+                                                                        .neutral
+                                                                        .ne09,
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .italic)),
                                                         const SizedBox(
                                                             height: 8),
                                                         Text(
-                                                          'Contoh Soal : ${d.contoh_soal.toString()}',
+                                                          'Contoh : ${d.contoh_soal.toString().replaceAll('[', '').replaceAll(']', '')}',
                                                           style: AppTextStyle
                                                               .body3
                                                               .setSemiBold()
                                                               .copyWith(
                                                                   fontFamily:
                                                                       'Popins',
-                                                                  color: AppColors.neutral.ne09),
+                                                                  color: AppColors
+                                                                      .neutral
+                                                                      .ne09),
                                                         ),
                                                         const SizedBox(
                                                             height: 8),
                                                         Row(
                                                           children: [
                                                             GestureDetector(
+                                                              onDoubleTap: () {
+                                                                _player.pause();
+                                                                isPlay[index] =
+                                                                    false;
+                                                              },
                                                               onTap: () {
-                                                                // print('p ${}');
                                                                 setState(() {
-                                                                  if (isPlay[
-                                                                      index]) {
-                                                                    isPlay[index] =
+                                                                  for (int i =
+                                                                          0;
+                                                                      i <
+                                                                          isPlay
+                                                                              .length;
+                                                                      i++) {
+                                                                    isPlay[i] =
                                                                         false;
-                                                                  } else {
-                                                                    for (int i =
-                                                                            0;
-                                                                        i < isPlay.length;
-                                                                        i++) {
-                                                                      isPlay[i] =
-                                                                          false;
-                                                                    }
-                                                                    isPlay[index] =
-                                                                        true;
-                                                                    playRecord(
-                                                                        d.audio
-                                                                            .toString(),
-                                                                        index);
                                                                   }
-                                                                  // isPlay[index] =
-                                                                  //     true;
+                                                                  isPlay[index] =
+                                                                      true;
+
+                                                                  playRecord(
+                                                                      d.audio
+                                                                          .toString(),
+                                                                      index);
                                                                 });
                                                                 log(isPlay
                                                                     .toString());
                                                               },
                                                               child: Icon(
-                                                                  !isPlay[index]
-                                                                      ? Icons
-                                                                          .play_arrow_rounded
-                                                                      : Icons
-                                                                          .pause,
-                                                                  color: AppColors.neutral.ne09),
+                                                                !isPlay[index]
+                                                                    ? Icons
+                                                                        .play_arrow_rounded
+                                                                    : Icons
+                                                                        .pause,
+                                                                color: AppColors
+                                                                    .neutral
+                                                                    .ne09,
+                                                              ),
                                                             ),
-                                                            Text(
-                                                              isPlay[index]
-                                                                  ? 'Playying...'
-                                                                  : 'Audio Bacaan',
-                                                              style: TextStyle(
-                                                                  color:AppColors.neutral.ne09,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic),
+                                                            SizedBox(
+                                                                width:
+                                                                    8), // Optional: Adds spacing between the icon and text
+                                                            Stack(
+                                                              children: [
+                                                                Text(
+                                                                  isPlay[index]
+                                                                      ? 'Playing...'
+                                                                      : 'Audio Bacaan',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: AppColors
+                                                                        .neutral
+                                                                        .ne09,
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .italic,
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ],
                                                         ),
@@ -540,11 +596,11 @@ class _DetailViewState extends State<DetailView> {
                                                             height: 8),
                                                         const SizedBox(
                                                             height: 8),
-                                                         Text(
+                                                        Text(
                                                           'Latihan : Lafalkan salah satu huruf yang ada pada contoh!',
                                                           style: TextStyle(
-                                                              color:
-                                                                  AppColors.neutral.ne09,
+                                                              color: AppColors
+                                                                  .neutral.ne09,
                                                               fontStyle:
                                                                   FontStyle
                                                                       .italic),
@@ -563,7 +619,8 @@ class _DetailViewState extends State<DetailView> {
                                                               print(
                                                                   'ini adalah ${d.id}');
                                                               contohSoal = d
-                                                                  .contoh_soal!;
+                                                                  .contoh_soal
+                                                                  .toString();
                                                               isId = d.id!;
                                                               isDialog == false
                                                                   ? isDialog =
@@ -621,132 +678,226 @@ class _DetailViewState extends State<DetailView> {
                     ?
                     // dialog
                     BlocBuilder<MainBloc, MainState>(builder: (context, state) {
-                        return Positioned(
-                            top: 300,
-                            width: MediaQuery.of(context).size.width,
-                            child: Container(
-                              // color: Colors.white,
-                              decoration: BoxDecoration(
-                                color: AppColors.neutral.ne01,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
+                        int fullStars = (state.persentase / 20).floor();
+                        bool hasHalfStar = (state.persentase % 20) >= 10;
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              top: state.koreksian.length >= 2 ? 120 : 200),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height,
+
+                            // color: Colors.white,
+                            decoration: BoxDecoration(
+                              color: AppColors.neutral.ne01,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
                               ),
-                              height: 500,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      // Spacer(flex: 1),
-                                      const SizedBox(
-                                        width: 40,
-                                      ),
-                                      Container(
-                                          height: 5,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                              color: AppColors.bg.bg01,
-                                              borderRadius:
-                                                  BorderRadius.circular(12))),
-                                      FloatingActionButton(
-                                        backgroundColor: AppColors.neutral.ne01,
-                                        elevation: 0.0,
-                                        onPressed: () {
-                                          setState(() {
-                                            // close
-                                            contohSoal = '';
+                            ),
+                            // height: 500,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Spacer(flex: 1),
+                                    const SizedBox(
+                                      width: 40,
+                                    ),
+                                    Container(
+                                        height: 5,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                            color: AppColors.bg.bg01,
+                                            borderRadius:
+                                                BorderRadius.circular(12))),
+                                    FloatingActionButton(
+                                      backgroundColor: AppColors.neutral.ne01,
+                                      elevation: 0.0,
+                                      onPressed: () {
+                                        setState(() {
+                                          // close
+                                          context
+                                              .read<MainBloc>()
+                                              .add(StopRekam());
+                                          contohSoal = '';
 
-                                            isDialog = false;
-                                            statusText = '';
-                                            isListening = false;
-                                            isRecord = false;
-                                            // pathConvert = ;
-                                            selesai = false;
-                                          });
-                                        },
-                                        child: const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Icon(Icons.close),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  FloatingActionButton(
-                                      backgroundColor:
-                                          AppColors.bg.bg01.withOpacity(0.8),
-                                      onPressed: () async {
-                                        if (isRecord == true) {
-                                          stopRecord();
-                                        } else {
-                                          // record bre
-                                          startRecord();
-                                          print('mulai');
-
-                                          pp = '';
+                                          isDialog = false;
                                           statusText = '';
-                                        }
+                                          isListening = false;
+                                          isRecord = false;
+                                          // pathConvert = ;
+                                          selesai = false;
+                                        });
                                       },
-                                      child: Stack(
-                                        children: [
-                                          if (statusText == '' ||
-                                              statusText ==
-                                                  'Inisialisasi Audio')
-                                            Icon(
-                                              _speechEnabled == false
-                                                  ? Icons.mic_none
-                                                  : Icons.mic,
-                                              color: AppColors.neutral.ne02,
-                                            ),
-                                          if (statusText == 'Mengecek Audio')
-                                             CircularProgressIndicator(
-                                              color: AppColors.bg.bg01,
-                                            )
-                                        ],
-                                      )),
-                                  const SizedBox(height: 16),
-                                  // pe
-                                  // statusText == ''
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(Icons.close),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                FloatingActionButton(
+                                    backgroundColor:
+                                        AppColors.bg.bg01.withOpacity(0.8),
+                                    onPressed: () async {
+                                      if (isRecord == true) {
+                                        selesai = true;
+                                        isRecord = false;
+                                        print('stop');
 
-                                  Text(
-                                      statusText == ''
-                                          ? "Tekan untuk memulai"
-                                          : 'Result is',
+                                        context
+                                            .read<MainBloc>()
+                                            .add(StopRekam());
+                                        // stopRecord();
+                                        _stopListening();
+                                      } else {
+                                        isRecord = true;
+                                        // record bre
+                                        // startRecord();
+                                        context
+                                            .read<MainBloc>()
+                                            .add(MulaiRekam());
+                                        _startListening();
+
+                                        print('mulai');
+
+                                        pp = '';
+                                        statusText = '';
+                                      }
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        if (state.isLoading == '' ||
+                                            statusText == 'Inisialisasi Audio')
+                                          Icon(
+                                            _speechEnabled == false
+                                                ? Icons.mic_none
+                                                : Icons.mic,
+                                            color: AppColors.neutral.ne02,
+                                          ),
+                                        if (state.isLoading == 'mulai')
+                                          CircularProgressIndicator(
+                                            color: AppColors.bg.bg01,
+                                          )
+                                      ],
+                                    )),
+                                const SizedBox(height: 16),
+                                // pe
+
+                                if (state.isLoading == '')
+                                  Text("Tekan untuk memulai",
                                       style: AppTextStyle.body3),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    'Ucapkan salah satu dari : ${contohSoal}',
-                                    style: AppTextStyle.body3,
-                                  ),
+                                if (state.isLoading == 'mulai')
+                                  Text("Merekam", style: AppTextStyle.body3),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Ucapkan Huruf',
+                                  style: AppTextStyle.body3,
+                                ),
+                                // if()
+                                Text(
+                                  ' ${contohSoal.replaceAll('[', '').replaceAll(']', '')}',
+                                  style: state.isLoading == 'selesai'
+                                      ? AppTextStyle.body3.setRegular()
+                                      : AppTextStyle.body1.setRegular(),
+                                ),
 
-                                  // Text(statusText),
-                                  selesai == true
-                                      ? BlocBuilder<MainBloc, MainState>(
-                                          builder: (context, state) {
-                                          if (statusText != 'Mengecek Audio' ||
-                                              statusText !=
-                                                  'Inisialisasi Audio') {
-                                            return TextComparison(
-                                                ayatAcuanText: isRecord == true
-                                                    ? ''
-                                                    : state.ayatAcuan,
-                                                teksRekognisiText: statusText ==
-                                                            'Mengecek Audio' ||
-                                                        statusText ==
-                                                            'Inisialisasi Audio'
-                                                    ? ''
-                                                    : statusText);
-                                          }
-                                          return const SizedBox();
-                                        })
-                                      : const SizedBox(),
-                                  const SizedBox(height: 16),
-                                ],
-                              ),
-                            ));
+                                // Text(statusText),
+                                //  selesai == true
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Persentase Bacaan kamu ${state.persentase}%",
+                                      style: AppTextStyle.body3.setRegular(),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: List.generate(5, (index) {
+                                        if (index < fullStars) {
+                                          return Icon(Icons.star_rounded,
+                                              color: AppColors.bg.bg01);
+                                        } else if (index == fullStars &&
+                                            hasHalfStar) {
+                                          return Icon(Icons.star_half,
+                                              color: AppColors.bg.bg01);
+                                        } else {
+                                          return const Icon(Icons.star_border,
+                                              color: Colors.grey);
+                                        }
+                                      }),
+                                    ),
+                                  ],
+                                ),
+                                BlocBuilder<MainBloc, MainState>(
+                                    builder: (context, state) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child:
+                                        // mek
+                                        state.koreksian.isNotEmpty
+                                            ? TextComparison(
+                                                ayatAcuanText: state.ayatAcuan,
+                                                teksRekognisiText: _lastWords)
+                                            : SizedBox(),
+                                  );
+                                }),
+                                const SizedBox(height: 16),
+                                if (state.isLoading != 'merekam' ||
+                                    state.isLoading == '')
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        // print(statusText);
+                                      },
+                                      child: ListView.builder(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 40),
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        physics: const ScrollPhysics(),
+                                        itemCount: state.koreksian.length,
+                                        itemBuilder: (context, index) {
+                                          return Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.circle,
+                                                size: 6,
+                                              ),
+                                              const SizedBox(width: 6),
+                                              Expanded(
+                                                child: Text(
+                                                  state.koreksian[index],
+                                                  style: AppTextStyle.body3
+                                                      .setRegular()
+                                                      .copyWith(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                  maxLines:
+                                                      2, // Batasi jumlah baris ke 1
+                                                  softWrap:
+                                                      false, // Tidak membungkus kata-kata
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  )
+                              ],
+                            ),
+                          ),
+                        );
                       })
                     : const SizedBox()
               ],
