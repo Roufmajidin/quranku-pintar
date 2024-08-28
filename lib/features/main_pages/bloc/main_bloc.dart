@@ -42,27 +42,34 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       log('state ${state.isLoading}');
     }
   }
- Future<void> _hapusSemuaVariabel(MainEvent event, Emitter<MainState> emit) async {
+
+  Future<void> _hapusSemuaVariabel(
+      MainEvent event, Emitter<MainState> emit) async {
     log('Rebase data variabel');
-   
-    emit(state.copyWith(persentase: 0, koreksian: [],isLoading: ''));
+
+    emit(state.copyWith(persentase: 0, koreksian: [], isLoading: ''));
   }
+
   Future<void> _mulaiRekam(MainEvent event, Emitter<MainState> emit) async {
     log('Rebase data variabel');
-   
+
     emit(state.copyWith(isLoading: 'mulai', ayatAcuan: ''));
   }
-   Future<void> _stopRekam(MainEvent event, Emitter<MainState> emit) async {
-   
-    emit(state.copyWith(isLoading: '', ayatAcuan: '', koreksian: [], persentase: 0));
+
+  Future<void> _stopRekam(MainEvent event, Emitter<MainState> emit) async {
+    emit(state.copyWith(
+        isLoading: '', ayatAcuan: '', koreksian: [], persentase: 0));
   }
 
   Future<void> _updateIndex(MainEvent event, Emitter<MainState> emit) async {
     log('update index');
     String ayatAcuan = (event as UpdateIndex).acuan;
     int index = (event).index;
-    emit(state.copyWith(ayatAcuan: ayatAcuan, ayatIndex: index, isLoading: 'memulai ulang'));
-    log('terupdate ${state.ayatAcuan} index: ${state.ayatIndex}', );
+    emit(state.copyWith(
+        ayatAcuan: ayatAcuan, ayatIndex: index, isLoading: 'memulai ulang'));
+    log(
+      'terupdate ${state.ayatAcuan} index: ${state.ayatIndex}',
+    );
   }
 
   Future<void> _cariSurat(MainEvent event, Emitter<MainState> emit) async {
@@ -108,52 +115,54 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     String ayatAcuan = removeDiacritics(state.ayatAcuan);
     int indexAyat = state.ayatIndex;
 
-     QuranAyat ayatItem = state.quranData.data!.ayat[indexAyat];
+    QuranAyat ayatItem = state.quranData.data!.ayat[indexAyat];
 
-      String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
-      double similarity = lastWords.similarityTo(normalizedLatinText);
+    String normalizedLatinText = removeDiacritics(ayatItem.teksArab);
+    double similarity = lastWords.similarityTo(normalizedLatinText);
 
-      // if (similarity > 0.6) {
-      List<Diff> differences = computeDiffAyatAcuanRekaman(
-        removeDiacritics(ayatAcuan),
-        lastWords,
-      );
-      int persentase =
-          (similarity * 100).toInt(); // Mengonversi similarity ke persentase
-      log('Similarity: $similarity');
-      log('Persentase: $persentase%');
+    // if (similarity > 0.6) {
+    List<Diff> differences = computeDiffAyatAcuanRekaman(
+      lastWords,
+      removeDiacritics(ayatAcuan),
+    );
+    int persentase =
+        (similarity * 100).toInt(); // Mengonversi similarity ke persentase
+    log('Similarity: $similarity');
+    log('Persentase: $persentase%');
+    String explanationText = _generateExplanation(differences);
 
-      StringBuffer koreksi = StringBuffer();
-      // if(similarity < 5)
-      for (var diff in differences) {
-        if (diff.operation == DIFF_INSERT) {
-          koreksi.writeln('Tambahan yang tidak ada pada ayat: ${diff.text}');
-        } else if (diff.operation == DIFF_DELETE) {
-          koreksi.writeln('Bagian yang hilang dari bacaan: ${diff.text}');
-        }
+    StringBuffer koreksi = StringBuffer();
+    // if(similarity < 5)
+    for (var diff in differences) {
+      if (diff.operation == DIFF_INSERT) {
+        koreksi.writeln('Tambahan yang tidak ada pada ayat: ${diff.text}');
+      } else if (diff.operation == DIFF_DELETE) {
+        koreksi.writeln('Bagian yang hilang dari acuan: ${diff.text}');
       }
-    
-      emit(state.copyWith(
-          ayatIndex: indexAyat,
-          ayatAcuan: ayatItem.teksArab,
-          koreksian: koreksi.toString().split('\n'),
-          index: indexAyat,
-          isPassed: true,
-          fetchDataProses: FetchStatus.success,
-          isLoading: 'memulai ulang',
-          persentase: persentase));
+    }
 
-      log('Differences: $differences');
-      log(koreksi.toString());
-      log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat} simmi : $similarity');
-      log('Status: ${state.isPassed}');
+    emit(state.copyWith(
+        ayatIndex: indexAyat,
+        ayatAcuan: ayatItem.teksArab,
+        koreksian: koreksi.toString().split('\n'),
+        index: indexAyat,
+        isPassed: true,
+        fetchDataProses: FetchStatus.success,
+        isLoading: 'memulai ulang',
+        persentase: persentase));
+
+    log('Differences: $differences');
+    log(koreksi.toString());
+    log('Kata yang dicari: $lastWords, Ayat yang sesuai: ${ayatItem.teksArab}, Nomor Ayat: ${ayatItem.nomorAyat} simmi : $similarity');
+    log('Status: ${state.isPassed}');
   }
 
   // TODO cekpass materi
   // check passed
   Future<void> _checkPassedMateri(
       MainEvent event, Emitter<MainState> emit) async {
-        emit(state.copyWith(isLoading: 'merekam'));
+        print('hallo');
+    emit(state.copyWith(isLoading: 'merekam'));
     String lastWords = ((event as CheckPassMateri).ayat);
     String acuan = removeDiacritics((event).acuan);
     int id = ((event).id);
@@ -162,18 +171,17 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     acuan = acuan.replaceAll('[', '').replaceAll(']', '').replaceAll('""', '');
     List<String> huruf = acuan.split(',');
 
-
     log('acuan ${acuan}');
     double simmilarity = StringSimilarity.compareTwoStrings(lastWords, acuan);
-     int persentase =
-          (simmilarity * 100).toInt(); // Mengonversi similarity ke persentase
-      log('Similarity: $simmilarity');
-      log('Persentase: $persentase%');
-      log('sim $simmilarity');
+    int persentase =
+        (simmilarity * 100).toInt(); // Mengonversi similarity ke persentase
+    log('Similarity: $simmilarity');
+    log('Persentase: $persentase%');
+    log('sim $simmilarity');
     print('Nilai similarity: $simmilarity');
-     List<Diff> differences = computeDiffAyatAcuanRekaman(
+    List<Diff> differences = computeDiffAyatAcuanRekaman(
       removeDiacritics(lastWords),
-     removeDiacritics(acuan) ,
+      removeDiacritics(acuan),
     );
 
     StringBuffer koreksi = StringBuffer();
@@ -182,11 +190,17 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         koreksi.writeln('Tambahan yang tidak ada: ${diff.text}');
       } else if (diff.operation == DIFF_DELETE) {
         koreksi.writeln('Bagian yang harus hilang: ${diff.text}');
+      }else{
+
       }
+
+      
     }
     emit(state.copyWith(
-      isLoading :'selesai',
-      ayatAcuan: acuan, koreksian: koreksi.toString().split('\n'), persentase: persentase));
+        isLoading: 'selesai',
+        ayatAcuan: acuan,
+        koreksian: koreksi.toString().split('\n'),
+        persentase: persentase));
 
     print('Differences: $differences');
     print('Koreksi: ${koreksi.toString()}');
@@ -202,7 +216,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     //     ));
     //   },
     // );
-  
   }
 
   Future<void> _getDetailSurat(MainEvent event, Emitter<MainState> emit) async {
@@ -291,8 +304,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         (r) {
       List<Materi> materi = r;
       groupByJenisKuis(materi);
-    log('Materi $materi');
-
+      log('Materi $materi');
 
       emit(state.copyWith(
         fetchDataProses: FetchStatus.success,
@@ -342,14 +354,14 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       String? jenisKuis = materi.jenis_kuis;
       String? kategori = materi.kategori;
 
-      if (!groupedByJenisKuisAndKategori.containsKey(jenisKuis)) {
-        groupedByJenisKuisAndKategori[jenisKuis.toString()] = {};
+      if (!groupedByJenisKuisAndKategori.containsKey(kategori)) {
+        groupedByJenisKuisAndKategori[kategori.toString()] = {};
       }
-      if (!groupedByJenisKuisAndKategori[jenisKuis]!.containsKey(kategori)) {
-        groupedByJenisKuisAndKategori[jenisKuis.toString()]![
+      if (!groupedByJenisKuisAndKategori[kategori]!.containsKey(kategori)) {
+        groupedByJenisKuisAndKategori[kategori.toString()]![
             kategori.toString()] = [];
       }
-      groupedByJenisKuisAndKategori[jenisKuis]![kategori]!.add(materi);
+      groupedByJenisKuisAndKategori[kategori]![kategori]!.add(materi);
       emit(state.copyWith(
         fetchDataProses: FetchStatus.success,
         groupedMateri: groupedByJenisKuisAndKategori,
@@ -431,6 +443,27 @@ List<Diff> computeDiffAyatAcuanRekaman(String ayatAcuan, String teksRekognisi) {
   List<Diff> diffs = dmp.diff(ayatAcuan, teksRekognisi);
   dmp.diffCleanupSemantic(diffs);
   return diffs;
+}
+
+String _generateExplanation(List<Diff> diffs) {
+  List<String> explanations = [];
+  int position = 0; // To keep track of the current position in the text
+
+  for (Diff diff in diffs) {
+    if (diff.operation == DIFF_INSERT) {
+      print('At position $position: Insert ${diff.text}');
+      explanations.add('At position $position: Insert ${diff.text}');
+    } else if (diff.operation == DIFF_DELETE) {
+      print('At position $position: Replace "${diff.text}"');
+      explanations.add('At position $position: Replace ${diff.text}');
+    }
+    position += diff
+        .text.length; // Update position based on the length of the current diff
+  }
+
+  return explanations.isNotEmpty
+      ? explanations.join('\n')
+      : 'Tidak ada kesalahan yang ditemukan.';
 }
 
 String removetandabaca(String input) {

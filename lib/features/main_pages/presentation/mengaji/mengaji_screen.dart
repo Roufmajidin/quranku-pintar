@@ -67,7 +67,14 @@ class _MengajiiewState extends State<Mengajiiew> {
                 Container(
                     height: isHeight,
                     width: size.width,
-                    color: AppColors.bg.bg01,
+                    // color: AppColors.bg.bg01,
+                      decoration: BoxDecoration(
+                          // borderRadius: BorderRadius.circular(12),
+                          gradient: LinearGradient(
+                        colors: [AppColors.bg.bg01, AppColors.primary.pr04],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.topCenter,
+                      )),
                     child: Padding(
                       padding:
                           EdgeInsets.only(top: padding, left: 16, right: 16),

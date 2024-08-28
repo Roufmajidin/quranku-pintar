@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -36,6 +37,7 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   bool isDelete = false;
+  late final RecorderController recorderController;
 
   @override
   void initState() {
@@ -51,11 +53,25 @@ class _MainViewState extends State<MainView> {
     });
   }
 
+  void _initialiseController() {
+    recorderController = RecorderController()
+      ..androidEncoder = AndroidEncoder.aac
+      ..androidOutputFormat = AndroidOutputFormat.mpeg4
+      ..iosEncoder = IosEncoder.kAudioFormatMPEG4AAC
+      ..sampleRate = 16000;
+  }
+
   String removeDiacritics(String text) {
     return text.replaceAll(
         RegExp(
             r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D3-\u08E1\u08E3-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFC]'),
         '');
+  }
+
+  String? path;
+  void _startRecording() async {
+    await recorderController.record(path: path);
+    // update state here to, for eample, change the button's state
   }
 
   bool isListening = false;
@@ -73,6 +89,7 @@ class _MainViewState extends State<MainView> {
     _speechEnabled = await _speechToText.initialize();
     audioRecord = Record();
     audioPlayer = AudioPlayer();
+    _initialiseController();
     setState(() {});
   }
 
@@ -365,12 +382,19 @@ class _MainViewState extends State<MainView> {
 
               return Stack(
                 children: [
-                      Container(
-                        // alignment: Alignment.,
-                        padding: EdgeInsets.only(top:110, left:16,right: 16),
+                  Container(
+                      // alignment: Alignment.,
+                      padding: EdgeInsets.only(top: 110, left: 16, right: 16),
                       height: 200,
                       width: MediaQuery.of(context).size.width,
-                      color: AppColors.bg.bg01,
+                      // color: AppColors.bg.bg01,
+                      decoration: BoxDecoration(
+                          // borderRadius: BorderRadius.circular(12),
+                          gradient: LinearGradient(
+                        colors: [AppColors.bg.bg01, AppColors.primary.pr04],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.topCenter,
+                      )),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -384,17 +408,17 @@ class _MainViewState extends State<MainView> {
                                   .copyWith(color: AppColors.neutral.ne01)),
                         ],
                       )),
-                           Image.asset(
+                  Image.asset(
                     height: 240,
                     'assets/images/fly2.png',
                     fit: BoxFit.contain,
                     width: MediaQuery.of(context).size.width,
                   )
-                    ],
+                ],
               );
             }),
             SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
+              // physics: const NeverScrollableScrollPhysics(),
               child: Column(
                 children: [
                   const SizedBox(height: 12),
@@ -581,19 +605,30 @@ class _MainViewState extends State<MainView> {
                                               ],
                                             ),
                                             const SizedBox(height: 20),
+                                             Text(
+                                              ayatItem.teksLatin,
+                                              style: AppTextStyle.body3.copyWith(
+                                                  // color: const Color(0xff189474),
+                                                  fontStyle: FontStyle.italic,
+                                                  color: AppColors.bg.bg01),
+                                            ),
+                                            const SizedBox(height: 15),
+
                                             Text(
                                               ayatItem.teksIndonesia,
                                               style: AppTextStyle.body4.copyWith(
                                                   // color: const Color(0xff189474),
                                                   color: Colors.black),
                                             ),
+                                           
                                             Align(
                                               alignment: Alignment.bottomRight,
                                               child: SizedBox(
                                                 height: 40,
                                                 width: 40,
                                                 child: FloatingActionButton(
-                                                  heroTag: 'h1',
+                                                  heroTag:
+                                                      'h1-${ayatItem.nomorAyat}',
                                                   foregroundColor:
                                                       AppColors.neutral.ne01,
                                                   backgroundColor:
@@ -649,252 +684,364 @@ class _MainViewState extends State<MainView> {
                           int fullStars = (state.persentase / 20).floor();
                           bool hasHalfStar = (state.persentase % 20) >= 10;
 
-                          return Positioned(
-                              top: 200,
-                              width: MediaQuery.of(context).size.width,
-                              child: Container(
-                                // color: Colors.white,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                  ),
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                top: state.koreksian.length >= 2 ? 120 : 200),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height,
+                              padding: EdgeInsets.all(16),
+                              // color: Colors.white,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
                                 ),
-                                height: 500,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        // Spacer(flex: 1),
-                                        const SizedBox(
-                                          width: 40,
-                                        ),
-                                        Container(
-                                            height: 5,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.green,
-                                                borderRadius:
-                                                    BorderRadius.circular(12))),
-                                        FloatingActionButton(
-                                          backgroundColor: Colors.white,
-                                          elevation: 0.0,
-                                          onPressed: () {
-                                            setState(() {
-                                              isDelete = true;
-                                              isDialog = false;
-                                              statusText = '';
-                                              isListening = false;
-                                              isRecord = false;
-                                              // pathConvert = ;
-                                              selesai = false;
-                                              
-                                              context
-                                                  .read<MainBloc>()
-                                                  .add(HapusSemuaVariabel());
-                                            });
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Icon(Icons.close),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10),
-                                    FloatingActionButton(
-                                        backgroundColor:
-                                            AppColors.bg.bg01.withOpacity(0.8),
-                                        onPressed: () async {
-                                          if (isRecord == true) {
-                                            statusText = 'Mengecek Audio';
-
-                                            stopRecord();
-                                     selesai =true; 
-
-                                          } else {
-                                            // record bre
-
+                              ),
+                              // height: 500,
+                              // width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      // Spacer(flex: 1),
+                                      const SizedBox(
+                                        width: 40,
+                                      ),
+                                      Container(
+                                          height: 5,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(12))),
+                                      FloatingActionButton(
+                                        backgroundColor: Colors.white,
+                                        elevation: 0.0,
+                                        onPressed: () {
+                                          setState(() {
+                                            isDelete = true;
+                                            isDialog = false;
                                             statusText = '';
-                                            startRecord();
-                                            
+                                            isListening = false;
+                                            isRecord = false;
+                                            // pathConvert = ;
                                             selesai = false;
 
-
-                                            pp = '';
-                                          }
+                                            context
+                                                .read<MainBloc>()
+                                                .add(HapusSemuaVariabel());
+                                          });
                                         },
-                                        child: Stack(
-                                          children: [
-                                            if (statusText.isEmpty ||
-                                                statusText ==
-                                                    'Inisialisasi Audio')
-                                              Icon(
-                                                _speechEnabled
-                                                    ? Icons.mic
-                                                    : Icons.mic_none,
-                                                color: Colors.white,
-                                              ),
-                                            if (statusText == 'Mengecek Audio')
-                                              CircularProgressIndicator(
-                                                color: AppColors.neutral.ne01,
-                                              ),
-                                          ],
-                                        )),
-
-                                    const SizedBox(height: 16),
-                                    // pe
-                                    if (statusText == '')
-                                      Text(
-                                        "Tekan untuk memulai",
-                                        style: AppTextStyle.body3,
-                                      ),
-                                    if (statusText == 'Mengecek Audio')
-                                      const Text(
-                                        "Loading ..",
-                                        style: AppTextStyle.body3,
-                                      ),
-                                    if (statusText == 'Inisialisasi Audio')
-                                      const Text(
-                                        "Merekam",
-                                        style: AppTextStyle.body3,
-                                      ),
-                                    if (selesai == true)
-                                      const Text(
-                                        "Hasil Rekognisi",
-                                        style: AppTextStyle.body3,
-                                      ),
-                                    // Text(statusText), true
-                                    selesai
-                                        ? BlocBuilder<MainBloc, MainState>(
-                                            builder: (context, state) {
-                                              if (statusText !=
-                                                      'Mengecek Audio' &&
-                                                  statusText !=
-                                                      'Inisialisasi Audio') {
-                                                return TextComparison(
-                                                  ayatAcuanText: isRecord
-                                                      ? ''
-                                                      : state.ayatAcuan,
-                                                  teksRekognisiText: statusText,
-                                                );
-                                              }
-                                              return const SizedBox();
-                                            },
-                                          )
-                                        : const SizedBox(),
-                                    const SizedBox(height: 15),
-                                    selesai != true ||
-                                            state.isLoading != 'memulai ulang'
-                                        ? Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  "Ucapkan Ayat",
-                                                  style: AppTextStyle.body2
-                                                      .setRegular(),
-                                                ),
-                                                const SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Text(
-                                                  state.ayatAcuan,
-                                                  style: AppTextStyle.body2
-                                                      .setSemiBold(),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : const SizedBox(),
-
-                                    const SizedBox(height: 5),
-                                   
-                                     selesai == true 
-                                        ? Column(
-                                            children: [
-                                             Text(
-                                                "Persentase Bacaan kamu ${state.persentase}%",
-                                                style: AppTextStyle.body3
-                                                    .setRegular(),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children:
-                                                    List.generate(5, (index) {
-                                                  if (index < fullStars) {
-                                                    return Icon(
-                                                        Icons.star_rounded,
-                                                        color:
-                                                            AppColors.bg.bg01);
-                                                  } else if (index ==
-                                                          fullStars &&
-                                                      hasHalfStar) {
-                                                    return Icon(Icons.star_half,
-                                                        color:
-                                                            AppColors.bg.bg01);
-                                                  } else {
-                                                    return const Icon(
-                                                        Icons.star_border,
-                                                        color: Colors.grey);
-                                                  }
-                                                }),
-                                              ), 
-                                            ],
-                                          )
-                                        : const SizedBox(),
-
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 30),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          // print(statusText);
-                                        },
-                                        child: ListView.builder(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 40),
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          physics: const ScrollPhysics(),
-                                          itemCount: state.koreksian.length,
-                                          itemBuilder: (context, index) {
-                                            return Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.circle,
-                                                  size: 6,
-                                                ),
-                                                const SizedBox(width: 6),
-                                                Expanded(
-                                                  child: Text(
-                                                    state.koreksian[index],
-                                                    style: AppTextStyle.body3
-                                                        .setRegular()
-                                                        .copyWith(
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                    maxLines:
-                                                        2, // Batasi jumlah baris ke 1
-                                                    softWrap:
-                                                        false, // Tidak membungkus kata-kata
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          },
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(Icons.close),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ));
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 60),
+                                    child: Stack(
+                                      children: [
+                                        isRecord == true
+                                            ? AnimatedSwitcher(
+                                                duration: const Duration(
+                                                    milliseconds: 200),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    FloatingActionButton(
+                                                        mini: true,
+                                                        child: Icon(
+                                                            Icons
+                                                                .stop_circle_outlined,
+                                                            color: AppColors
+                                                                .bg.bg02),
+                                                        // mini: true,
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        onPressed: () async {
+                                                          if (isRecord ==
+                                                              true) {
+                                                            statusText =
+                                                                'Mengecek Audio';
+
+                                                            stopRecord();
+                                                            selesai = true;
+                                                          } else {
+                                                            // record bre
+                                                            _startRecording();
+
+                                                            statusText = '';
+
+                                                            startRecord();
+
+                                                            selesai = false;
+
+                                                            pp = '';
+                                                          }
+                                                        }),
+                                                    AudioWaveforms(
+                                                      enableGesture: true,
+                                                      size: Size(
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2,
+                                                          50),
+                                                      recorderController:
+                                                          recorderController,
+
+                                                      waveStyle: WaveStyle(
+                                                        waveColor:
+                                                            AppColors.bg.bg02,
+                                                        extendWaveform: true,
+                                                        durationLinesHeight: 10,
+                                                        extraClipperHeight: 5,
+                                                        showMiddleLine: false,
+                                                      ),
+                                                      // decoration:
+                                                      //     BoxDecoration(
+                                                      //   borderRadius:
+                                                      //       BorderRadius
+                                                      //           .circular(
+                                                      //               12.0),
+                                                      //   color: const Color(
+                                                      //           0xFF1E1B26)
+                                                      //       .withOpacity(0.4),
+                                                      // ),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 18),
+                                                    ),
+                                                  ],
+                                                ))
+                                            : FloatingActionButton(
+                                                backgroundColor: AppColors
+                                                    .bg.bg01
+                                                    .withOpacity(0.8),
+                                                onPressed: () async {
+                                                  if (isRecord == true) {
+                                                    statusText =
+                                                        'Mengecek Audio';
+
+                                                    stopRecord();
+                                                    selesai = true;
+                                                  } else {
+                                                    // record bre
+                                                    _startRecording();
+
+                                                    statusText = '';
+
+                                                    startRecord();
+
+                                                    selesai = false;
+
+                                                    pp = '';
+                                                  }
+                                                },
+                                                child: Stack(
+                                                  children: [
+                                                    statusText.isEmpty
+                                                        ? Icon(
+                                                            _speechEnabled
+                                                                ? Icons.mic
+                                                                : Icons
+                                                                    .mic_none,
+                                                            color: Colors.white,
+                                                          )
+                                                        : state.koreksian
+                                                                .isNotEmpty
+                                                            ? Icon(
+                                                                Icons
+                                                                    .keyboard_voice_outlined,
+                                                                color: Colors
+                                                                    .white,
+                                                              )
+                                                            : SizedBox(),
+                                                    if (statusText ==
+                                                        'Inisialisasi Audio')
+                                                      SizedBox(),
+                                                    if (statusText ==
+                                                        'Mengecek Audio')
+                                                      CircularProgressIndicator(
+                                                        color: AppColors
+                                                            .neutral.ne01,
+                                                      ),
+                                                  ],
+                                                )),
+                                      ],
+                                    ),
+                                  ),
+
+                                  const SizedBox(height: 16),
+                                  // pe
+                                  if (statusText == '')
+                                    Text(
+                                      "Tekan untuk memulai",
+                                      style: AppTextStyle.body3,
+                                    ),
+                                  if (statusText == 'Mengecek Audio')
+                                    const Text(
+                                      "Loading ..",
+                                      style: AppTextStyle.body3,
+                                    ),
+                                  if (statusText == 'Inisialisasi Audio')
+                                    const Text(
+                                      "Merekam",
+                                      style: AppTextStyle.body3,
+                                    ),
+                                  if (selesai == true)
+                                    const Text(
+                                      "Hasil Rekognisi",
+                                      style: AppTextStyle.body3,
+                                    ),
+                                  // Text(statusText), true
+                                  selesai
+                                      ? BlocBuilder<MainBloc, MainState>(
+                                          builder: (context, state) {
+                                            if (statusText !=
+                                                    'Mengecek Audio' &&
+                                                statusText !=
+                                                    'Inisialisasi Audio') {
+                                              return TextComparison(
+                                                ayatAcuanText: isRecord
+                                                    ? ''
+                                                    : state.ayatAcuan,
+                                                teksRekognisiText: statusText,
+                                              );
+                                            }
+                                            return const SizedBox();
+                                          },
+                                        )
+                                      : const SizedBox(),
+                                  const SizedBox(height: 15),
+                                  selesai != true ||
+                                          state.isLoading != 'memulai ulang'
+                                      ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                "Ucapkan Ayat",
+                                                style: AppTextStyle.body1
+                                                    .setRegular(),
+                                              ),
+                                              const SizedBox(
+                                                width: 16,
+                                              ),
+                                              Text(
+                                                state.ayatAcuan,
+                                                style: AppTextStyle.body1
+                                                    .setSemiBold(),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : const SizedBox(),
+
+                                  const SizedBox(height: 5),
+
+                                  selesai == true
+                                      ? Column(
+                                          children: [
+                                            Text(
+                                              "Persentase Bacaan kamu ${state.persentase == 100 ? state.persentase - 3 : state.persentase}%",
+                                              style: AppTextStyle.body3
+                                                  .setRegular(),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children:
+                                                  List.generate(5, (index) {
+                                                if (index < fullStars) {
+                                                  return Icon(
+                                                      Icons.star_rounded,
+                                                      color: AppColors.bg.bg01);
+                                                } else if (index == fullStars &&
+                                                    hasHalfStar) {
+                                                  return Icon(Icons.star_half,
+                                                      color: AppColors.bg.bg01);
+                                                } else {
+                                                  return const Icon(
+                                                      Icons.star_border,
+                                                      color: Colors.grey);
+                                                }
+                                              }),
+                                            ),
+                                          ],
+                                        )
+                                      : const SizedBox(),
+
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        // print(statusText);
+                                      },
+                                      child: SizedBox(
+                                        // width: MediaQuery.of(context).size.width,
+                                        child: Column(
+                                          children: [
+                                            ListView.builder(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 40),
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.vertical,
+                                              physics: const ScrollPhysics(),
+                                              itemCount: state.koreksian.length,
+                                              itemBuilder: (context, index) {
+                                                return Row(
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.circle,
+                                                      size: 6,
+                                                    ),
+                                                    const SizedBox(width: 6),
+                                                    Expanded(
+                                                      child: Text(
+                                                        state.koreksian[index],
+                                                        style: AppTextStyle
+                                                            .body3
+                                                            .setRegular()
+                                                            .copyWith(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                        maxLines:
+                                                            2, // Batasi jumlah baris ke 1
+                                                        softWrap:
+                                                            false, // Tidak membungkus kata-kata
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ),
+                                            // state.koreksian != []
+                                            //           ? Text(
+                                            //               'Bagian Berwarna merah ganti dengan harakat warna hijau')
+                                            //           : SizedBox()
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
                         })
                     ],
                   ),

@@ -54,7 +54,7 @@ class _NavigationState extends State<Navigation> {
       ),
       body: <Widget>[
        
-       const DashboardPage(),
+       const Dashboard_page(),
        const MengajiPage(),
        const MbPage(),
       ][currentPageIndex],

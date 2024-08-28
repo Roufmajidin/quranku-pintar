@@ -77,6 +77,8 @@ dependencies:
   hive_flutter: ^1.1.0
   device_info_plus: ^9.1.2
   flutter_launcher_icons: ^0.13.1
+  audio_waveforms: ^1.0.5
+  google_fonts: ^6.2.0
   # build_runner: ^2.4.9
 
 dev_dependencies:
@@ -135,6 +137,7 @@ flutter:
     - assets/images/3.png
     - assets/images/fly.png
     - assets/images/fly2.png
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
